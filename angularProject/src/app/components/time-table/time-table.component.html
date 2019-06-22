@@ -1,0 +1,131 @@
+<div *ngIf = "LoggedAdmin()">    
+    <div align="center">
+        <button type="submit" class="button" class="btn" (click)='showTimeT()'>Show timetable</button>
+      <button type="submit" class="button" class="btn" (click)='showAdd()' >Add timetable</button> 
+      <button type="submit" class="button" class="btn" (click)='showEdit()' >Edit timetable</button>  
+      <button type="submit" class="button" class="btn" (click)='showDelete()'>Delete timetable</button>  
+    </div>
+  
+    <div *ngIf="isSelectedAdd()">  
+      <form #timetableForm="ngForm" (ngSubmit)="onSubmit(timetableForm.value, timetableForm)">
+        <div class="form-group" >
+          <label for="DayId">Day type</label>
+          <select name="DayId" class="form-group"  class="form-control" ngModel>
+            <option disabled>Please select...</option>
+            <option value="Workday">Workday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        </div>
+  
+        <label for="LineId">Select line: </label>
+        <select name="LineId"  class="form-control" ngModel>
+        <option disabled>Please select...</option>
+        <option *ngFor="let line of allLinesFromDb" value={{line.RegularNumber}}>{{line.RegularNumber}}</option>
+        </select>
+  
+        
+        <br><label for="Departures" >Select time</label>
+        <input type="time" name="Departures" class="form-control" ngModel><br>       
+  
+  
+        <button type="submit" class="nav-link" class="btn">Add timetable</button>
+  
+      </form> 
+    </div>
+  
+    <div *ngIf="isSelectedDelete()">
+      <form #timetableForm="ngForm" (ngSubmit)="onSubmitDelete(timetableForm.value, timetableForm)">
+        <div class="form-group" >
+          <label for="DayId">Day type</label>
+          <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)" ngModel>
+            <option disabled>Please select...</option>
+            <option value="Workday">Workday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        </div>
+  
+        <label for="LineId">Select line: </label>
+        <select name="LineId"  class="form-control"  ngModel>
+          <option disabled>Please select...</option>
+          <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
+        </select>
+        <button type="submit" class="nav-link" class="btn">Delete timetable</button>
+  
+      </form>
+    </div>
+  
+    <div *ngIf="isSelectedEdit()">
+        <form #timetableForm="ngForm" (ngSubmit)="onSubmitEdit(timetableForm.value, timetableForm)">
+            <div class="form-group">
+              <label for="DayId">Day type</label>
+          <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)" ngModel>
+            <option disabled>Please select...</option>
+            <option value="Workday">Workday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+            </div>
+        
+  
+        <div *ngIf="showLineComboBox">
+        <label for="LineId">Select line: </label>
+        <select name="LineId"  class="form-control" (click)="getDeparturesForEditt($event)" ngModel>
+          <option disabled>Please select...</option>
+          <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
+        </select>
+        </div>
+  
+        <div *ngIf="showDepartureComboBox">
+          <label for="Departures">Select line: </label>
+          <select name="Departures"  class="form-control" (click) = "setNewDepartures($event)" ngModel>
+            <option disabled>Please select...</option>
+            <option *ngFor="let line of allDeparturesForSelect" value={{line}}>{{line}}</option>
+          </select>
+          </div>
+  
+          <div *ngIf="boolForButton">
+          <button *ngIf="hiddenDeleteButton" type="button" class="nav-link" class="btn" (click)="editTime()">Edit time</button>
+          <button *ngIf = "hiddenEditButton" type="submit" class="nav-link" class="btn" (click)="deleteTime()">Delete time</button>
+            </div>
+  
+        <div *ngIf="showInputTime">
+          <br><label for="NewDepartures" >Select time</label>
+          <input type="time" name="NewDepartures" value="{{departuresForEditInput}}" class="form-control" ngModel><br>
+        </div>
+  
+  
+        <div *ngIf="editSubmitBool">
+        <button type="submit" class="nav-link" class="btn">Edit timetable</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div *ngIf="(!isSelectedAdd() && !isSelectedDelete() && !isSelectedEdit() && isSelectedShow()) || !LoggedAdmin()">  
+    <label for="DayId">Day type</label>
+    <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)">
+      <option disabled>Please select...</option>
+      <option value="Workday">Workday</option>
+      <option value="Saturday">Saturday</option>
+      <option value="Sunday">Sunday</option>
+    </select>
+  
+    <div *ngIf="showLineCbForUnlogedUser">
+      <label for="LineId">Select line: </label>
+      <select name="LineId"  class="form-control" (click)="getDeparturesForEditt($event)">
+        <option disabled>Please select...</option>
+        <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
+      </select>
+      </div>
+  
+      <br><br><br>
+  
+      <div *ngIf="showDepartureComboBox">
+        <label >Departures for {{selectedDayForEdit}} on Line: {{pom}}:</label>
+        <p *ngFor="let line of allDeparturesForSelect">{{line}}</p>
+      </div>
+  
+      
+  </div>

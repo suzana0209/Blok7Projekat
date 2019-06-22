@@ -1,0 +1,32 @@
+<div *ngIf="!nonRegister() && !nonActivated() && !requestDeny()">
+  <label>You are not authorized to purchase tickets</label>
+</div>
+
+<div *ngIf="requestDeny() && !nonRegister()">You do not have the right to purchase tickets, your request has been denied!</div>
+
+  <div>
+
+  </div>
+
+    <form #buyTicketForm="ngForm" (ngSubmit)="onSubmit(buyTicketForm.value, buyTicketForm)">
+        <div *ngIf="nonRegister()" class="form-group">
+            <label for="email">Email address</label>
+            <input required type="email" class="form-control" name="Email" placeholder="Email" ngModel>
+        </div>
+
+      <div *ngIf="!nonRegister()" class="form-group">
+        
+        <div *ngIf="nonActivated()">
+          <label for="TypeOfTicket">Select type of ticket</label>
+          <select name="TypeOfTicket"  class="form-group"  class="form-control" ngModel>
+            <option disabled>Please select...</option>
+            <option value="TimeLimited">TimeLimited</option>
+            <option value="Daily">Daily</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Annual">Annual</option>
+          </select>
+        </div>
+      </div>
+
+      <button *ngIf="nonActivated() || nonRegister()" type="submit" class="nav-link" class="btn">Buy ticket</button>
+  </form>

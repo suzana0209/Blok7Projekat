@@ -1,0 +1,100 @@
+<div class="container">
+  <h1>Registration</h1>
+  <form #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm.value, registrationForm)">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input  required type="email"  pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" class="form-control" name="Email" placeholder="Email" ngModel>
+        
+        <div *ngIf="!validations.emailOk" style="color:red">Email can't be empty.</div>
+        <div *ngIf="!validations.emailOk1" style="color:red">Email must have '@' character! </div>
+
+      </div>
+      <div class="form-group">
+        <label for="Name">Name</label>
+        <input required type="text" class="form-control" name="Name" placeholder="Name" ngModel>
+
+        <div *ngIf="!validations.nameOk" style="color:red">Name can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="LastName">Last Name</label>
+        <input required type="text" class="form-control" name="LastName" placeholder="LastName" ngModel>
+
+        <div *ngIf="!validations.lastNameOk" style="color:red">LastName can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="City">City</label>
+        <input required type="text" class="form-control" name="City" placeholder="City" ngModel>
+
+        <div *ngIf="!validations.cityOk" style="color:red">City can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="Street">Street</label>
+        <input required type="text" class="form-control" name="Street" placeholder="Street" ngModel>
+
+        <div *ngIf="!validations.streetOk" style="color:red">Street can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="Number">Number</label>
+        <input required type="text" class="form-control" name="Number" placeholder="Number" ngModel>
+
+        <div *ngIf="!validations.numberOk" style="color:red">Number can't be empty.</div>
+      </div>
+
+      <div class="form-group" >
+        <label for="UserType">User Type</label>
+        <select name="UserType" class="form-group" (click)='showPT($event)'  class="form-control" ngModel>
+          <option disabled>Please select...</option>
+          <option value="Admin"  >Admin</option>
+          <option value="Controller" >Controller</option>
+          <option value="AppUser" >Passanger</option>
+        </select>
+
+        <div *ngIf="!validations.userTypeOk" style="color:red">UserType can't be empty.</div>
+      </div>
+
+      <div class="form-group" *ngIf="isSelected()">
+        <label for="PassangerType">Passanger Type</label>
+        <select name="PassangerType" class="form-group"  class="form-control" ngModel>
+          <option disabled>Please select...</option>
+          <option value="Student">Student</option>
+          <option value="Pensioner">Pensioner</option>
+          <option value="Default">None</option>
+        </select>
+
+        <div *ngIf="!validations.passangerTypeOk" style="color:red">PassangerType can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="Birthaday">Birthaday</label>
+        <input required type="date" class="form-control" name="Birthaday" placeholder="dd/mm/yyyy" ngModel>
+
+        <div *ngIf="!validations.birthadayOk" style="color:red">Birthaday can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input required type="password" class="form-control" name="Password" placeholder="Password" ngModel>
+
+        <div *ngIf="!validations.passwordOk" style="color:red">Password can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input required type="password" class="form-control" name="ConfirmPassword" placeholder="Password" ngModel>
+
+          <div *ngIf="!validations.confirmPasswordOk" style="color:red">Confirm password can't be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <input *ngIf="isSelected()" type="file" (change)="onFileSelected($event)" >  
+      </div>
+
+      
+
+      <button type="submit" class="nav-link" class="btn">Register</button>
+  </form>
+</div>

@@ -1,0 +1,48 @@
+<br><br>
+<div *ngIf="user" class="container">
+  <div *ngIf="!user.Activated">Sorry, you are not authorized!</div>
+  <div *ngIf="user.Activated">
+    <div *ngIf="loggedAdmin()">
+    <div class="col-md-12">
+      <h5>Authorize awaiting controllers </h5> <br>
+      <ul class="list-group" *ngFor="let awaitingController of awaitingControllers; let i = index">
+        <li class="list-group-item">{{awaitingController.Name}} <span class="pull-right" style="float:right">
+          <button class="btn" (click)="AuthorizeControllers(awaitingController.Id,i)">Authorize Controller</button>
+        </span>
+      </li>
+      </ul>
+     </div>
+     
+     <br><br>
+    <div class="col-md-12">
+        <h5>Authorize awaiting admins </h5>
+        <ul class="list-group" *ngFor="let awaitingAdmin of awaitingAdmins; let i = index">
+          <li class="list-group-item">{{awaitingAdmin.Name}} <span class="pull-right" style="float:right">
+            <button class="btn" (click)="AuthorizeAdmins(awaitingAdmin.Id,i)">Authorize Admin</button>
+          </span>
+        </li>
+        </ul>
+      </div>
+
+      <br><br>
+      <div>
+          <div class="col-md-12">
+              <h5>Authorize awaiting appUser </h5>
+              <ul class="list-group" *ngFor="let awaitingAppUser of awaitingAppUsers; let i = index">
+                <li class="list-group-item">{{awaitingAppUser.Name}} <br/>
+                  <img *ngIf="imagesLoaded" src="{{wtfList[i]}}" width="200" height="100" alt="">
+                  <span class="pull-right" style="float:right">
+                  <button class="btn" (click)="AuthorizeAppUsers(awaitingAppUser.Id,i)">Authorize appUser</button>
+                  <button class="btn" (click)="DenyAppUsers(awaitingAppUser.Id,i)">Deny appUser</button>
+                </span>
+              </li>
+              </ul>
+            </div>
+          </div>
+    </div>
+
+     
+        
+
+   </div>
+</div> 

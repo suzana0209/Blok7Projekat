@@ -1,0 +1,86 @@
+<div class="container">
+    <h1>Profile:</h1>
+    <h3>Name: {{user?.Name}}</h3>
+    <h3>Last Name: {{user?.LastName}}</h3>
+    <h3>Email: {{user?.Email}}</h3>
+    <h3>Birthaday: {{user?.Birthaday}}</h3>
+    <h3>Address: {{user?.Street}} {{user?.Number}}, {{user?.City}}</h3>
+
+    <img  src="{{wtfList}}" width="200" height="100" alt="">
+        
+
+
+</div>
+
+<div align="center">
+        <button type="submit" class="button" class="btn" (click)='showPassword()'>Change Password</button>
+        <button type="submit" class="button" class="btn" (click)='showEdit()'>Changde Profile</button>
+        <input  type="file" class="button" class="btn" (change)="onFileSelected($event)" *ngIf="studentOrPensioner" value="Choose image">
+
+        <button *ngIf="showApplyButton" type="submit" class="button" class="btn" (click)='ApplyImage()'>Apply image</button>
+
+</div>
+
+<div *ngIf="isSelectedEdit()">
+    <form #PomAppUserModelForm="ngForm" (ngSubmit)="onSubmit(PomAppUserModelForm.value, PomAppUserModelForm)">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input required type="email" class="form-control" name="Email" placeholder="Email"  [(ngModel)]="userForEdit.Email">
+        </div>
+          
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <input required type="text" class="form-control" name="Name" placeholder="Name" [(ngModel)]="userForEdit.Name">
+        </div>
+
+        <div class="form-group">
+            <label for="LastName">Last Name</label>
+            <input required type="text" class="form-control" name="LastName" placeholder="LastName" [(ngModel)]="userForEdit.LastName">
+        </div>
+
+        <div class="form-group">
+            <label for="City">City</label>
+            <input required type="text" class="form-control" name="City" placeholder="City" [(ngModel)]="userForEdit.City">
+        </div>
+
+        <div class="form-group">
+            <label for="Street">Street</label>
+            <input required type="text" class="form-control" name="Street" placeholder="Street" [(ngModel)]="userForEdit.Street">
+        </div>
+
+        <div class="form-group">
+            <label for="Number">Number</label>
+            <input required type="text" class="form-control" name="Number" placeholder="Number" [(ngModel)]="userForEdit.Number">
+        </div>
+
+        <div class="form-group">
+            <label for="Birthaday">Birthaday</label>
+            <input required type="date" class="form-control" name="Birthaday" placeholder="dd/mm/yyyy" [(ngModel)]="userForEdit.Birthaday">
+        </div>
+
+       <button type="submit" class="nav-link" class="btn">Edit user information</button>
+
+    </form>
+</div>
+
+
+<div *ngIf="isSelectedPassword()">
+    <form #PomModelForPassword="ngForm" (ngSubmit)="onSubmitPassword(PomModelForPassword.value, PomModelForPassword)">
+        <div class="form-group">
+            <label for="OldPassword">Old Password</label>
+            <input required type="password" class="form-control" name="OldPassword" placeholder="Password" ngModel>
+        </div>
+
+        <div class="form-group">
+            <label for="NewPassword">New Password</label>
+            <input required type="password" class="form-control" name="NewPassword" placeholder="Password" ngModel>
+        </div> 
+            
+        <div class="form-group">
+            <label for="ConfirmPassword">Confirm Password</label>
+            <input required type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" ngModel>
+        </div>
+
+        <button type="submit" class="nav-link" class="btn">Change password</button>
+    </form>
+</div>

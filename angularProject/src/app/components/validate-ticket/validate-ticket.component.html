@@ -1,0 +1,32 @@
+
+<label *ngIf="!pomBool"> Controller not authorized by admin!</label>
+
+<!-- <div *ngIf="pomBool">
+<label>Ticket ID:</label>
+<input class="form-group"  class="form-control" type="number" name="ticketId" [(ngModel)]="myInput">
+<button name="butoon1" class="button" class="btn" (click)="FindTicket(myInput)">Find ticket</button>
+
+<label>{{ticketExists}}</label><br/>
+
+<div *ngIf="ticketForV">
+  <div *ngIf="ticketForV.AppUserId && ticketForV.AppUserId != ''">
+    <label>User email:</label>
+    <input class="form-group"  class="form-control" type="text" name="userEmail" [(ngModel)]="myInput1">
+    <button name="butoon2" class="button" class="btn" (click)="ValidateTicket(myInput1)">Validate</button>
+  </div>
+</div>
+
+
+
+<label>{{ticketMessage}}</label>
+
+</div> -->
+
+<div *ngIf="pomBool"> 
+  <label>Ticket ID:</label> <br><br>
+  <input class="form-group"  class="form-control" type="number" name="ticketId" [(ngModel)]="inputIdTicket"><br><br>
+  <button name="butoon1" class="button" class="btn btn-primary" (click)="CheckTicket(inputIdTicket)">Check ticket</button>
+</div>
+
+<br><br><br>
+<h2>{{ticketMessage}}</h2>

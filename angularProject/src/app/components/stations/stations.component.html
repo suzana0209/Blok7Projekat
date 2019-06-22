@@ -1,0 +1,106 @@
+<div>    
+        <div align="center">
+          <br/>
+            <button type="submit" class="button" class="btn" (click)='showAdd()' >Add station</button>  
+            <button type="submit" class="button" class="btn" (click)='showEdit()' >Edit station</button>  
+            <button type="submit" class="button" class="btn" (click)='showDelete()'>Delete station</button>  
+        </div>
+
+        <div>
+
+            <div style="width:50%; height: 50%; margin: 5% 25%">
+                <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18" 
+                (mapClick)="placeMarker1($event)">  
+                  <agm-marker *ngFor="let station of stations" [latitude]="station.Latitude" [longitude]="station.Longitude" [title]="station.Name"
+                  [label]="" [iconUrl]="iconUrl" [markerDraggable]="isSelectedEdit()" (dragEnd)="markerDragEnd($event, station.Name, station.Id)"
+                  (markerClick) = "stationClick(station.Id)">
+              
+                    <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
+                    <agm-info-window [latitude]="station.Latitude" [longitude]="station.Longitude" >
+                      <span style="font-family:'Times New Roman'; color:gray;"><strong>{{station.Name}}</strong></span>
+                      <span style="font-family:'Times New Roman'; color:gray;"><strong>{{station.AddressStation}}</strong></span>
+                      <!-- <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span> -->
+                      <!-- <a [href]="markerInfo.link">See the site.</a> -->
+                    </agm-info-window>
+                </agm-marker>
+                </agm-map>
+                <!-- <app-map></app-map> -->
+            </div>
+
+        <div *ngIf="isSelectedAdd()">
+          <h3>Add station</h3>
+          <form #stationForm="ngForm" (ngSubmit)="onSubmit(stationForm.value, stationForm)">
+            <div class="form-group">
+              <label for="Name">Name station</label>
+              <input required type="text" class="form-control" name="Name" value="{{nameOfStation}}" ngModel>
+            </div>
+            <div class="form-group">
+              <label for="Longitude">Longitude</label>
+              <input required type="number" class="form-control" name="Longitude" value={{coordinates.longitude}} ngModel>
+            </div>
+            <div class="form-group">
+              <label for="Latitude">Latitude</label>
+              <input required type="text" class="form-control" name="Latitude" value={{coordinates.latitude}} ngModel>
+            </div>
+
+            <div class="form-group">
+                <label for="AddressStation">Address</label>
+                <input required type="text" class="form-control" name="AddressStation" value={{address}} ngModel>
+            </div>
+
+            
+            <div align="center">
+              <button type="submit" class="button" class="btn">Save station</button>  
+            </div>
+          </form>
+        </div>
+        </div>
+
+
+  <div *ngIf="isSelectedEdit()">
+      
+    <h3>Edit station</h3>
+          <form #stationForm="ngForm" (ngSubmit)="onSubmitEdit(stationForm.value, stationForm)">
+            <div class="form-group">
+              <label for="Name">Name station</label>
+              <input required type="text" class="form-control" name="Name" value="{{nameOfStation}}" ngModel>
+            </div>
+            <div class="form-group">
+              <label for="Longitude">Longitude</label>
+              <input required type="number" class="form-control" name="Longitude" value={{coordinates.longitude}} ngModel>
+            </div>
+            <div class="form-group">
+              <label for="Latitude">Latitude</label>
+              <input required type="text" class="form-control" name="Latitude" value={{coordinates.latitude}} ngModel>
+            </div>
+
+            <div class="form-group">
+                <label for="AddressStation">Address</label>
+                <input required type="text" class="form-control" name="AddressStation" value={{address}} ngModel>
+            </div>
+
+            
+            <div align="center">
+              <button type="submit" class="button" class="btn">Save changes</button>  
+            </div>
+          </form>
+  </div>
+
+  <div *ngIf="isSelectedDelete()">
+      <!-- <h2>DELETE STATION</h2> -->
+    <form #stationForm="ngForm" (ngSubmit)="onSubmitDelete(stationForm.value, stationForm)">
+        <div align="center">
+            <button type="submit" class="button" class="btn">Delete station</button>  
+          </div>
+    </form>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
