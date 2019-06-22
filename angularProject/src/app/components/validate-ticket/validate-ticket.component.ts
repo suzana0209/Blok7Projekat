@@ -31,6 +31,7 @@ export class ValidateTicketComponent implements OnInit {
   nameOfCustomer: string = "";
 
   nameOfCustomerMessage: string = "";
+  denyController: boolean = false;
   
 
 
@@ -40,6 +41,8 @@ export class ValidateTicketComponent implements OnInit {
       this.userService.getUserData(localStorage.getItem('name')).subscribe(data => {
         this.user = data;    
         this.pomBool = this.user.Activated;
+        this.denyController = this.user.Deny;
+
         //this.emailOfLoggedUser = this.user.Email;
        console.log("Serrrr:", this.user);    
    
@@ -230,7 +233,9 @@ export class ValidateTicketComponent implements OnInit {
         this.nameOfCustomer = dd.toString();
         console.log("Nameeee", this.nameOfCustomer);
 
-        this.nameOfCustomerMessage = this.nameOfCustomer.toString() + " bought the ticket!";
+        //this.nameOfCustomerMessage = this.nameOfCustomer.toString() + " bought the ticket!";
+        this.nameOfCustomerMessage = this.nameOfCustomer.toString() +
+          ((this.nameOfCustomer.toString() == "Nobody") ? " -> :(" : " bought the ticket!");
       
       })
       this.ticketMessage = data.toString() + ".";

@@ -40,6 +40,12 @@ namespace WebApp.Controllers
         [Route("GetNameOfCustomer")]
         public string GetNameOfCustomer(int idTicket)
         {
+            Ticket ticketFromDb = _unitOfWork.Tickets.Get(idTicket);
+            if(ticketFromDb == null)
+            {
+                return "Nobody";
+            }
+
             var appUserIdd = _unitOfWork.Tickets.Find(x => x.Id == idTicket).FirstOrDefault().AppUserId;
             
             if(appUserIdd == null)

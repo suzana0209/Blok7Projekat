@@ -1,5 +1,6 @@
 
-<label *ngIf="!pomBool"> Controller not authorized by admin!</label>
+<label *ngIf="!pomBool && !denyController"> Controller not authorized by admin! Your request is processed! </label>
+<label *ngIf="denyController">Your request has been denied!</label>
 
 <!-- <div *ngIf="pomBool">
 <label>Ticket ID:</label>

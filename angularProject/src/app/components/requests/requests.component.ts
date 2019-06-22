@@ -22,12 +22,14 @@ export class RequestsComponent implements OnInit {
   wtfList:any = []
 
   pomBool: boolean = false;
+  denyAdmin: boolean = false;
 
   constructor(private verifyService: VerificationService,private usersService: UsersService) { 
     this.usersService.getUserData(localStorage.getItem('name')).subscribe(data => {
 
        this.user = data;    
-      console.log(this.user);    
+      console.log("Adminnnn: ", this.user);
+      this.denyAdmin = this.user.Deny;    
 
        verifyService.getAwaitingAdmins().subscribe(data => {
         this.awaitingAdmins = data;
