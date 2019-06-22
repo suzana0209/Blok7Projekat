@@ -1,5 +1,5 @@
 <div *ngIf="!nonRegister() && !nonActivated() && !requestDeny()">
-  <label>You are not authorized to purchase tickets</label>
+  <label>You are not authorized to purchase tickets. Your request is processed! </label>
 </div>
 
 <div *ngIf="requestDeny() && !nonRegister()">You do not have the right to purchase tickets, your request has been denied!</div>
@@ -28,5 +28,29 @@
         </div>
       </div>
 
-      <button *ngIf="nonActivated() || nonRegister()" type="submit" class="nav-link" class="btn">Buy ticket</button>
+      <button *ngIf="nonActivated() || nonRegister()" type="submit" class="nav-link" class="btn btn-primary">Buy ticket</button>
   </form>
+
+  <div *ngIf="!nonRegister() && nonActivated() && !requestDeny()">
+    <br><br>
+    <label>History of buying ticket!</label><br>
+
+    <table border="1">
+      <tr>
+        <td>Id ticket</td>
+        <td>Type of ticket</td>
+        <td>Purchase date</td>
+        <td>Price of ticket</td>
+        <td>Valid</td>
+      </tr>
+      <tr *ngFor="let t of listOfBuyingTicket">
+        <td>{{t.Id}}</td>
+        <td>{{tipKarte[t.TypeOfTicketId]}}</td>
+        <td>{{t.PurchaseDate}}</td>
+        <td>{{t.PriceOfTicket}}</td>
+        <td>{{t.Valid == false ? 'No' : 'Yes'}}</td>
+      </tr>
+    </table>
+
+    
+  </div>

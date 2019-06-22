@@ -209,7 +209,7 @@ namespace WebApp.Controllers
             if (dateTime < currentDateTime)     //karta je istekla
                 return "Ticket isn't valid! Time is up!";
 
-            return "Ticket is valid !";
+            return "Ticket is valid!";
         }
 
         public string CheckTicket(string typeTicket, DateTime dateTime)
@@ -239,7 +239,7 @@ namespace WebApp.Controllers
                 expiritionDateTime = new DateTime(pomDateTime.Year, 1, 1);
                 return IsTicketValid(DateTime.Now, expiritionDateTime);
             }
-            return "Ticket is valid! (Registered user!)";
+            return "Ticket is valid!";
         }
 
         public string IsTicketValid(DateTime current, DateTime expirition)
@@ -247,7 +247,37 @@ namespace WebApp.Controllers
             if (current > expirition)
                 return "Ticket isn't valid! Time is up! (register user)";
             else
-                return "Ticket is valid (register user)!";
+                return "Ticket is valid!";
+        }
+
+        [Route("GetTicketWithCurrentAppUser")]
+        //[ResponseType(typeof(Ticket))]
+        public List<Ticket> GetTicketWithCurrentAppUser(string pom)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+                //return BadRequest(ModelState).ToString();
+            }
+
+            List<Ticket> ret = new List<Ticket>();
+
+            string userId = pom.ToString();
+            string nameTicket = "";
+
+            List<Ticket> ticketFormDb = _unitOfWork.Tickets.Find(a => a.AppUserId == userId).ToList();
+
+            foreach (var item in ticketFormDb)
+            {
+                nameTicket = _unitOfWork.TypeOfTickets.Get(Int32.Parse(item.TypeOfTicketId.ToString())).Name;
+                if(CheckTicket(nameTicket, DateTime.Parse(item.PurchaseDate.ToString())) != "Ticket is valid!")
+                {
+                    item.Valid = false;
+                }
+                
+            }
+
+            return ticketFormDb;
         }
 
 

@@ -6,6 +6,7 @@ import { BuyTicketService } from 'src/app/services/buyTicketService/buy-ticket.s
 import { PomModelForBuyTicket } from 'src/app/models/pomModelForBuyTicket.model';
 import { Router } from '@angular/router';
 import { PricelistService } from 'src/app/services/pricelistService/pricelist.service';
+import { PomModelForAuthorization } from 'src/app/models/pomModelForAuth.model';
 
 @Component({
   selector: 'app-buy-ticket',
@@ -21,6 +22,12 @@ export class BuyTicketComponent implements OnInit {
   bool: boolean = false;
   denyOfLoggedUser: boolean = false;
 
+  listOfBuyingTicket: any = []
+  pomModelForPrintTicket: PomModelForAuthorization = new PomModelForAuthorization("");
+  idLoggUser: string = "";
+
+  ticketForPrintOnHtml: any = []
+  tipKarte: string[] = []
 
   constructor(private authService: AuthenticationService, private usersService: UsersService,
     private buyTicketService: BuyTicketService,
@@ -33,7 +40,24 @@ export class BuyTicketComponent implements OnInit {
       this.denyOfLoggedUser = this.loggedUser.Deny;
       console.log("Deny of loggedUser: ", this.denyOfLoggedUser);
       this.emailLoggedUser = this.loggedUser.Email
+      this.idLoggUser = this.loggedUser.Id;
       console.log("Ulogovani korisnik: ", this.loggedUser)
+
+      //this.pomModelForPrintTicket.Id = this.loggedUser.Id;
+
+      this.buyTicketService.GetTicketWithCurrentAppUser(this.idLoggUser).subscribe(d=>{
+        this.listOfBuyingTicket = d;
+        console.log("Buying ticket: ", this.listOfBuyingTicket);
+        
+        this.tipKarte.push("");
+        this.tipKarte.push("TimeLimited");
+        this.tipKarte.push("Daily");
+        this.tipKarte.push("Monthly");
+        this.tipKarte.push("Annual");
+        
+        this.ticketForPrint();
+      
+      })
 
       if(localStorage.getItem('role') == "AppUser"){
         if(this.loggedUser.Activated){      
@@ -110,5 +134,13 @@ export class BuyTicketComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  ticketForPrint(){
+    this.listOfBuyingTicket.forEach(element => {
+      let pomString = element.PurchaseDate.toString().split('T');
+      element.PurchaseDate = pomString[0] + " " + pomString[1];
+      element.TypeOfTicket = element.TypeOfTicket;
+    });
   }
 }
