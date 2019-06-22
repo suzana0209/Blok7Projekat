@@ -105,6 +105,28 @@ export class RequestsComponent implements OnInit {
     })
   }
 
+  DenyAdmin(id, i){
+    this.modelHelp.Id = id;
+    this.verifyService.denyAdmin(this.modelHelp).subscribe(resp => {
+      if(resp == "Ok")  {
+        alert("Admin has been denied!");
+        this.awaitingAdmins.splice(i,1);
+      }
+       else alert("Something went wrong");
+    })
+  }
+
+  DenyControllers(id, i){
+    this.modelHelp.Id = id;
+    this.verifyService.denyControll(this.modelHelp).subscribe(resp => {
+      if(resp == "Ok")  {
+        alert("Controller has been denied!");
+        this.awaitingControllers.splice(i,1);
+      }
+       else alert("Something went wrong");
+    })
+  }
+
   
 
   loggedAdmin(): boolean{

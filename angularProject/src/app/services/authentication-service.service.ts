@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response} from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -21,7 +22,13 @@ export class AuthenticationService {
     register(user): Observable<any> {
         console.log(user);
         
-        return this.httpClient.post(this.base_url+"/api/Account/Register",user);
+        return this.httpClient.post(this.base_url+"/api/Account/Register",user).pipe(
+          catchError(e=>throwError(this.errorHandler(e)))
+        );
+    }
+
+    errorHandler(error){
+      console.log("Greska: ", error);
     }
 
     logIn(loginData: any){

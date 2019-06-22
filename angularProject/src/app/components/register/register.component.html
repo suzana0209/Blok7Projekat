@@ -58,7 +58,7 @@
 
       <div class="form-group" *ngIf="isSelected()">
         <label for="PassangerType">Passanger Type</label>
-        <select name="PassangerType" class="form-group"  class="form-control" ngModel>
+        <select name="PassangerType" class="form-group" (click)='getTypeAppUser($event)'  class="form-control" ngModel>
           <option disabled>Please select...</option>
           <option value="Student">Student</option>
           <option value="Pensioner">Pensioner</option>
@@ -90,7 +90,7 @@
       </div>
 
       <div class="form-group">
-        <input *ngIf="isSelected()" type="file" (change)="onFileSelected($event)" >  
+        <input *ngIf="isSelectedForImage()" type="file" (change)="onFileSelected($event)" >  
       </div>
 
       

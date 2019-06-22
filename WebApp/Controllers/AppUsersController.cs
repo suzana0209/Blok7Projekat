@@ -235,6 +235,19 @@ namespace WebApp.Controllers
 
         }
 
+        [Route("EmailAlreadyExists")]
+        public string EmailAlreadyExists(RegisterBindingModel pom)
+        {
+            string emailId = pom.Email.ToString();
+
+            AppUser appUser = unitOfWork.AppUsers.Find(e => e.Email == emailId).FirstOrDefault();
+            if(appUser == null)
+            {
+                return "Ok";
+            }
+            return "NotOk";
+        }
+
 
 
         protected override void Dispose(bool disposing)

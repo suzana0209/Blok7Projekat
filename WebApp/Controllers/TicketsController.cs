@@ -37,6 +37,21 @@ namespace WebApp.Controllers
             return _unitOfWork.TypeOfTickets.GetAll().AsQueryable();
         }
 
+        [Route("GetNameOfCustomer")]
+        public string GetNameOfCustomer(int idTicket)
+        {
+            var appUserIdd = _unitOfWork.Tickets.Find(x => x.Id == idTicket).FirstOrDefault().AppUserId;
+            
+            if(appUserIdd == null)
+            {
+                return "Unregister user";
+            }
+
+            string appUserId = appUserIdd.ToString();
+            string nameOfCustomer = _unitOfWork.AppUsers.Get(appUserId).Name.ToString();
+            return nameOfCustomer;
+        }
+
         // GET: api/Tickets/5
         [Route("GetTicket")]
         [ResponseType(typeof(Ticket))]
@@ -172,13 +187,14 @@ namespace WebApp.Controllers
             int idTicket = Int32.Parse(pomModel.Id);
 
             Ticket ticketFormDb = _unitOfWork.Tickets.Get(idTicket);
-
-            string nameOfTicket = _unitOfWork.TypeOfTickets.Get(Int32.Parse(ticketFormDb.TypeOfTicketId.ToString())).Name;//get TimeLimited, Daily, Monthly,Annul
-
+            
             if(ticketFormDb == null)
             {
                 return "Ticket doesn't exist in db! ";
             }
+
+            string nameOfTicket = _unitOfWork.TypeOfTickets.Get(Int32.Parse(ticketFormDb.TypeOfTicketId.ToString())).Name;//get TimeLimited, Daily, Monthly,Annul
+
 
             DateTime purchaseDateTime = DateTime.Parse(ticketFormDb.PurchaseDate.ToString());
 
@@ -207,9 +223,9 @@ namespace WebApp.Controllers
             dateTime = dateTime.AddHours(1);
 
             if (dateTime < currentDateTime)     //karta je istekla
-                return "Ticket isn't valid! Time is up!";
+                return "Ticket isn't valid! Time is up";
 
-            return "Ticket is valid!";
+            return "Ticket is valid";
         }
 
         public string CheckTicket(string typeTicket, DateTime dateTime)
@@ -239,15 +255,15 @@ namespace WebApp.Controllers
                 expiritionDateTime = new DateTime(pomDateTime.Year, 1, 1);
                 return IsTicketValid(DateTime.Now, expiritionDateTime);
             }
-            return "Ticket is valid!";
+            return "Ticket is valid";
         }
 
         public string IsTicketValid(DateTime current, DateTime expirition)
         {
             if (current > expirition)
-                return "Ticket isn't valid! Time is up! (register user)";
+                return "Ticket isn't valid! Time is up";
             else
-                return "Ticket is valid!";
+                return "Ticket is valid";
         }
 
         [Route("GetTicketWithCurrentAppUser")]
@@ -270,7 +286,7 @@ namespace WebApp.Controllers
             foreach (var item in ticketFormDb)
             {
                 nameTicket = _unitOfWork.TypeOfTickets.Get(Int32.Parse(item.TypeOfTicketId.ToString())).Name;
-                if(CheckTicket(nameTicket, DateTime.Parse(item.PurchaseDate.ToString())) != "Ticket is valid!")
+                if(CheckTicket(nameTicket, DateTime.Parse(item.PurchaseDate.ToString())) != "Ticket is valid")
                 {
                     item.Valid = false;
                 }

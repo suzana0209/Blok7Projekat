@@ -8,6 +8,7 @@
       <ul class="list-group" *ngFor="let awaitingController of awaitingControllers; let i = index">
         <li class="list-group-item">{{awaitingController.Name}} <span class="pull-right" style="float:right">
           <button class="btn" (click)="AuthorizeControllers(awaitingController.Id,i)">Authorize Controller</button>
+          <button class="btn" (click)="DenyControllers(awaitingController.Id,i)">Deny Controller</button>
         </span>
       </li>
       </ul>
@@ -19,6 +20,7 @@
         <ul class="list-group" *ngFor="let awaitingAdmin of awaitingAdmins; let i = index">
           <li class="list-group-item">{{awaitingAdmin.Name}} <span class="pull-right" style="float:right">
             <button class="btn" (click)="AuthorizeAdmins(awaitingAdmin.Id,i)">Authorize Admin</button>
+            <button class="btn" (click)="DenyAdmin(awaitingAdmin.Id,i)">Deny Admin</button>
           </span>
         </li>
         </ul>

@@ -47,6 +47,17 @@ export class VerificationService {
       return this.httpClient.post(this.baseUrl + "/api/Account/DenyAppUser", appUserId);
     }
   
+    denyAdmin(adminId): Observable<any> {
+      let headers = new HttpHeaders();
+      headers = headers.append( "Content-type","application/json");
+      return this.httpClient.post(this.baseUrl + "/api/Account/DenyAdmin", adminId);
+    }
+
+    denyControll(conttrollerId): Observable<any> {
+      let headers = new HttpHeaders();
+      headers = headers.append( "Content-type","application/json");
+      return this.httpClient.post(this.baseUrl + "/api/Account/DenyControll", conttrollerId);
+    }
 
 
 

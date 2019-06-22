@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { RegistrationModel } from 'src/app/models/registration.model';
 import { AuthenticationService } from 'src/app/services/authentication-service.service';
 import { TypesService } from 'src/app/services/types.service';
@@ -8,6 +8,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { RequestsService } from 'src/app/services/requestsService/requests.service';
 import { ValidForRegistrationModel } from 'src/app/models/modelsForValidation/validForRegistration.model';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -24,6 +25,8 @@ export class RegisterComponent implements OnInit {
 
   selectedImage: any;
   userBytesImage: any;
+
+  typeAppUser: string  = ""
 
   constructor(private authService: AuthenticationService, 
     private typesService: TypesService,
@@ -50,6 +53,20 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  //Samo studenti i penzioneri mogu dostavljati dokumenta
+  isSelectedForImage(): boolean{
+    if(this.selected == 'AppUser' && (this.typeAppUser == 'Student' || this.typeAppUser == 'Pensioner')){
+      return true;
+    }
+  }
+
+
+
+  getTypeAppUser(event:any){
+    this.typeAppUser = event.target.value;
+
+  }
+
   onSubmit(registrationData: RegistrationModel, form: NgForm) {
      console.log(registrationData);
 
@@ -64,6 +81,17 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    //provjeriti da li taj mejl vec postoji u bazi !
+    // this.userService.EmailAlreadyExists(registrationData).subscribe(ret=>{
+    //   console.log("Retttttt", ret);
+    //   if(ret.toString() != 'Ok'){
+    //     alert("Email already exists!");
+    //     //this.router.navigate(['/register'])
+    //     return;
+    //   }
+    // })
+
+
     if (this.selectedImage == undefined){
       //alert("No image selected!");
       this.authService.register(registrationData).subscribe(d1=>{
@@ -74,10 +102,11 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/logIn']);
       },
       error => {
-        alert("Pasword must have number and special symbol! ")
+        //alert("Pasword must have number and special symbol! ")
       });
      //return; 
    }
+    
    else{
      this.userService.uploadFile(this.selectedImage).subscribe(d2=>{
        this.authService.register(registrationData).subscribe(d3=>{

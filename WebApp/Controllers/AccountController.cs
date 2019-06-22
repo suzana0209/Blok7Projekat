@@ -420,9 +420,15 @@ namespace WebApp.Controllers
 
             if (model.PassangerType != null)
             {
+                appUser.Activated = false;
                 var getAllPassangerTypes = _unitOfWork.PassangerTypes.GetAll();
                 foreach (var item in getAllPassangerTypes)
                 {
+                    if(model.PassangerType == "Default")
+                    {
+                        appUser.Activated = true;
+                    }
+
                     if (item.Name == model.PassangerType)
                     {
                         appUser.PassangerTypeId = item.Id;
@@ -440,6 +446,7 @@ namespace WebApp.Controllers
                 //    }
                 //}
             }
+            
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email,
                 PasswordHash = ApplicationUser.HashPassword(model.Password), AppUser = appUser };
@@ -690,7 +697,7 @@ namespace WebApp.Controllers
         public List<AppUser> GetAwaitingAdmins()
         {
             int userTypeId = _unitOfWork.UserTypes.Find(c => c.Name == "Admin").FirstOrDefault().Id;
-            return _unitOfWork.AppUsers.Find(x => (!x.Activated && x.UserTypeId == userTypeId)).ToList();
+            return _unitOfWork.AppUsers.Find(x => (!x.Activated && x.UserTypeId == userTypeId && !x.Deny)).ToList();
         }
 
         [Authorize(Roles = "Admin")]
@@ -698,7 +705,7 @@ namespace WebApp.Controllers
         public List<AppUser> GetAwaitingControllers()
         {
             int userTypeId = _unitOfWork.UserTypes.Find(c => c.Name == "Controller").FirstOrDefault().Id;
-            return _unitOfWork.AppUsers.Find(x => (!x.Activated && x.UserTypeId == userTypeId)).ToList();
+            return _unitOfWork.AppUsers.Find(x => (!x.Activated && x.UserTypeId == userTypeId && !x.Deny)).ToList();
         }
 
         [Authorize(Roles = "Admin")]
@@ -838,6 +845,62 @@ namespace WebApp.Controllers
 
 
 
+        [Authorize(Roles = "Admin")]
+        [Route("DenyControll")]
+        public string DenyControll([FromBody]PomModelForAuthorization pom)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState).ToString();
+            }
+            //Get user data, and update activated to true
+            //ApplicationUser current = UserManager.FindById(pom.Id);
+
+            AppUser current = _unitOfWork.AppUsers.Get(pom.Id);
+            current.Activated = false;
+            current.Deny = true;
+            _unitOfWork.AppUsers.Update(current);
+            _unitOfWork.Complete();
+
+            string subject = "Controller denied";
+            string desc = $"Dear {current.Name}, You have been denied as controller.";
+            var controllerEmail = current.Email;
+            NotifyViaEmail(controllerEmail, subject, desc);
+
+            return "Ok";
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [Route("DenyAdmin")]
+        public string DenyAdmin([FromBody]PomModelForAuthorization pomModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState).ToString();
+            }
+            //Get user data, and update activated to true
+            //ApplicationUser current = UserManager.FindById(Id.Id);
+            AppUser current = _unitOfWork.AppUsers.Get(pomModel.Id);
+            current.Activated = false;
+            current.Deny = true;
+
+
+            _unitOfWork.AppUsers.Update(current);
+            _unitOfWork.Complete();
+
+
+            string subject = "Admin denied";
+            string desc = $"Dear {current.Name}, You have been denied as admin.";
+            var adminEmail = current.Email;
+
+            NotifyViaEmail(adminEmail, subject, desc);
+
+            return "Ok";
+
+        }
 
 
         public bool NotifyViaEmail(string targetEmail, string subject, string body)

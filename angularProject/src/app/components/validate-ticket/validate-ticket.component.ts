@@ -28,6 +28,9 @@ export class ValidateTicketComponent implements OnInit {
   imagesLoaded:boolean = false
 
   pomBool: boolean = false;
+  nameOfCustomer: string = "";
+
+  nameOfCustomerMessage: string = "";
   
 
 
@@ -37,6 +40,7 @@ export class ValidateTicketComponent implements OnInit {
       this.userService.getUserData(localStorage.getItem('name')).subscribe(data => {
         this.user = data;    
         this.pomBool = this.user.Activated;
+        //this.emailOfLoggedUser = this.user.Email;
        console.log("Serrrr:", this.user);    
    
     this.ticketServ.getAllTypeOfTicket().subscribe(data => {
@@ -222,8 +226,14 @@ export class ValidateTicketComponent implements OnInit {
     this.modelHelp.Id = idTicket.toString();
     this.buyTicketService.validateTicket(this.modelHelp).subscribe(data=>{
       console.log("Poruka: ", data);
+      this.buyTicketService.GetNameOfCustomer(idTicket).subscribe(dd=>{
+        this.nameOfCustomer = dd.toString();
+        console.log("Nameeee", this.nameOfCustomer);
+
+        this.nameOfCustomerMessage = this.nameOfCustomer.toString() + " bought the ticket!";
       
-      this.ticketMessage = data.toString();
+      })
+      this.ticketMessage = data.toString() + ".";
       
     })
   }

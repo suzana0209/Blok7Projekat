@@ -47,5 +47,9 @@ export class UsersService{
       return this.httpClient.post('http://localhost:52295/api/Account/GetUserImages',emails)
     }
 
+    EmailAlreadyExists(registrationData){
+      return this.httpClient.post(this.baseUrl + "/api/AppUser/EmailAlreadyExists", registrationData);
+    }
+
    
 }

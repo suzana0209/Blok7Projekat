@@ -33,4 +33,8 @@ export class BuyTicketService {
      return this.httpClient.get(this.baseUrl + "/api/Tickets/GetTicketWithCurrentAppUser?pom="+ idUser);
    }
 
+   GetNameOfCustomer(idTicket){
+     return this.httpClient.get(this.baseUrl + "/api/Tickets/GetNameOfCustomer?idTicket=" + idTicket);
+   }
+
 }
