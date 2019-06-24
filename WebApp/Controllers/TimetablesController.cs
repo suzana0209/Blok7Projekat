@@ -52,6 +52,27 @@ namespace WebApp.Controllers
             return Ok(timetable);
         }
 
+        [Route("AlreadyExistByEdit")]
+        public string AlreadyExistByEdit(PomModelTimetableForEdit pom)
+        {
+            List<Timetable> timeTableFromDb = _unitOfWork.Timetables.GetAll().ToList();
+
+            if(timeTableFromDb == null)
+            {
+                return "null";
+            }
+
+            Timetable alreadyExistsTT = timeTableFromDb.Where(a => a.LineId == pom.LineId && a.DayId == pom.DayId &&
+            a.Departures.Contains(pom.NewDepartures.ToString())).FirstOrDefault();
+
+            if(alreadyExistsTT == null)
+            {
+                return "No";
+            }
+
+            return "Yes";
+        }
+
         [Route("Edit")]
         // PUT: api/Timetables/5
         [ResponseType(typeof(void))]
@@ -100,6 +121,30 @@ namespace WebApp.Controllers
             return Ok(newTimetable.Id);
 
             //return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [Route("AlredyExistTimetable")]
+        public string AlredyExistTimetable(TimetablePomModel timetablePom)
+        {
+            List<Timetable> timetablesFromDb = _unitOfWork.Timetables.GetAll().ToList();
+
+            if(timetablesFromDb == null)
+            {
+                return "null";
+            }
+
+            int dayIdForDb = _unitOfWork.Days.Find(a => a.Name == timetablePom.DayId).FirstOrDefault().Id;
+            int lineIdForDb = _unitOfWork.Lines.Find(l => l.RegularNumber == timetablePom.LineId).FirstOrDefault().Id;
+
+            Timetable alreadyExistsTimetable = timetablesFromDb.Where(tt => tt.LineId == lineIdForDb &&
+            tt.DayId == dayIdForDb && tt.Departures.Contains(timetablePom.Departures.ToString())).FirstOrDefault();
+
+            if(alreadyExistsTimetable == null)
+            {
+                return "No";
+            }
+            
+            return "Yes"; //vec postoji u bazi
         }
 
         [Route("Add")]

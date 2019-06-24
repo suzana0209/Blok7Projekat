@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TimetableModel2, TimetableModel3 } from 'src/app/models/timetable.model';
+import { TimetableModel2, TimetableModel3, TimetableModel4 } from 'src/app/models/timetable.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,14 @@ export class TimetableService {
 
   editTimetable(id, timetable):Observable<any>{
     return this.httpClient.put(this.baseUrl + "/api/Timetable/Edit?id=" + id, timetable);
+  }
+
+  AlredyExistTimetable(timeTable: TimetableModel2){
+    return this.httpClient.post(this.baseUrl + "/api/Timetable/AlredyExistTimetable", timeTable);
+  }
+
+  AlreadyExistByEdit(tt){
+    return this.httpClient.post(this.baseUrl + "/api/Timetable/AlreadyExistByEdit", tt);
   }
 
 
