@@ -236,16 +236,27 @@ namespace WebApp.Controllers
         }
 
         [Route("EmailAlreadyExists")]
-        public string EmailAlreadyExists(RegisterBindingModel pom)
+        public IHttpActionResult EmailAlreadyExists(RegisterBindingModel pom)
         {
-            string emailId = pom.Email.ToString();
-
-            AppUser appUser = unitOfWork.AppUsers.Find(e => e.Email == emailId).FirstOrDefault();
-            if(appUser == null)
+            try
             {
-                return "Ok";
+                //provjera za email da li vec postoji
+                AppUser appForEmail = unitOfWork.AppUsers.Find(a => a.Email == pom.Email).FirstOrDefault();
+                if (appForEmail != null)
+                {
+                    return Content(HttpStatusCode.Conflict, $"WARNING Email {pom.Email} already exist in database!");
+                }
+                return Ok();
             }
-            return "NotOk";
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Content(HttpStatusCode.Conflict, ex);
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+
         }
 
 

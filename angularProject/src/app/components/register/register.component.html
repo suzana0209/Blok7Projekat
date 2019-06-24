@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Registration</h1>
+  <h1 align="center">Welcome - Registration</h1>
   <form #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm.value, registrationForm)">
       <div class="form-group">
         <label for="email">Email address</label>
@@ -70,7 +70,7 @@
 
       <div class="form-group">
         <label for="Birthaday">Birthaday</label>
-        <input required type="date" class="form-control" name="Birthaday" placeholder="dd/mm/yyyy" ngModel>
+        <input required type="date" class="form-control" [max]="datePickerId" name="Birthaday" placeholder="dd/mm/yyyy" ngModel>
 
         <div *ngIf="!validations.birthadayOk" style="color:red">Birthaday can't be empty.</div>
       </div>
@@ -89,10 +89,12 @@
           <div *ngIf="!validations.confirmPasswordOk" style="color:red">Confirm password can't be empty.</div>
       </div>
 
-      <div class="form-group">
-        <input *ngIf="isSelectedForImage()" type="file" (change)="onFileSelected($event)" >  
+      <div *ngIf="isSelectedForImage()" class="form-group">
+        <input  type="file" (change)="onFileSelected($event)" 
+        style="color:transparent;" onchange="this.style.color = 'transparent';"/>  
+        <!-- <label> Selected file: {{selectedImage}}</label> -->
       </div>
-
+      
       
 
       <button type="submit" class="nav-link" class="btn">Register</button>

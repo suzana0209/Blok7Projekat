@@ -12,7 +12,7 @@ import { ForCvlService } from 'src/app/services/forCvlService/for-cvl.service';
   selector: 'app-cvl',
   templateUrl: './cvl.component.html',
   styleUrls: ['./cvl.component.css'],
-  styles: ['agm-map {height: 500px; width: 700px;}']
+  styles: ['agm-map {height: 500px; width: 80%;}']
 })
 export class CvlComponent implements OnInit {
 
@@ -93,7 +93,7 @@ export class CvlComponent implements OnInit {
     this.isChanged = true;
     this.stations = [];
     this.polyline.path = [];
-    if(event.target.value == "" || event.target.value.length == 0)
+    if(event.target.value == "" || event.target.value.length == 0 || event.target.value == null)
     {
       this.isChanged = false;
       this.stations = [];

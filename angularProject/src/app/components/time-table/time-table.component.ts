@@ -7,6 +7,7 @@ import { parse } from 'querystring';
 import { element } from 'protractor';
 import { DayService } from 'src/app/services/dayService/day.service';
 import { Router } from '@angular/router';
+import { ValidTimetableModel } from 'src/app/models/validTimetable.model';
 
 @Component({
   selector: 'app-time-table',
@@ -63,6 +64,9 @@ export class TimeTableComponent implements OnInit {
 
    pom: string = ""
    polasci: any = []
+   showDepForUnregisterUser: boolean = false;
+
+   validations: ValidTimetableModel = new ValidTimetableModel();
 
 
   constructor(private lineService: LineService, 
@@ -146,6 +150,9 @@ export class TimeTableComponent implements OnInit {
 
 
   getLineForEdit(event){
+
+    this.showDepartureComboBox = false;
+    this.showDepForUnregisterUser = false;
     if(event.target.value != "" || event.target.value != null){
       this.showLineCbForUnlogedUser = true;
 
@@ -184,8 +191,10 @@ export class TimeTableComponent implements OnInit {
 
   getDeparturesForEditt(event){
     this.allDeparturesForSelect = []
+    this.showDepForUnregisterUser = false;
+    
     console.log("Targetttt", event.target.value);
-    if(event.target.value != "" || event.target.value != null){
+    if(event.target.value != "" || event.target.value != null || event.target.value.length != 0){
       this.showDepartureComboBox = true;
       this.pom = event.target.value;
      this.allLinesFromDb.forEach(element => {
@@ -231,6 +240,13 @@ export class TimeTableComponent implements OnInit {
       this.showLineCbForUnlogedUser = true;
     }
     console.log("Dayssss: ", this.selectedDayFromCb);
+  }
+
+  showDepartureOnClick(){
+    // if(this.validations.validate(this.selectedDayForEdit, this.pom)){
+    //   return;
+    // }
+    this.showDepForUnregisterUser = true;
   }
 
 

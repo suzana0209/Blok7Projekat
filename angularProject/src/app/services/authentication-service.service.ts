@@ -31,10 +31,63 @@ export class AuthenticationService {
       console.log("Greska: ", error);
     }
 
+    // logIn(loginData: any){
+
+    //   let headers = new HttpHeaders();
+    //   headers = headers.append('Content-type', 'application/x-www-form-urlencoded');
+
+    //   console.log(loginData.Email);
+    //   console.log(loginData.Password);
+
+    //   console.log(localStorage.role);
+
+    //   if(!localStorage.jwt){
+    //     let x = this.httpClient.post(this.base_url+'/oauth/token',`username=${loginData.Email}&password=${loginData.Password}&grant_type=password`, {"headers":headers}) as Observable<any>
+
+    //     x.subscribe(
+    //       res => {
+    //         console.log(res.access_token);
+
+    //         let jwt = res.access_token;
+
+    //         let jwtData = jwt.split('.')[1]
+    //         let decodedJwtJsonData = window.atob(jwtData)
+    //         let decodedJwtData = JSON.parse(decodedJwtJsonData)
+
+    //         let role = decodedJwtData.role
+
+    //         console.log('jwtData: ' + jwtData)
+    //         console.log('decodedJwtJsonData: ' + decodedJwtJsonData)
+    //         console.log(decodedJwtData)
+    //         console.log('Role ' + role)
+
+    //         let logUser = decodedJwtData.unique_name;
+
+    //         localStorage.setItem('jwt', jwt)
+    //         localStorage.setItem('role', role);
+    //         localStorage.setItem('name',logUser);
+
+    //         //window.location.href="/busLines";
+    //       },
+    //       err => {
+    //         console.log("Error occured");
+    //       }
+    //     );
+    //   }
+    //   else{
+    //       //alert("Invalid email or password! ");
+    //     // console.log("Error occured - ELSE");
+    //   }
+       
+    // }
+
     logIn(loginData: any){
 
       let headers = new HttpHeaders();
       headers = headers.append('Content-type', 'application/x-www-form-urlencoded');
+
+      //headerObj.append('Authorization','Basic '+btoa(login.usrNm+':'+login.pswd));
+      headers.append('Authorization','Basic '+btoa(loginData.username+':'+loginData.password));
 
       console.log(loginData.Email);
       console.log(loginData.Password);
@@ -70,15 +123,17 @@ export class AuthenticationService {
             window.location.href="/busLines";
           },
           err => {
-            console.log("Error occured");
+            alert("Invalid username or password!");
           }
         );
       }
       else{
-          //alert("Invalid email or password! ");
+          alert("Already logged in ! ");
         // console.log("Error occured - ELSE");
       }
        
     }
+
+
   }
 

@@ -28,7 +28,12 @@ export class LogInComponent implements OnInit {
     if(this.validations.validate(loginData)) return;
 
 
+    //prije bilo
     let p =  this.authService.logIn(loginData); 
+
+
+   
+
     // if(p == undefined){
     //   alert("Invalid username or password! ");
     //   window.location.reload();

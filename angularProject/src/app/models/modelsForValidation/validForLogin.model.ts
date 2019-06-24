@@ -14,6 +14,7 @@ export class LogInValidations{
       else{
         if(loginData.Email.indexOf('@') < 0){
             this.emailOk1 = false;
+            this.emailOk = true;
             wrong = true;
           }else{
             this.emailOk = true;

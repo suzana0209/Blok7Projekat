@@ -394,6 +394,7 @@ namespace WebApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
 
             AppUser appUser = new AppUser();
             appUser.Email = model.Email;
@@ -467,6 +468,18 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        //[Route("EmailAlreadyExists")]
+        //public IHttpActionResult EmailAlreadyExists(RegisterBindingModel model)
+        //{
+        //    //provjera za email da li vec postoji
+        //    AppUser appForEmail = _unitOfWork.AppUsers.Find(a => a.Email == model.Email).FirstOrDefault();
+        //    if (appForEmail != null)
+        //    {
+        //        return Content(HttpStatusCode.Conflict, $"WARNING Email {model.Email} already exist in database!");
+        //    }
+        //    return Ok();
+        //}
 
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]

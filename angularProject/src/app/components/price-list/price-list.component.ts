@@ -4,6 +4,7 @@ import { PricelistService } from 'src/app/services/pricelistService/pricelist.se
 import { PriceListModel } from 'src/app/models/priceList.model';
 import { NgForm } from '@angular/forms';
 import { PomModelForPriceList } from 'src/app/models/pomModelForPriceList.model';
+import { ValidForPriceListModel } from 'src/app/models/modelsForValidation/validForPriceList.model';
 
 @Component({
   selector: 'app-price-list',
@@ -23,11 +24,18 @@ export class PriceListComponent implements OnInit {
   pomModelForPriceList: PomModelForPriceList = new PomModelForPriceList(0, "", "");
 
   retPrice: any;
+  validations: ValidForPriceListModel = new ValidForPriceListModel();
 
   constructor( private pricelistServ: PricelistService) { 
-    this.pricelistServ.getPricelist().subscribe(data => {      
+    this.pricelistServ.getPricelist().subscribe(data => {  
+      if(data == null){
+        alert("There is not price list!");
+        return;
+      }    
       this.priceList = data; 
-      console.log(data);
+      console.log("Price list from db: ", this.priceList);
+      
+      console.log("Data list from db: ",data);
 
        this.validPrices = new TicketPricesPomModel(0,0,0,0,0,new PriceListModel(new Date(),new Date(),0, []))
        this.priceList.ListOfTicketPrices.forEach(element => {
@@ -116,6 +124,10 @@ export class PriceListComponent implements OnInit {
     this.pomModelForPriceList.PassangerType = this.selectedPassanger;
     this.pomModelForPriceList.TypeOfTicket = this.selectedTicket;
     this.pomModelForPriceList.PriceListId = this.priceList.Id;
+
+    if(this.validations.validate(this.pomModelForPriceList)){
+      return;
+    }
 
     this.pricelistServ.calculateTicketPrice(this.pomModelForPriceList).subscribe(d=>{
       this.retPrice = d;

@@ -111,21 +111,31 @@
       <option value="Saturday">Saturday</option>
       <option value="Sunday">Sunday</option>
     </select>
+      <div *ngIf="!validations.dayTypeOk" style="color:red">Day type can't be empty.</div>
+        
+    
   
     <div *ngIf="showLineCbForUnlogedUser">
       <label for="LineId">Select line: </label>
       <select name="LineId"  class="form-control" (click)="getDeparturesForEditt($event)">
-        <option disabled>Please select...</option>
+        <option disabled>Please select</option>
         <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
       </select>
+      <div *ngIf="!validations.selectedLineOk" style="color:red">Line  can't be empty.</div>
+       
       </div>
   
       <br><br><br>
-  
-      <div *ngIf="showDepartureComboBox">
-        <label >Departures for {{selectedDayForEdit}} on Line: {{pom}}:</label>
+
+      
+      <!--Prikazi polaske-->
+      <button *ngIf = "showDepartureComboBox" type="button" class="nav-link" class="btn btn-primary" (click)="showDepartureOnClick()">Show departure time</button> <br><br>
+           
+      <div *ngIf="showDepForUnregisterUser">
+        <!-- <label >Departures for {{selectedDayForEdit}} on Line: {{pom}}:</label> -->
+        <label>{{allDeparturesForSelect.length != 0 ? 'Departures for ' + selectedDayForEdit + ' on Line: ' : 
+          'No departures for ' + selectedDayForEdit +' on Line: '}} {{pom != "Please select" ? pom : ""}}  </label>
         <p *ngFor="let line of allDeparturesForSelect">{{line}}</p>
       </div>
-  
       
   </div>

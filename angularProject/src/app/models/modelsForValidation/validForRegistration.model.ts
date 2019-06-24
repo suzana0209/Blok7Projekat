@@ -1,3 +1,5 @@
+import { getLocaleDateTimeFormat } from '@angular/common';
+
 export class ValidForRegistrationModel {
     emailOk: boolean = true;
     nameOk: boolean = true;
@@ -17,11 +19,13 @@ export class ValidForRegistrationModel {
       let wrong = false;
       if (registrationData.Email == null || registrationData.Email == "") {
         this.emailOk = false;
+        this.emailOk1 = true;
         wrong = true;
       }
       else{
           if(registrationData.Email.indexOf('@') < 0){
             this.emailOk1 = false;
+            this.emailOk = true;
             wrong = true;
           }else{
             this.emailOk = true;

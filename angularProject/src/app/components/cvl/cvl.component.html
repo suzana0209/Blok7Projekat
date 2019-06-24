@@ -1,14 +1,17 @@
 <div>
-  Select regular number:
+  <h2 align="center">See current location of vehicle for selected line</h2>
+</div> <br><br>
+<div  align="center">
+  <label>Select regular number</label><br>
   <select #regularNumber (change)="onSelectionChangeNumber($event)">
-    <option value="">-- Please Select --</option>
+    <option disabled value="">-- Please Select --</option>
     <option *ngFor="let option of options;" [value]="option">
         {{option}}
     </option>
-  </select>
+  </select> 
 </div>
-
-<div>
+<br><br>
+<div align="center">
   <!-- Kreiramo mapu -->
    <agm-map [latitude]="startLat" [longitude]="startLon" [zoom]="zoom" id = "mapa"> 
 

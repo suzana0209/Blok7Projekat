@@ -1,6 +1,6 @@
 
 <div *ngIf="LoggedAdmin()">
-    <h3>currently active pricelist</h3>
+     <h3>Currently active pricelist</h3>   <!--Poruka ako ne postoji cjenovnik! -->
 
     <h4 *ngIf="priceList" >From: {{priceList.FromTime.split('T')[0]}}</h4>  
     <h4 *ngIf="priceList">To: {{priceList.ToTime.split('T')[0]}}</h4><br/> 
@@ -15,7 +15,7 @@
 
 
       <div *ngIf = "!LoggedAdmin()">
-        <h2 align="center">Price list</h2>
+        <h2 align="center">Currently active price list</h2>
           <div class="form-group">
               <label for="TypeOfTicket">Select type of ticket</label>
               <select name="TypeOfTicket" (click)="getSelectedTicket($event)"  class="form-group"  class="form-control" >
@@ -25,7 +25,9 @@
                 <option value="Monthly">Monthly</option>
                 <option value="Annual">Annual</option>
               </select>
-            </div>
+              <div *ngIf="!validations.typeOfTicketOk" style="color:red">Please select ticket type!</div>
+            </div> <br>
+            
 
             <div class="form-group">
                 <label for="PassangerType">Select type of Passanger</label>
@@ -35,9 +37,11 @@
                   <option value="Pensioner">Pensioner</option>
                   <option value="Default">None</option>
                 </select>
-            </div>
+                <div *ngIf="!validations.passangerTypeOk" style="color:red">Please select passanger type! </div>      
+            </div><br><br>
+            
 
-            <button type="button" class="nav-link" (click)="calculatePrice()" class="btn" align="center">OK</button><br>
+            <button type="button" class="nav-link" (click)="calculatePrice()" class="btn" align="center">OK</button><br><br>
 
             <label *ngIf = "showLabel" align="center">Price for selected ticket: {{retPrice.Id}} din.</label>
       </div>

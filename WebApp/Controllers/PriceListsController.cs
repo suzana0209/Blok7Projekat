@@ -44,7 +44,10 @@ namespace WebApp.Controllers
         {
             
            PriceList p = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(x => x.ToTime >= DateTime.Now && x.FromTime <= DateTime.Now);
-           return p;
+           
+           
+
+            return p;
         }
 
         [Route("GetPricelistLast")]

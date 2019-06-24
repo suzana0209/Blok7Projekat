@@ -7,6 +7,7 @@ import { PomModelForBuyTicket } from 'src/app/models/pomModelForBuyTicket.model'
 import { Router } from '@angular/router';
 import { PricelistService } from 'src/app/services/pricelistService/pricelist.service';
 import { PomModelForAuthorization } from 'src/app/models/pomModelForAuth.model';
+import { ValidForBuyTicketModel } from 'src/app/models/modelsForValidation/validForBuyTicket.model';
 
 @Component({
   selector: 'app-buy-ticket',
@@ -28,6 +29,9 @@ export class BuyTicketComponent implements OnInit {
 
   ticketForPrintOnHtml: any = []
   tipKarte: string[] = []
+
+  validations: ValidForBuyTicketModel = new ValidForBuyTicketModel();
+
 
   constructor(private authService: AuthenticationService, private usersService: UsersService,
     private buyTicketService: BuyTicketService,
@@ -75,11 +79,17 @@ export class BuyTicketComponent implements OnInit {
   onSubmit(buyTicketForm: PomModelForBuyTicket, form: NgForm){
     console.log("Karta: ", buyTicketForm);
     
+    
+
+    
 
     console.log("Email from Local storage: ", this.emailLoggedUser);
     let rola =  localStorage.getItem('role');
     let mail = localStorage.getItem('name');
     if(rola == "AppUser"){
+      if(this.validations.validateForTypeTicket(buyTicketForm.TypeOfTicket)){
+        return;
+      }
       buyTicketForm.Email = localStorage.getItem('name')
       buyTicketForm.PurchaseDate = new Date();
       console.log("Trenutno vreme", buyTicketForm.PurchaseDate)
@@ -88,6 +98,11 @@ export class BuyTicketComponent implements OnInit {
       window.location.reload();
       });     
     }else if(mail == null){
+      if(localStorage.getItem('name') == null){
+        if(this.validations.validate(buyTicketForm.Email)){
+          return;
+        }
+      }
       if(buyTicketForm.Email.length != 0){
         buyTicketForm.PurchaseDate = new Date();
         buyTicketForm.TypeOfTicket = "TimeLimited";

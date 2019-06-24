@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
   userBytesImage: any;
 
   typeAppUser: string  = ""
+  datePickerId: any;
 
   constructor(private authService: AuthenticationService, 
     private typesService: TypesService,
@@ -36,6 +37,7 @@ export class RegisterComponent implements OnInit {
     typesService.getPassangerAll().subscribe(types =>{
       this.types = types;
     });
+    this.datePickerId = new Date().toISOString().split('T')[0];
   }
 
   ngOnInit() {
@@ -81,6 +83,13 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.userService.EmailAlreadyExists(registrationData).subscribe(a=>{},
+    err=>{
+     window.alert(err.error);
+     //this.router.navigate(['/register']);
+     //window.location.reload();
+   })
+
     //provjeriti da li taj mejl vec postoji u bazi !
     // this.userService.EmailAlreadyExists(registrationData).subscribe(ret=>{
     //   console.log("Retttttt", ret);
@@ -115,11 +124,8 @@ export class RegisterComponent implements OnInit {
          }
          alert("Rregistration successful!");
          this.router.navigate(['/logIn']);
-       },
-       error => {
-         alert("Pasword must have number and special symbol! ")
-       });
-     });
+       })
+    });
    }
 
   }

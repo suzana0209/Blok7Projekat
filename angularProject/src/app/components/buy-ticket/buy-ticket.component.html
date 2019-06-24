@@ -12,9 +12,11 @@
         <div *ngIf="nonRegister()" class="form-group">
             <label for="email">Email address</label>
             <input required type="email" class="form-control" name="Email" placeholder="Email" ngModel>
+
+            <div *ngIf="!validations.emailForBuyTicketOk" style="color:red">Email can't be empty.</div>
         </div>
 
-      <div *ngIf="!nonRegister()" class="form-group">
+      <div *ngIf="!nonRegister()" class="form-group">  <!--Ako je registrovan-->
         
         <div *ngIf="nonActivated()">
           <label for="TypeOfTicket">Select type of ticket</label>
@@ -23,8 +25,10 @@
             <option value="TimeLimited">TimeLimited</option>
             <option value="Daily">Daily</option>
             <option value="Monthly">Monthly</option>
-            <option value="Annual">Annual</option>
+            <option value="Annual">Annual</option> 
           </select>
+          
+          <div *ngIf="!validations.typeOfTicketOk" style="color:red">Please select type ticket.</div>
         </div>
       </div>
 
