@@ -32,7 +32,8 @@ export class StationsComponent implements OnInit {
 
   newStation: StationModel
   public nameOfStation: string = "";
-  id: number
+  id: number;
+  version: number;
 
 
 
@@ -65,8 +66,11 @@ export class StationsComponent implements OnInit {
       //this.route.navigate(['/station']);
       window.location.reload();
     },
-    error => {
-      alert("Station - error!");
+    err => {
+      //alert("Station - error!");
+      window.alert(err.error);
+      //window.refresh();
+      window.location.reload();
 
     });
   }
@@ -78,6 +82,7 @@ export class StationsComponent implements OnInit {
     stationData.AddressStation = this.address;
     stationData.Name = this.nameOfStation;
     stationData.Id = this.id;
+    stationData.Version = this.version;
 
     console.log(stationData);
 
@@ -86,9 +91,11 @@ export class StationsComponent implements OnInit {
       //this.route.navigate(['/station']);
       window.location.reload();
     },
-    error => {
-      alert("Station changed - error!");
-
+    err => {
+      //alert("Station changed - error!");
+      window.alert(err.error);
+      //this.refresh();
+      window.location.reload();
     });
       
   }
@@ -97,17 +104,22 @@ export class StationsComponent implements OnInit {
     this.stationService.deleteStation(this.id).subscribe(x => {
       alert("Station changed successfully")
       window.location.reload();
-
+    },
+    err=>{
+      window.alert(err.error);
+      //this.refresh();
+      window.location.reload();
     });
   }
 
-  markerDragEnd($event: MouseEvent, nameOfStation:string, id: number) {
+  markerDragEnd($event: MouseEvent, nameOfStation:string, id: number, version:number) {
     console.log($event);
      this.coordinates.latitude = $event.coords.lat;
      this.coordinates.longitude = $event.coords.lng;
      this.getAddress(this.coordinates.latitude, this.coordinates.longitude);
      this.nameOfStation = nameOfStation;
      this.id = id;
+     this.version = version;
      console.log(id);
   }
 

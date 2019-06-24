@@ -174,9 +174,11 @@ export class LinesComponent implements OnInit {
       window.location.reload();
 
     },
-    error => {
-      alert("Add line - error - already exist!");
-      console.log(lineData);
+    err => {
+      //alert("Add line - error - already exist!");
+      window.alert(err.error);
+      window.location.reload();
+      //console.log(lineData);
     })
 
     // this.lineStationService.addLine(lineData).subscribe(data => {
@@ -193,9 +195,12 @@ export class LinesComponent implements OnInit {
       window.location.reload();
 
     },
-    error => {
-      alert("Delete line - error!");
-      console.log(lineData);
+    err => {
+      //alert("Delete line - error!");
+      window.alert(err.error);
+      window.location.reload();
+
+      //console.log(lineData);
     })
   }
 
@@ -212,11 +217,16 @@ export class LinesComponent implements OnInit {
   onSubmitEdit(){
     console.log("Nove linije za edit:", this.newLineEdit);
     console.log("pozicja: ", this.addStationPosition);
-
+    //dodati za verziju
+    //this.newLineEdit.Version = this.sLineForEdit.Version;
     this.lineService.editLine(this.newLineEdit.Id, this.newLineEdit).subscribe(d=>{
       alert("Seccesfully changed line")
       window.location.reload();
 
+    },
+    err=>{
+      window.alert(err.error);
+      window.location.reload();
     })
 
   }

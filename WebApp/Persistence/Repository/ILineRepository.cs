@@ -13,11 +13,13 @@ namespace WebApp.Persistence.Repository
 
         void Delete(int id);
 
-        void AddStationsInList(int lineId, List<Station> stations);
+        string AddStationsInList(int lineId, List<Station> stations);
 
         //List<Line> LineInTimetable();
 
         Line GetIdLine(int regNumber);
+
+        bool ExistLine(int idLine);
     }
 
 }

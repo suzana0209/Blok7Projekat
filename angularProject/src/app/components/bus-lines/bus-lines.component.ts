@@ -9,6 +9,7 @@ import { PomLineModel } from 'src/app/models/pomLineModel.model';
 import { element } from 'protractor';
 import { R3TargetBinder } from '@angular/compiler';
 import { PoModelForColors } from 'src/app/models/poModelForColors.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bus-lines',
@@ -46,7 +47,7 @@ export class BusLinesComponent implements OnInit {
   
   constructor(private ngZone: NgZone, 
     private stationService: StationService,
-    private lineService: LineService) {
+    private lineService: LineService, private router:Router) {
     this.stationService.getAllStations().subscribe(a => {
       this.stations = a;
     });
@@ -145,6 +146,10 @@ export class BusLinesComponent implements OnInit {
       }
     });
     return true;
+  }
+
+  getLocation(){
+    this.router.navigateByUrl('/cvl');
   }
 
 }

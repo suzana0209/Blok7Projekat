@@ -65,5 +65,12 @@ namespace WebApp.Persistence.Repository
             }
             return retVal;
         }
+
+        public bool ExistStation(int idStation)
+        {
+            Station retStation = applicationDb.Stations.Find(idStation);
+            return (retStation != null) ? true : false;
+            //throw new NotImplementedException();
+        }
     }
 }

@@ -59,20 +59,32 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            
+
             if (id != line.Id)
             {
                 return BadRequest();
             }
 
-            
+            Line lineFromDb = _unitOfWork.Lines.Get(id);
 
-            try
+            if(lineFromDb != null)
             {
-                Line l = new Line();
+                if(lineFromDb.Version > line.Version)
+                {
+                    return Content(HttpStatusCode.Conflict, $"WARNING You are trying to edit a Line with ID {id} that has been changed recently! ");
+                }
 
-                
-                _unitOfWork.Lines.AddStationsInList(line.Id, line.ListOfStations);
+                string retMessage = _unitOfWork.Lines.AddStationsInList(line.Id, line.ListOfStations);
+
+                if(retMessage == "null")
+                {
+                    return Content(HttpStatusCode.Conflict, $"WARNING: You are trying to edit a Line with ID {id} which station has been removed! ");
+                }
+                else if(retMessage == "NotOk")
+                {
+                    return Content(HttpStatusCode.Conflict, $" You are trying to edit a Line with {id} which station has been changed! ");
+                }
+                else { }
 
                 List<Line> linesFromDbWithStations = _unitOfWork.Lines.CompleteLine().ToList();
 
@@ -90,28 +102,68 @@ namespace WebApp.Controllers
                     _unitOfWork.LineStations.Add(o);
 
                 }
-
-                
-               // _unitOfWork.Lines.Update(line);
-
+                //novo dodato
                 _unitOfWork.Complete();
 
-
-                return Ok(line.Id);
-
-                //db.Entry(line).State = EntityState.Modified;
-
-
-                //db.SaveChanges();
-
             }
-
-            catch (DbUpdateConcurrencyException)
+            else //null
             {
-                
+                return Content(HttpStatusCode.NotFound, $"WARNING Line with ID{id} that you are trying to edit either do not exist in database! ");
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            lineFromDb.Version++;
+            _unitOfWork.Lines.Update(lineFromDb);
+
+            _unitOfWork.Complete();
+
+            return Ok(lineFromDb.Id);
+
+            //try
+            //{
+            //    Line l = new Line();
+
+
+            //    _unitOfWork.Lines.AddStationsInList(line.Id, line.ListOfStations);
+            //    //provjeri message
+
+            //    List<Line> linesFromDbWithStations = _unitOfWork.Lines.CompleteLine().ToList();
+
+            //    List<LineStation> lineStations = _unitOfWork.LineStations.GetAll().Where(data => data.LineId == line.Id).ToList();
+
+            //    _unitOfWork.LineStations.RemoveRange(lineStations);
+            //    int i = 0;
+            //    foreach (Station s in line.ListOfStations)
+            //    {
+            //        i++;
+            //        LineStation o = new LineStation();
+            //        o.LineId = line.Id;
+            //        o.StationId = s.Id;
+            //        o.OrdinalNumber = i;
+            //        _unitOfWork.LineStations.Add(o);
+
+            //    }
+
+
+            //    // _unitOfWork.Lines.Update(line);
+
+            //    _unitOfWork.Complete();
+
+
+            //    return Ok(line.Id);
+
+            //    //db.Entry(line).State = EntityState.Modified;
+
+
+            //    //db.SaveChanges();
+
+            //}
+
+            //catch (DbUpdateConcurrencyException)
+            //{
+
+            //}
+
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         [Route("Add")]
@@ -123,12 +175,23 @@ namespace WebApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            if (_unitOfWork.Lines.ExistLine(line.Id))
+            {
+                return Content(HttpStatusCode.Conflict, $"WARNING Line with ID {line.Id} already exists!");
+            }
+
+            if(line.Version != 0)
+            {
+                line.Version = 0;
+            }
+
             Line newLine = new Line();
             newLine.ListOfStations = new List<Station>();
             newLine.RegularNumber = line.RegularNumber;
-            newLine.Id = line.Id;
-            
-            
+            //newLine.Id = line.Id;
+
+
             newLine.ListOfStations = new List<Station>();
 
 
@@ -140,36 +203,73 @@ namespace WebApp.Controllers
 
 
             var v = _unitOfWork.Lines.CompleteLine();
-            
 
-            List<Station> list = new List<Station>();
-            list = _unitOfWork.Stations.GetAll().ToList();
 
-            foreach (var item in list)
+            List<Station> listStationFromDb = new List<Station>();
+            listStationFromDb = _unitOfWork.Stations.GetAll().ToList();
+
+            if(listStationFromDb == null)
             {
-                if (listModel.Any(a=> a.Id == item.Id))
-                {
-                         
-                    newLine.ListOfStations.Add(item);
-                }
+                return NotFound();
             }
 
+           // newLine.ListOfStations = listModel;
+            //PRIJE BILO
+            //foreach (var item in listStationFromDb)
+            //{
+            //    if (listModel.Any(a => a.Id == item.Id))
+            //    {
+
+            //        newLine.ListOfStations.Add(item);
+            //    }
+            //}
+
+
             
-            _unitOfWork.Lines.Add(newLine);
-            _unitOfWork.Complete();
 
             List<LineStation> l = new List<LineStation>();
-            for (int i = 0; i < newLine.ListOfStations.Count; i++)
+            for (int i = 0; i < listModel.Count; i++)
             {
+                //ovdje dodajemo za verzije
+                Station stationAdd = listStationFromDb.Find(a => a.Id.Equals(listModel[i].Id));
+                if(stationAdd == null)
+                {
+                    return Content(HttpStatusCode.Conflict, $"WARNING Station with ID {listModel[i].Id} that you want to add in line has been removed!");
+                }
+                else
+                {
+                    if(stationAdd.Version > listModel[i].Version)
+                    {
+                        return Content(HttpStatusCode.Conflict, $"WARNING Station with ID {listModel[i].Id} that you want to add in line has been changed!");
+                    }
+                }
+
+
+
                 LineStation l1 = new LineStation();
                 l1.LineId = newLine.Id;
                 l1.OrdinalNumber = i + 1;
                 l1.StationId = line.ListOfStations[i].Id;
 
                 l.Add(l1);
+
+                newLine.ListOfStations.Add(listStationFromDb.Find(st=> st.Id == listModel[i].Id));
+            }
+
+            //????????????????NE MOZEEEE!
+            //newLine.ListOfStations = new List<Station>();
+
+            _unitOfWork.Lines.Add(newLine);
+            _unitOfWork.Complete();
+
+            foreach (var item in l)
+            {
+                item.LineId = newLine.Id;
             }
 
             _unitOfWork.LineStations.CompleteLine(l);
+
+            
 
             return Ok(newLine.Id);
 
@@ -201,23 +301,25 @@ namespace WebApp.Controllers
             // = db.Lines.Find(id);
 
             Line line = _unitOfWork.Lines.Get(id);
-            Vehicle v = _unitOfWork.Vehicles.Find(x => x.LineId == line.Id).FirstOrDefault();
-            v.LineId = null;
-            _unitOfWork.Vehicles.Update(v);
-            _unitOfWork.Complete();
+           // Vehicle v = _unitOfWork.Vehicles.Find(x => x.LineId == line.Id).FirstOrDefault();
+           // v.LineId = null;
+           //_unitOfWork.Vehicles.Update(v);
+           //_unitOfWork.Complete();
 
             if (line == null)
             {
-                return NotFound();
+                //return NotFound();
+                return Content(HttpStatusCode.NotFound, $" WARNING: Line with ID {id} that you are trying to delete  do not exist in database!");
             }
 
-            _unitOfWork.Lines.Remove(line);
+            // _unitOfWork.Lines.Remove(line);
+            _unitOfWork.Lines.Delete(id);
             _unitOfWork.Complete();
 
             return Ok(line);
         }
 
-        
+
 
         protected override void Dispose(bool disposing)
         {

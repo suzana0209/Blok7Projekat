@@ -12,7 +12,7 @@
                 <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18" 
                 (mapClick)="placeMarker1($event)">  
                   <agm-marker *ngFor="let station of stations" [latitude]="station.Latitude" [longitude]="station.Longitude" [title]="station.Name"
-                  [label]="" [iconUrl]="iconUrl" [markerDraggable]="isSelectedEdit()" (dragEnd)="markerDragEnd($event, station.Name, station.Id)"
+                  [label]="" [iconUrl]="iconUrl" [markerDraggable]="isSelectedEdit()" (dragEnd)="markerDragEnd($event, station.Name, station.Id, station.Version)"
                   (markerClick) = "stationClick(station.Id)">
               
                     <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->

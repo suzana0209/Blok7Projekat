@@ -30,18 +30,39 @@ namespace WebApp.Persistence.Repository
             applicationDb.Lines.RemoveRange(line);
         }
 
-        public void AddStationsInList(int lineId, List<Station> stations)
+        public string AddStationsInList(int lineId, List<Station> stations)
         {
             var line = applicationDb.Lines.Include(l => l.ListOfStations).Where(l => l.Id == lineId).FirstOrDefault();
             line.ListOfStations.Clear();
 
 
-            foreach (Station s in stations)
+            //foreach (Station s in stations)
+            //{
+            //    line.ListOfStations.Add(applicationDb.Stations.Find(s.Id));
+            //}
+
+            Station stationFromDb = new Station();
+
+            foreach (var item in stations)
             {
-                line.ListOfStations.Add(applicationDb.Stations.Find(s.Id));
+                stationFromDb = applicationDb.Stations.Find(item.Id);
+                if(stationFromDb != null)
+                {
+                    if(stationFromDb.Version > item.Version)
+                    {
+                        return "NotOk";
+                    }
+                }
+                else
+                {
+                    return "null";
+                }
+                line.ListOfStations.Add(stationFromDb);
+
             }
 
             //throw new NotImplementedException();
+            return "Ok";
         }
 
         
@@ -50,6 +71,14 @@ namespace WebApp.Persistence.Repository
         {
             List<Line> l = applicationDb.Lines.Where(p => p.RegularNumber == regNumber).ToList();
             return l[0];
+        }
+
+        public bool ExistLine(int idLine)
+        {
+            Line retLine = applicationDb.Lines.Find(idLine);
+            return (retLine != null) ? true : false;
+
+            //throw new NotImplementedException();
         }
     }
 }

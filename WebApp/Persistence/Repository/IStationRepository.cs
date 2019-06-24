@@ -10,7 +10,9 @@ namespace WebApp.Persistence.Repository
 {
     public interface IStationRepository : IRepository<Station, int>
     {
-        List<Station> AllOrderedStations(int id);
+       List<Station> AllOrderedStations(int id);
        List<PomModelForLine> All();
+
+        bool ExistStation(int idStation);
     }
 }

@@ -1,5 +1,7 @@
 <div>
     <div>
+        <!-- za cvl -->
+        
         <div class="funkyradio-danger"  *ngFor="let line of lines">
           <label for="line{{line.RegularNumber}}">Linija: {{line.RegularNumber}}</label>
           <input class="button" class="btn" type="checkbox" value = "{{line.Id}}" (click)="ShowCheckedLine($event)"/>

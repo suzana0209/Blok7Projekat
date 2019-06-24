@@ -15,5 +15,6 @@ namespace WebApp.Models.PomModels
         public int DayId { get; set; }
         public string Departures { get; set; }
         public string NewDepartures { get; set; }
+        
     }
 }
