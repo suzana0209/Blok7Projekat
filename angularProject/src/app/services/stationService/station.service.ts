@@ -40,4 +40,12 @@ export class StationService {
     return this.httpClient.get(this.baseUrl + "/api/Stations/GetIdes");
 
   }
+
+  AlredyExistStation(station){
+    return this.httpClient.post(this.baseUrl + "/api/Stations/AlredyExistStation", station);
+  }
+
+  AlredyExistsStationForEdit(station){
+    return this.httpClient.post(this.baseUrl + "/api/Stations/AlredyExistsStationForEdit", station);
+  }
 }

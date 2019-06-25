@@ -7,12 +7,14 @@ import { StationModel } from 'src/app/models/station.model';
 import { NgForm } from '@angular/forms';
 import { MapComponent } from '../map/map.component';
 import { Router } from '@angular/router';
+import { ValidForAddStationModel } from 'src/app/models/modelsForValidation/validForStation.model';
 
 @Component({
   selector: 'app-stations',
   templateUrl: './stations.component.html',
   styleUrls: ['./stations.component.css'],
   styles: ['agm-map {height: 500px; width: 700px;}']
+  //styles: ['agm-map {height: 500px; width: 80%;}']
 })
 export class StationsComponent implements OnInit {
   private selected: string = '';
@@ -34,6 +36,8 @@ export class StationsComponent implements OnInit {
   public nameOfStation: string = "";
   id: number;
   version: number;
+
+  validationsForAdd: ValidForAddStationModel = new ValidForAddStationModel();
 
 
 
@@ -61,18 +65,44 @@ export class StationsComponent implements OnInit {
     stationData.AddressStation = this.address;
 
     console.log(stationData);
-    this.stationService.addStation(stationData).subscribe(data => {
-      alert("Add Station successfull!");
-      //this.route.navigate(['/station']);
-      window.location.reload();
-    },
-    err => {
-      //alert("Station - error!");
-      window.alert(err.error);
-      //window.refresh();
-      window.location.reload();
 
-    });
+    if(this.validationsForAdd.validate(stationData)){
+      return;
+    }
+
+    this.stationService.AlredyExistStation(stationData).subscribe(a=>{
+      if(a == "Yes"){
+        alert("Station name "+ stationData.Name +" already exists! ");
+        window.location.reload();
+      }
+      else if (a == "No"){
+        this.stationService.addStation(stationData).subscribe(data => {
+          alert("Station: " +stationData.Name+ " is successfully added");
+          //this.route.navigate(['/station']);
+          window.location.reload();
+        },
+        err => {
+          //alert("Station - error!");
+          window.alert(err.error);
+          //window.refresh();
+          window.location.reload();
+    
+        });
+      }
+    })
+
+    // this.stationService.addStation(stationData).subscribe(data => {
+    //   alert("Station: " +stationData.Name+ " is successfully added");
+    //   //this.route.navigate(['/station']);
+    //   window.location.reload();
+    // },
+    // err => {
+    //   //alert("Station - error!");
+    //   window.alert(err.error);
+    //   //window.refresh();
+    //   window.location.reload();
+
+    // });
   }
 
   onSubmitEdit(stationData: StationModel, form: NgForm){
@@ -86,30 +116,66 @@ export class StationsComponent implements OnInit {
 
     console.log(stationData);
 
-    this.stationService.editStation(stationData).subscribe(data => {
-      alert("Station changed successfully!");
-      //this.route.navigate(['/station']);
-      window.location.reload();
-    },
-    err => {
-      //alert("Station changed - error!");
-      window.alert(err.error);
-      //this.refresh();
-      window.location.reload();
-    });
+    if(this.validationsForAdd.validate(stationData)){
+      return;
+    }
+
+    this.stationService.AlredyExistsStationForEdit(stationData).subscribe(aa=>{
+      if(aa == "Yes"){
+        alert("On adress alredy exists station!");
+        window.location.reload();
+        //return;
+      }
+      else if(aa == "No"){
+        this.stationService.editStation(stationData).subscribe(data => {
+          alert("Station changed successfully!");
+          //this.route.navigate(['/station']);
+          window.location.reload();
+        },
+        err => {
+          //alert("Station changed - error!");
+          window.alert(err.error);
+          //this.refresh();
+          window.location.reload();
+        });
+      }
+    })
+
+    // this.stationService.editStation(stationData).subscribe(data => {
+    //   alert("Station changed successfully!");
+    //   //this.route.navigate(['/station']);
+    //   window.location.reload();
+    // },
+    // err => {
+    //   //alert("Station changed - error!");
+    //   window.alert(err.error);
+    //   //this.refresh();
+    //   window.location.reload();
+    // });
       
   }
 
   onSubmitDelete(stationData: StationModel, form:NgForm){
-    this.stationService.deleteStation(this.id).subscribe(x => {
-      alert("Station changed successfully")
+
+    console.log("Stanicaaa: ", stationData);
+
+    if(this.id == null || this.id == undefined){
+      alert("please select the station that you want to delete!");
+      //return;
       window.location.reload();
-    },
-    err=>{
-      window.alert(err.error);
-      //this.refresh();
-      window.location.reload();
-    });
+    }
+    else{
+      this.stationService.deleteStation(this.id).subscribe(x => {
+        alert("Station with ID="+ this.id +" is successful deleted! ")
+        window.location.reload();
+      },
+      err=>{
+        window.alert(err.error);
+        //this.refresh();
+        window.location.reload();
+      });
+    }
+    
   }
 
   markerDragEnd($event: MouseEvent, nameOfStation:string, id: number, version:number) {
