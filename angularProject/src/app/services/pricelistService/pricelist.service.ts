@@ -47,4 +47,8 @@ export class PricelistService {
     return this.httpClient.post(this.base_url+"/api/Pricelist/Calculate",pomModel);
   }
 
+  CheckDateTime(pom){
+    return this.httpClient.post(this.base_url + "/api/Pricelist/CheckDateTime", pom);
+  }
+
 }

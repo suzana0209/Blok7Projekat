@@ -92,6 +92,18 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Route("CheckDateTime")]
+        public string CheckDateTime(PriceList pom)
+        {
+
+
+            string s =  (((DateTime.Parse(pom.FromTime.ToString()) < DateTime.Today) ||
+                (DateTime.Parse(pom.ToTime.ToString()) < DateTime.Today)) ? "No" : "Yes");
+
+            return s;
+            
+        }
+
         // POST: api/PriceLists
         [Route("Add")]
         [ResponseType(typeof(PriceList))]
@@ -101,6 +113,14 @@ namespace WebApp.Controllers
             {
                 return false;
             }
+
+            if(CheckDateTime(ticketPrices.PriceList) == "No")
+            {
+                return false;
+            }
+
+            //provjeri da li postoji isti cjenovnik, onda ne vrsi dodavanje
+            //POSLIJE ODRADITI
 
             PriceList priceList = new PriceList();
             priceList = ticketPrices.PriceList;

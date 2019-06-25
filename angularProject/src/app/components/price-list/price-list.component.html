@@ -1,16 +1,18 @@
 
-<div *ngIf="LoggedAdmin()">
+<div *ngIf="LoggedAdmin()" align="center">
      <h3>Currently active pricelist</h3>   <!--Poruka ako ne postoji cjenovnik! -->
 
     <h4 *ngIf="priceList" >From: {{priceList.FromTime.split('T')[0]}}</h4>  
     <h4 *ngIf="priceList">To: {{priceList.ToTime.split('T')[0]}}</h4><br/> 
 
-      <div *ngIf="validPrices"> 
-        <h4>TimeLimited ticket: {{validPrices.TimeLimited}} din.</h4>
-        <h4>Daily ticket:{{validPrices.Daily}} din.</h4>
-        <h4>Monthly ticket: {{validPrices.Monthly}} din.</h4>
-        <h4>Annual ticket: {{validPrices.Annual}} din.</h4>
+      <div *ngIf="validPricesForShow"> 
+        <h4>TimeLimited ticket: {{validPricesForShow.TimeLimited}} din.</h4>
+        <h4>Daily ticket:{{validPricesForShow.Daily}} din.</h4>
+        <h4>Monthly ticket: {{validPricesForShow.Monthly}} din.</h4>
+        <h4>Annual ticket: {{validPricesForShow.Annual}} din.</h4>
       </div>
+      <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Edit currently price list</button>
+    
     </div>  
 
 
@@ -46,17 +48,37 @@
             <label *ngIf = "showLabel" align="center">Price for selected ticket: {{retPrice.Id}} din.</label>
       </div>
 
-<div *ngIf="LoggedAdmin()">
+<div *ngIf="LoggedAdmin() && showPriceInInput">
   <form #ticketPricesForm="ngForm" (ngSubmit)="onSubmit1(ticketPricesForm.value,ticketPricesForm)">
     <div *ngIf="validPrices"> 
       <label>TimeLimited ticket:</label>
       <input type="number" name="TimeLimited"  class="form-group"  class="form-control"   [(ngModel)] = "validPrices.TimeLimited"> <br/>
+      <!---->
+      <div *ngIf="!validationsForPrice.timeLimitedOk" style="color:red">The price of time limited ticket can't be empty.</div>      
+      <div *ngIf="!validationsForPrice.timeLimitedOk0" style="color:red">The price of time limited ticket must not be zero.</div>
+      <div *ngIf="!validationsForPrice.timeLimitedOkMinus" style="color:red">The price of time limited ticket must not be less than zero.</div>
+        
       <label>Daily ticket:</label>
       <input type="number" name="Daily"  class="form-group"  class="form-control"  [(ngModel)] = "validPrices.Daily"><br/>
+      <div *ngIf="!validationsForPrice.dailyOk" style="color:red">The price of daily ticket can't be empty.</div>      
+      <div *ngIf="!validationsForPrice.dailyOk0" style="color:red">The price of daily ticket must not be zero.</div>
+      <div *ngIf="!validationsForPrice.dailyOkMinus" style="color:red">The price of daily ticket must not be less than zero.</div>
+        
+
       <label>Monthly ticket:</label>
       <input type="number" name="Monthly"  class="form-group"  class="form-control"  [(ngModel)] = "validPrices.Monthly"><br/>
+      <div *ngIf="!validationsForPrice.monthlyOk" style="color:red">The price of monthly ticket can't be empty.</div>      
+      <div *ngIf="!validationsForPrice.monthlyOk0" style="color:red">The price of monthly ticket must not be zero.</div>
+      <div *ngIf="!validationsForPrice.mohtlyOkMinus" style="color:red">The price of monthly ticket must not be less than zero.</div>
+        
+
       <label>Annual ticket:</label>
       <input type="number" name="Annual"  class="form-group"  class="form-control" [(ngModel)] = "validPrices.Annual"><br/>
+      <div *ngIf="!validationsForPrice.annualOk" style="color:red">The price of annual ticket can't be empty.</div>      
+      <div *ngIf="!validationsForPrice.annualOk0" style="color:red">The price of annual ticket must not be zero.</div>
+      <div *ngIf="!validationsForPrice.annualOkMinus" style="color:red">The price of annual ticket must not be less than zero.</div>
+        
+      
       <button *ngIf="!datumVazenjaBool"  class="btn" type="submit" class="button">Add new prices</button>
     </div>
   </form>
@@ -65,10 +87,15 @@
     <form #pricelistForm="ngForm" (ngSubmit)="onSubmit(pricelistForm.value,pricelistForm)">
         <div>
           <label>Start of validity:</label>
-          <input type="date" name="FromTime" ngModel><br/>
+          <input type="date" name="FromTime" [min]= "datePickerId" ngModel><br/>
+          <div *ngIf="!validationsForDate.fromTimeOk" style="color:red">Date can't be empty.</div>
+          <!--validationsForDate-->
+          
           <label>End of validity:</label>
-          <input type="date" name="ToTime" ngModel><br/>
-          <button type="submit" class="btn" class="button">Add validity of pricelist</button>
+          <input type="date" name="ToTime" [min]="datePickerId" ngModel><br/>
+          <div *ngIf="!validationsForDate.toTimeOk" style="color:red">Date can't be empty.</div>
+          
+          <button type="submit" class="btn" class="button">Add pricelist</button>
         </div>
       </form>
   </div>

@@ -4,7 +4,7 @@ import { PricelistService } from 'src/app/services/pricelistService/pricelist.se
 import { PriceListModel } from 'src/app/models/priceList.model';
 import { NgForm } from '@angular/forms';
 import { PomModelForPriceList } from 'src/app/models/pomModelForPriceList.model';
-import { ValidForPriceListModel } from 'src/app/models/modelsForValidation/validForPriceList.model';
+import { ValidForPriceListModel, ValidForPriceModel, ValidForDateTimeInPriceList } from 'src/app/models/modelsForValidation/validForPriceList.model';
 
 @Component({
   selector: 'app-price-list',
@@ -17,6 +17,8 @@ export class PriceListComponent implements OnInit {
   ticketPricesPom: TicketPricesPomModel = new TicketPricesPomModel(0,0,0,0,0,new PriceListModel(new Date(),new Date(),0, []));
   datumVazenjaBool: boolean = false;
   validPrices: TicketPricesPomModel;
+  validPricesForShow: TicketPricesPomModel;
+
   selectedTicket: string = "";
   selectedPassanger: string = "";
   showLabel: boolean = false;
@@ -25,11 +27,19 @@ export class PriceListComponent implements OnInit {
 
   retPrice: any;
   validations: ValidForPriceListModel = new ValidForPriceListModel();
+  showPriceInInput:boolean = false;
+  validationsForPrice: ValidForPriceModel = new ValidForPriceModel();
+  validationsForDate: ValidForDateTimeInPriceList = new ValidForDateTimeInPriceList();
+  datePickerId: any;
+
+  priceListModelForCheckDatum: PriceListModel = new PriceListModel(new Date(),new Date(),0, []);
 
   constructor( private pricelistServ: PricelistService) { 
+    this.datePickerId = new Date().toISOString().split('T')[0];
+    this.showPriceInInput = false;
     this.pricelistServ.getPricelist().subscribe(data => {  
       if(data == null){
-        alert("There is not price list!");
+        alert("There is not currently active price list!");
         return;
       }    
       this.priceList = data; 
@@ -37,24 +47,29 @@ export class PriceListComponent implements OnInit {
       
       console.log("Data list from db: ",data);
 
-       this.validPrices = new TicketPricesPomModel(0,0,0,0,0,new PriceListModel(new Date(),new Date(),0, []))
+       this.validPrices = new TicketPricesPomModel(0,0,0,0,0,new PriceListModel(new Date(),new Date(),0, []));
+       this.validPricesForShow = new TicketPricesPomModel(0,0,0,0,0,new PriceListModel(new Date(),new Date(),0, []));
        this.priceList.ListOfTicketPrices.forEach(element => {
 
         if(element.TypeOfTicketId == 2)
         {
           this.validPrices.Daily = element.Price;
+          this.validPricesForShow.Daily = element.Price;
         }
         if(element.TypeOfTicketId == 1)
         {
           this.validPrices.TimeLimited = element.Price;
+          this.validPricesForShow.TimeLimited = element.Price;
         }
         if(element.TypeOfTicketId == 3)
         {
           this.validPrices.Monthly = element.Price;
+          this.validPricesForShow.Monthly = element.Price;
         }
         if(element.TypeOfTicketId == 4)
         {
           this.validPrices.Annual = element.Price;
+          this.validPricesForShow.Annual = element.Price;
         }        
       });
      });
@@ -65,12 +80,55 @@ export class PriceListComponent implements OnInit {
   }
 
   onSubmit(pm: PriceListModel, form: NgForm){
-    let priceL : any;
-    let bol : boolean = false;
-    this.ticketPricesPom.PriceList = pm;
+    
+    console.log("PM: ", pm);
+    if(this.validationsForDate.validate(pm)){
+      return;
+    }
+    // let datee = pm.FromTime.toString().split('T')[0];
+    // let newDate = new Date(datee);
+    // this.priceListModelForCheckDatum.FromTime = newDate;
+
+    // let newDate1 = new Date(pm.ToTime.toString().split('T')[0]);
+    // this.priceListModelForCheckDatum.ToTime = newDate1;
+
+    this.pricelistServ.CheckDateTime(pm).subscribe(a=>{
+      if(a == "No"){
+        alert("Date is invalid!");
+        //window.location.reload();
+        return;
+      }else if(a == "Yes"){
+        this.ticketPricesPom.PriceList = pm;
     this.pricelistServ.addPricelist(this.ticketPricesPom).subscribe( x =>{
-      console.log(x);
+      if(x){
+        alert("Price list succesfull added!");
+        window.location.reload();
+      }
+      else{
+        alert("Erorr!");
+        window.location.reload();
+      }
+      //console.log(x);
     })
+
+      }
+    })
+
+    //let priceL : any;
+    //let bol : boolean = false;
+    // this.ticketPricesPom.PriceList = pm;
+    // this.pricelistServ.addPricelist(this.ticketPricesPom).subscribe( x =>{
+    //   if(x){
+    //     alert("Price list succesfull added!");
+    //   }
+    //   else{
+    //     alert("Erorr!");
+    //   }
+    //   //console.log(x);
+    // })
+
+
+
     // bol = this.pricelistServ.addPricelist(pm).subscribe()
     //     if(bol){
     //      priceL =  this.pricelistServ.getPricelistLast().subscribe();
@@ -82,6 +140,9 @@ export class PriceListComponent implements OnInit {
     //     }
       }
       onSubmit1(pm: TicketPricesPomModel, form: NgForm){
+        if(this.validationsForPrice.validate(pm)){
+          return;
+        }
         this.ticketPricesPom = pm;
         this.datumVazenjaBool = true;
        // this.pricelistServ.addTicketPrices(pm).subscribe();
@@ -135,6 +196,10 @@ export class PriceListComponent implements OnInit {
       console.log("Ret: ", this.retPrice);
       
     });
-  }  
+  } 
+  
+  editPricelistClick(){
+    this.showPriceInInput = true;
+  }
 
 }
