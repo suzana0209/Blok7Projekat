@@ -17,8 +17,8 @@
 
           <!-- Svakom markeru dodajemo info-window (Nije obavezno!) -->
           <agm-info-window [latitude]="station.Latitude" [longitude]="station.Longitude" >
-            <span style="font-family:'Times New Roman'; color:gray;"><strong>{{station.Name}}</strong></span>
-            <span style="font-family:'Times New Roman'; color:gray;"><strong>{{station.AddressStation}}</strong></span>
+            <span style="font-family:'Times New Roman'; color:gray;"><strong>Station name:{{station.Name}}</strong></span><br>
+            <span style="font-family:'Times New Roman'; color:gray;"><strong>Station address:{{station.AddressStation}}</strong></span>
             <!-- <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span> -->
             <!-- <a [href]="markerInfo.link">See the site.</a> -->
           </agm-info-window>

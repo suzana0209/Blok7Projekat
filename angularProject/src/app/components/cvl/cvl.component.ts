@@ -7,6 +7,7 @@ import { MapsAPILoader } from '@agm/core';
 import { LineService } from 'src/app/services/lineService/line.service';
 import { NotificationForCvlService } from 'src/app/services/notificationForCvlService/notification-for-cvl.service';
 import { ForCvlService } from 'src/app/services/forCvlService/for-cvl.service';
+import { StationService } from 'src/app/services/stationService/station.service';
 
 @Component({
   selector: 'app-cvl',
@@ -38,6 +39,7 @@ export class CvlComponent implements OnInit {
   longitude : number;
   // latitude: string = ""
   // longitude: string = ""
+  pomm: any = []
 
   marker: MarkerInfo = new MarkerInfo(new GeoLocation(this.startLat,this.startLon),"","","","");
 
@@ -47,7 +49,7 @@ export class CvlComponent implements OnInit {
   constructor(private mapsApiLoader : MapsAPILoader,private notifForBL : NotificationForCvlService, 
     private ngZone: NgZone, 
     private lineService : LineService, 
-    private clickService : ForCvlService) {
+    private clickService : ForCvlService, private stationsService: StationService) {
     this.isConnected = false;
     this.notificationBus = [];
    }
@@ -74,16 +76,26 @@ export class CvlComponent implements OnInit {
 
   getStationsByLineNumber(regularNumber : string){
     console.log("Linije iz baze: ", this.options1);
+
+    //this.stationsService.getOrderedStation(line.id)
+    //let pomm = [];
     this.options1.forEach(element => {
       if(element.RegularNumber == regularNumber)
       {
-        this.stations = element.ListOfStations;
+        this.stationsService.getOrderedStations(element.Id).subscribe(aaa=> {
+          this.pomm = aaa;
+          console.log("POooomm station", this.pomm);
+
+          this.stations = this.pomm;
+        //this.stations = element.ListOfStations;
         console.log("Stanice iz linije: ", this.stations);
         for(var i=0; i<this.stations.length; ++i){
           this.polyline.addLocation(new GeoLocation(this.stations[i].Latitude, this.stations[i].Longitude));
         }
         console.log(this.stations);
         this.clickService.click(this.stations).subscribe();
+        })
+        
       }
     });
    

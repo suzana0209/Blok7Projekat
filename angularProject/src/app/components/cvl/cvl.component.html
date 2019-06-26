@@ -40,8 +40,19 @@
     <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
     </agm-marker>
 
-    <agm-marker *ngFor="let m of stations" [latitude]="m.Lat" [longitude]="m.Lon" [title]="m.Name" [iconUrl]="busImgIcon" label="">
+    <!-- <agm-marker *ngFor="let m of stations" [latitude]="m.Lat" [longitude]="m.Lon" [title]="m.Name" [iconUrl]="busImgIcon" label="">
+        
+    </agm-marker> -->
 
+    <agm-marker *ngFor="let station of stations" [latitude]="station.Latitude" [longitude]="station.Longitude" 
+    [title]="station.Name" [iconUrl]="busImgIcon" label="">
+         <!-- Svakom markeru dodajemo info-window (Nije obavezno!) -->
+         <agm-info-window [latitude]="station.Latitude" [longitude]="station.Longitude" >
+          <span style="font-family:'Times New Roman'; color:gray;"><strong>Station name:{{station.Name}}</strong></span><br>
+          <span style="font-family:'Times New Roman'; color:gray;"><strong>Station address:{{station.AddressStation}}</strong></span>
+          <!-- <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span> -->
+          <!-- <a [href]="markerInfo.link">See the site.</a> -->
+        </agm-info-window>
     </agm-marker>
 
     <agm-marker *ngIf="latitude && longitude" [latitude]="latitude" [longitude]="longitude" [iconUrl]="autobusImgIcon" label="">
