@@ -37,10 +37,11 @@
 
   <div *ngIf="!nonRegister() && nonActivated() && !requestDeny()">
     <br><br>
-    <label>History of buying ticket!</label><br>
+    <!--Niste kupili ni jednu kartu-->
+    <h3>{{listOfBuyingTicket.length != 0 ? 'History of buying ticket' : 'You did not buy any tickets!'}}!</h3><br>
 
     <table border="1">
-      <tr>
+      <tr *ngIf="listOfBuyingTicket.length">
         <td>Id ticket</td>
         <td>Type of ticket</td>
         <td>Purchase date</td>

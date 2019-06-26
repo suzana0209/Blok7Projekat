@@ -17,7 +17,7 @@
         <button type="submit" class="button" class="btn" (click)='showEdit()'>Change Profile</button>
         <input  type="file" class="button" class="btn" (change)="onFileSelected($event)" *ngIf="studentOrPensioner" value="Choose image">
 
-        <button *ngIf="showApplyButton" type="submit" class="button" class="btn" (click)='ApplyImage()'>Apply image</button>
+        <button *ngIf="showApplyButton" type="submit" class="button" class="btn btn-primary" (click)='ApplyImage()'>Apply image</button>
 
 </div>
 

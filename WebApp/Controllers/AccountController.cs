@@ -194,7 +194,7 @@ namespace WebApp.Controllers
 
             string s = (app != null) ? "Yes" : "No";
 
-            if (app.Id == model.Id)
+            if (app != null && app.Id == model.Id)
                 s = "No";
 
             

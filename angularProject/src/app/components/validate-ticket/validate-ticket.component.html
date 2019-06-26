@@ -1,6 +1,6 @@
 
-<label *ngIf="!pomBool && !denyController"> Controller not authorized by admin! Your request is processed! </label>
-<label *ngIf="denyController">Your request has been denied!</label>
+<label *ngIf="!pomBool && !denyController"> You are not authorized by admin! Your request is processed! </label>
+<label *ngIf="denyController">You are not authorized by admin! Your request has been denied!</label>
 
 <!-- <div *ngIf="pomBool">
 <label>Ticket ID:</label>
@@ -25,7 +25,10 @@
 
 <div *ngIf="pomBool"> 
   <label>Ticket ID:</label> <br><br>
-  <input class="form-group"  class="form-control" type="number" name="ticketId" [(ngModel)]="inputIdTicket"><br><br>
+  <input class="form-group"  class="form-control" type="number" name="ticketId" [(ngModel)]="inputIdTicket">
+  <div *ngIf="!validations.ticketIdOk" style="color:red">Ticket id can't be empty!</div>
+  
+  <br><br><br>
   <button name="butoon1" class="button" class="btn btn-primary" (click)="CheckTicket(inputIdTicket)">Check ticket</button>
 </div>
 

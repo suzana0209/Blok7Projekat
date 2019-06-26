@@ -196,7 +196,7 @@ export class LinesComponent implements OnInit {
 
     this.lineService.AlredyExistRegularNumber(lineData).subscribe(a=>{
       if(a == "Yes"){
-        alert("Line number alredy exists");
+        alert("Line number: "+ lineData.RegularNumber +" alredy exists!");
         window.location.reload();
       }
       else if(a == "No"){
@@ -286,9 +286,9 @@ export class LinesComponent implements OnInit {
   //   }
 
   onSubmitEdit(){
-    if(this.validationsForEdit.validate(this.idAdded, this.addStationPosition)){
-      return;
-    }
+    // if(this.validationsForEdit.validate(this.idAdded, this.addStationPosition)){
+    //   return;
+    // }
 
     console.log("Nove linije za edit:", this.newLineEdit);
     console.log("pozicja: ", this.addStationPosition);

@@ -6,6 +6,7 @@ import { AuthenticationService } from 'src/app/services/authentication-service.s
 import { UsersService } from 'src/app/services/users/users.service';
 import { error } from 'console';
 import { BuyTicketService } from 'src/app/services/buyTicketService/buy-ticket.service';
+import { ValidForValidateTicketModel } from 'src/app/models/modelsForValidation/validForValidateTicket.model';
 
 @Component({
   selector: 'app-validate-ticket',
@@ -32,6 +33,7 @@ export class ValidateTicketComponent implements OnInit {
 
   nameOfCustomerMessage: string = "";
   denyController: boolean = false;
+  validations: ValidForValidateTicketModel = new ValidForValidateTicketModel();
   
 
 
@@ -226,7 +228,18 @@ export class ValidateTicketComponent implements OnInit {
   // }
 
   CheckTicket(idTicket: any){
+
+    //let idTicke = idTicket.toString();
+    
+    if(idTicket == undefined){
+      idTicket = "";
+    }
+
     this.modelHelp.Id = idTicket.toString();
+
+    if(this.validations.validate(this.modelHelp)){
+      return;
+    }
     this.buyTicketService.validateTicket(this.modelHelp).subscribe(data=>{
       console.log("Poruka: ", data);
       this.buyTicketService.GetNameOfCustomer(idTicket).subscribe(dd=>{
@@ -234,8 +247,8 @@ export class ValidateTicketComponent implements OnInit {
         console.log("Nameeee", this.nameOfCustomer);
 
         //this.nameOfCustomerMessage = this.nameOfCustomer.toString() + " bought the ticket!";
-        this.nameOfCustomerMessage = this.nameOfCustomer.toString() +
-          ((this.nameOfCustomer.toString() == "Nobody") ? " -> :(" : " bought the ticket!");
+        this.nameOfCustomerMessage = (this.nameOfCustomer.toString() != "Nobody") ? this.nameOfCustomer.toString() +  " bought the ticket!" : "" ;
+          //((this.nameOfCustomer.toString() == "Nobody") ?  ("")   : " bought the ticket!");
       
       })
       this.ticketMessage = data.toString() + ".";
