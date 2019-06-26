@@ -14,7 +14,7 @@
 
 <div align="center">
         <button type="submit" class="button" class="btn" (click)='showPassword()'>Change Password</button>
-        <button type="submit" class="button" class="btn" (click)='showEdit()'>Changde Profile</button>
+        <button type="submit" class="button" class="btn" (click)='showEdit()'>Change Profile</button>
         <input  type="file" class="button" class="btn" (change)="onFileSelected($event)" *ngIf="studentOrPensioner" value="Choose image">
 
         <button *ngIf="showApplyButton" type="submit" class="button" class="btn" (click)='ApplyImage()'>Apply image</button>
@@ -26,39 +26,54 @@
         <div class="form-group">
             <label for="email">Email address</label>
             <input required type="email" class="form-control" name="Email" placeholder="Email"  [(ngModel)]="userForEdit.Email">
+            <div *ngIf="!validations.emailOk" style="color:red">Email can't be empty.</div>
+            <div *ngIf="!validations.emailOk1" style="color:red">Email must have '@' character! </div>
+    
         </div>
           
         <div class="form-group">
             <label for="Name">Name</label>
             <input required type="text" class="form-control" name="Name" placeholder="Name" [(ngModel)]="userForEdit.Name">
+            <div *ngIf="!validations.nameOk" style="color:red">Name can't be empty.</div>
+      
         </div>
 
         <div class="form-group">
             <label for="LastName">Last Name</label>
             <input required type="text" class="form-control" name="LastName" placeholder="LastName" [(ngModel)]="userForEdit.LastName">
+            <div *ngIf="!validations.lastNameOk" style="color:red">LastName can't be empty.</div>
+     
         </div>
 
         <div class="form-group">
             <label for="City">City</label>
             <input required type="text" class="form-control" name="City" placeholder="City" [(ngModel)]="userForEdit.City">
+            <div *ngIf="!validations.cityOk" style="color:red">City can't be empty.</div>
+      
         </div>
 
         <div class="form-group">
             <label for="Street">Street</label>
             <input required type="text" class="form-control" name="Street" placeholder="Street" [(ngModel)]="userForEdit.Street">
+            <div *ngIf="!validations.streetOk" style="color:red">Street can't be empty.</div>
+      
         </div>
 
         <div class="form-group">
             <label for="Number">Number</label>
             <input required type="text" class="form-control" name="Number" placeholder="Number" [(ngModel)]="userForEdit.Number">
+            <div *ngIf="!validations.numberOk" style="color:red">Number can't be empty.</div>
+     
         </div>
 
         <div class="form-group">
             <label for="Birthaday">Birthaday</label>
             <input required type="date" class="form-control" name="Birthaday" placeholder="dd/mm/yyyy" [(ngModel)]="userForEdit.Birthaday">
+            <div *ngIf="!validations.birthadayOk" style="color:red">Birthaday can't be empty.</div>
+     
         </div>
 
-       <button type="submit" class="nav-link" class="btn">Edit user information</button>
+       <button type="submit" class="nav-link" class="btn btn-primary">Edit user information</button>
 
     </form>
 </div>
@@ -69,18 +84,25 @@
         <div class="form-group">
             <label for="OldPassword">Old Password</label>
             <input required type="password" class="form-control" name="OldPassword" placeholder="Password" ngModel>
+            <!--validationsForPass-->
+            <div *ngIf="!validationsForPass.oldPasswordOk" style="color:red">Old password can't be empty.</div>
+     
         </div>
 
         <div class="form-group">
             <label for="NewPassword">New Password</label>
             <input required type="password" class="form-control" name="NewPassword" placeholder="Password" ngModel>
+            <div *ngIf="!validationsForPass.newPasswordOk" style="color:red">New password can't be empty.</div>
+     
         </div> 
             
         <div class="form-group">
             <label for="ConfirmPassword">Confirm Password</label>
             <input required type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" ngModel>
+            <div *ngIf="!validationsForPass.confirmPasswordOk" style="color:red">Confirm password can't be empty.</div>
+     
         </div>
 
-        <button type="submit" class="nav-link" class="btn">Change password</button>
+        <button type="submit" class="nav-link" class="btn btn-primary">Change password</button>
     </form>
 </div>

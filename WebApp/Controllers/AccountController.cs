@@ -162,6 +162,12 @@ namespace WebApp.Controllers
             ApplicationUser result1 =  UserManager.FindById(appUser.Id);
             result1.UserName = result1.Email;
 
+            //dodato za provjeru
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
 
             // IdentityResult result = await UserManager.UpdateAsync(applicationUser);
             //IdentityResult result2 = await _userManager.UpdateAsync(result1);
@@ -172,6 +178,31 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        [Route("CheckPasswordForChange")]
+        public string CheckPasswordForChange(ChangePasswordBindingModel pom)
+        {
+            //ovo nije zavrseno
+            return "Yes";
+        }
+        
+
+        [Route("EmailExistForProfile")]
+        public string EmailExistForProfile(PomAppUser model)
+        {
+            AppUser app = _unitOfWork.AppUsers.Find(a => a.Email == model.Email).FirstOrDefault();
+
+            string s = (app != null) ? "Yes" : "No";
+
+            if (app.Id == model.Id)
+                s = "No";
+
+            
+
+            return s;
+
+        }
+
         #endregion
 
         #region PasswordRegion

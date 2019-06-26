@@ -55,5 +55,9 @@ export class UsersService{
       return this.httpClient.post(this.baseUrl + "/api/AppUser/EmailAlreadyExists", registrationData);
     }
 
+    EmailExistForProfile(profileModel){
+      return this.httpClient.post(this.baseUrl + "/api/Account/EmailExistForProfile", profileModel);
+    }
+
    
 }

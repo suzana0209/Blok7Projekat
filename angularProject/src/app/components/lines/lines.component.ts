@@ -13,6 +13,8 @@ import { LineStationModel } from 'src/app/models/lineStation.model';
 import { LineStationService } from 'src/app/services/lineStationService/line-station.service';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { PomLineModel } from 'src/app/models/pomLineModel.model';
+import { ValidForLineModel, ValidForEditLineModel } from 'src/app/models/modelsForValidation/validForLineModel.model';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-lines',
@@ -89,6 +91,14 @@ export class LinesComponent implements OnInit {
   addStation: StationModel;
   addStationPosition: number;
   idAdded: number;
+
+  validationsForAdd: ValidForLineModel = new ValidForLineModel();
+  validationsForEdit: ValidForEditLineModel = new ValidForEditLineModel();
+  showListOfStations: boolean = false;
+
+  boolBezvezeZaPoruku: boolean = false;
+  boolBezvezeZaPorukuDenied: boolean = false;
+  userPom: any;
   
 
   iconUrl: any = {url: "assets/busicon.png", scaledSize: {width: 50, height:50}}
@@ -96,7 +106,19 @@ export class LinesComponent implements OnInit {
   constructor(private ngZone: NgZone, private mapsApiLoader : MapsAPILoader , 
     private stationService: StationService, 
     private lineService: LineService, 
-    private lineStationService: LineStationService) { 
+    private lineStationService: LineStationService, private userService: UsersService) { 
+
+      this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
+        console.log("Userrr: ", a);
+        if(a != null && a != undefined){
+          
+          this.userPom = a;
+          this.boolBezvezeZaPoruku = this.userPom.Activated;
+          this.boolBezvezeZaPorukuDenied = this.userPom.Deny; 
+        }
+        
+      })
+
     this.stationService.getAllStations().subscribe(data => {
       this.stations = data;
       this.allStationFromDb = data
@@ -168,18 +190,43 @@ export class LinesComponent implements OnInit {
   onSubmit(lineData: LineModel, form: NgForm){
     lineData.ListOfStations = this.selectedStations;
 
-    console.log(lineData);
-    this.lineService.addLine(lineData).subscribe(data => {
-      alert("Add line successfull!");
-      window.location.reload();
+    if(this.validationsForAdd.validate(lineData)){
+      return;
+    }
 
-    },
-    err => {
-      //alert("Add line - error - already exist!");
-      window.alert(err.error);
-      window.location.reload();
-      //console.log(lineData);
+    this.lineService.AlredyExistRegularNumber(lineData).subscribe(a=>{
+      if(a == "Yes"){
+        alert("Line number alredy exists");
+        window.location.reload();
+      }
+      else if(a == "No"){
+        console.log(lineData);
+        this.lineService.addLine(lineData).subscribe(data => {
+        alert("Line "+ lineData.RegularNumber +" successful added!");
+        window.location.reload();
+
+      },
+      err => {
+        //alert("Add line - error - already exist!");
+        window.alert(err.error);
+        window.location.reload();
+        //console.log(lineData);
+        })
+      }
     })
+
+    // console.log(lineData);
+    // this.lineService.addLine(lineData).subscribe(data => {
+    //   alert("Add line successfull!");
+    //   window.location.reload();
+
+    // },
+    // err => {
+    //   //alert("Add line - error - already exist!");
+    //   window.alert(err.error);
+    //   window.location.reload();
+    //   //console.log(lineData);
+    // })
 
     // this.lineStationService.addLine(lineData).subscribe(data => {
     //   alert("Add lineStation successfull!");
@@ -190,18 +237,42 @@ export class LinesComponent implements OnInit {
   }
 
   onSubmitDelete(lineData: LineModel, form:NgForm){
-    this.lineService.deleteLine(this.selectedLine.Id).subscribe(data => {
-      alert("Delete line successfull!");
-      window.location.reload();
+    console.log("Line for delete: ", lineData);
 
-    },
-    err => {
-      //alert("Delete line - error!");
-      window.alert(err.error);
-      window.location.reload();
+    if(this.validationsForAdd.validateForDelete(lineData)){
+      return;
+    }
+    // if(this.selectedLine.Id == null || this.selectedLine.Id == null){
+    //   alert("Please select line for delete!");
+    //   window.location.reload();
+    // }
+    // else{
+      this.lineService.deleteLine(this.selectedLine.Id).subscribe(data => {
+        alert("Line with Number="+ lineData.RegularNumber +" successful delted!");
+        window.location.reload();
+  
+      },
+      err => {
+        //alert("Delete line - error!");
+        window.alert(err.error);
+        window.location.reload();
+  
+        //console.log(lineData);
+      })
+    //}
 
-      //console.log(lineData);
-    })
+    // this.lineService.deleteLine(this.selectedLine.Id).subscribe(data => {
+    //   alert("Delete line successfull!");
+    //   window.location.reload();
+
+    // },
+    // err => {
+    //   //alert("Delete line - error!");
+    //   window.alert(err.error);
+    //   window.location.reload();
+
+    //   //console.log(lineData);
+    // })
   }
 
   // onSubmitEdit(lineData: LineModel, form:NgForm){
@@ -215,12 +286,16 @@ export class LinesComponent implements OnInit {
   //   }
 
   onSubmitEdit(){
+    if(this.validationsForEdit.validate(this.idAdded, this.addStationPosition)){
+      return;
+    }
+
     console.log("Nove linije za edit:", this.newLineEdit);
     console.log("pozicja: ", this.addStationPosition);
     //dodati za verziju
     //this.newLineEdit.Version = this.sLineForEdit.Version;
     this.lineService.editLine(this.newLineEdit.Id, this.newLineEdit).subscribe(d=>{
-      alert("Seccesfully changed line")
+      alert("Line with ID="+ this.newLineEdit.Id +" successful changed!")
       window.location.reload();
 
     },
@@ -258,6 +333,9 @@ export class LinesComponent implements OnInit {
   showLinesForChange(event: any){
     //this.showComboBoxForAddSt = true;
     this.lineForEditString = event.target.value;
+    if(this.lineForEditString != null && this.lineForEditString != undefined){
+      this.showListOfStations = true;
+    }
     this.allLinesForEditFromDb.forEach(element => {
       if(element.RegularNumber == this.lineForEditString){
         this.sLineForEdit = element;
@@ -357,6 +435,11 @@ export class LinesComponent implements OnInit {
   // }
 
   finallyAdd(){
+    //validacija za stanicu i poziciju
+    if(this.validationsForEdit.validate(this.idAdded, this.addStationPosition)){
+      return;
+    }
+
     console.log("Prije dodaavanja", this.newLineEdit);
       this.restStation.forEach(ee => {
         if(ee.Id == this.idAdded ){
@@ -406,6 +489,27 @@ export class LinesComponent implements OnInit {
       this.addStationPosition = parseInt(event.target.value, 10)      
     }
   }
+
+  LoggedAdmin(): boolean{
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+    return false;
+  }
+
+  NonActiveAdmin(){
+    if(localStorage.getItem('role') == "Admin" && !this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+    return false;
+  }
+
+  DeniedAdmin(){
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+  }
+
 
   showComboBox(){
     this.showComboBoxForAddSt = true;

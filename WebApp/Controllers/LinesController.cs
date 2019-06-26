@@ -166,6 +166,15 @@ namespace WebApp.Controllers
             //return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Route("AlredyExistRegularNumber")]
+        public string AlredyExistRegularNumber(Line line)
+        {
+            Line l = _unitOfWork.Lines.Find(a => a.RegularNumber == line.RegularNumber).FirstOrDefault();
+
+            string s = (l != null) ? "Yes" : "No";
+            return s;    //ne postoji -> mogu dodati
+        }
+
         [Route("Add")]
         // POST: api/Lines
         [ResponseType(typeof(Line))]

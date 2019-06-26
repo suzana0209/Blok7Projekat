@@ -1,3 +1,7 @@
+<label *ngIf="NonActiveAdmin()">You are not authorized for add/edit/delete lines! Your request is processed!  You can only see the departures for the selected day!</label>
+<label *ngIf="DeniedAdmin()">You are not authorized for add/edit/delete lines! Your request is denied! You can only see the departures for the selected day</label>
+
+
 <div *ngIf = "LoggedAdmin()">    
     <div align="center">
         <button type="submit" class="button" class="btn" (click)='showTimeT()'>Show timetable</button>
@@ -128,10 +132,12 @@
     </div>
   </div>
   
+
+  <!--Ovaj dio vide SVI cak i neautorizovani admini-->
   <div *ngIf="(!isSelectedAdd() && !isSelectedDelete() && !isSelectedEdit() && isSelectedShow()) || !LoggedAdmin()">  
     <label for="DayId">Day type</label>
     <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)">
-      <option disabled>Please select...</option>
+      <option disabled>Please select</option>
       <option value="Workday">Workday</option>
       <option value="Saturday">Saturday</option>
       <option value="Sunday">Sunday</option>

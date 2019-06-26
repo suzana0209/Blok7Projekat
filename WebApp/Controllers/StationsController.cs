@@ -162,45 +162,13 @@ namespace WebApp.Controllers
             {
                 return "null";
             }
-
-            //Station stat = stationsFromDb.Find(a => a.Longitude == station.Longitude &&
-            //a.Latitude == station.Latitude && a.AddressStation == station.AddressStation);
-
-            //ne moze sa ovim moramo long i lat
-            //Station stat = stationsFromDb.Find(a => a.AddressStation == station.AddressStation);
-
-            string newPomForLatitude = station.Latitude.ToString().Substring(0, 6);
-            string newPomForLongitude = station.Longitude.ToString().Substring(0, 6);
-
-            string oldLat = "";
-            string oldLong = "";
-
-            bool existLatLon = false;
             
+            Station stat = stationsFromDb.Find(a => a.AddressStation == station.AddressStation);
 
-            foreach (var item in stationsFromDb)
-            {
-                oldLat = item.Latitude.ToString().Substring(0, 7);      //19.8421   ne moze da se poredi adresa, jer ona obuhvata veci prostor na mapi
-                oldLong = item.Longitude.ToString().Substring(0, 7);    //45.2417   pa zbog toga poredimo kooridnate
+            string s = (stat != null) ? "Yes" : "No";
 
-                if(oldLong.Equals(newPomForLongitude) && oldLat.Equals(newPomForLatitude))
-                {
-                    existLatLon = true;
-                    break;
-                }
-            }
-
-            //Station stat = stationsFromDb.Find(a => a.Longitude == station.Longitude &&
-            //a.Latitude == station.Latitude);
-
-
-
-            if (existLatLon)
-            {
-                return "Yes"; //na adresi vec postoji stanica
-            }
-
-            return "No"; //ne postoji - > mogu izmijeniti stanicu
+            return s;
+            //return "No"; //ne postoji - > mogu izmijeniti stanicu
         }
 
         [Route("Add")]

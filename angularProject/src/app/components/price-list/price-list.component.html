@@ -1,4 +1,7 @@
 
+<label *ngIf="NonActiveAdmin()">You are not authorized for edit price list! Your request is processed! You can only look at the currently active pricelist!</label>
+<label *ngIf="DeniedAdmin()">You are not authorized for edit price list! Your request is denied! You can only look at the currently active pricelist!</label>
+
 <div *ngIf="LoggedAdmin()" align="center">
      <h3>Currently active pricelist</h3>   <!--Poruka ako ne postoji cjenovnik! -->
 
@@ -11,9 +14,8 @@
         <h4>Monthly ticket: {{validPricesForShow.Monthly}} din.</h4>
         <h4>Annual ticket: {{validPricesForShow.Annual}} din.</h4>
       </div>
-      <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Edit currently price list</button>
-    
-    </div>  
+      <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Edit currently price list</button>  
+</div>  
 
 
       <div *ngIf = "!LoggedAdmin()">

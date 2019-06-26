@@ -5,6 +5,7 @@ import { PriceListModel } from 'src/app/models/priceList.model';
 import { NgForm } from '@angular/forms';
 import { PomModelForPriceList } from 'src/app/models/pomModelForPriceList.model';
 import { ValidForPriceListModel, ValidForPriceModel, ValidForDateTimeInPriceList } from 'src/app/models/modelsForValidation/validForPriceList.model';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-price-list',
@@ -33,8 +34,21 @@ export class PriceListComponent implements OnInit {
   datePickerId: any;
 
   priceListModelForCheckDatum: PriceListModel = new PriceListModel(new Date(),new Date(),0, []);
+  userPom: any;
+  boolBezvezeZaPoruku: boolean = false;
+  boolBezvezeZaPorukuDenied: boolean = false;
 
-  constructor( private pricelistServ: PricelistService) { 
+  constructor( private pricelistServ: PricelistService, private userService: UsersService) { 
+    this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
+      console.log("Userrr: ", a);
+      if(a != null && a != undefined){
+        
+        this.userPom = a;
+        this.boolBezvezeZaPoruku = this.userPom.Activated;
+        this.boolBezvezeZaPorukuDenied = this.userPom.Deny;
+      }
+      
+    })
     this.datePickerId = new Date().toISOString().split('T')[0];
     this.showPriceInInput = false;
     this.pricelistServ.getPricelist().subscribe(data => {  
@@ -97,7 +111,12 @@ export class PriceListComponent implements OnInit {
         alert("Date is invalid!");
         //window.location.reload();
         return;
-      }else if(a == "Yes"){
+      }
+      else if(a == "less"){
+        alert("<To time> date can't be less than <From time> date!");
+        return;
+      }
+      else if(a == "Yes"){
         this.ticketPricesPom.PriceList = pm;
     this.pricelistServ.addPricelist(this.ticketPricesPom).subscribe( x =>{
       if(x){
@@ -158,10 +177,23 @@ export class PriceListComponent implements OnInit {
   }
 
   LoggedAdmin(): boolean{
-    if(localStorage.getItem('role') == "Admin"){
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
       return true;
     }
     return false;
+  }
+
+  NonActiveAdmin(){
+    if(localStorage.getItem('role') == "Admin" && !this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+    return false;
+  }
+
+  DeniedAdmin(){
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
   }
 
   getSelectedTicket(event){
@@ -200,6 +232,25 @@ export class PriceListComponent implements OnInit {
   
   editPricelistClick(){
     this.showPriceInInput = true;
+  }
+
+  checkIsAuthorized(){
+    if(this.LoggedAdmin()){
+      
+      this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
+        console.log("Userrr: ", a);
+        this.userPom = a;
+        console.log(this.userPom);
+        if(this.userPom.Activated){
+          return true;
+        }
+        else {
+          return false;
+        }
+      })
+      
+    }
+    return false;
   }
 
 }

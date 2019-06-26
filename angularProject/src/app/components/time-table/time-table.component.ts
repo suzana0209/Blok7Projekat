@@ -9,6 +9,7 @@ import { DayService } from 'src/app/services/dayService/day.service';
 import { Router } from '@angular/router';
 import { ValidTimetableModel } from 'src/app/models/validTimetable.model';
 import { ValidForTimetableModel, ValidForTimetableDeleteModel, ValidForTimetableEditModel } from 'src/app/models/modelsForValidation/validForTimetable.model';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-time-table',
@@ -74,8 +75,28 @@ export class TimeTableComponent implements OnInit {
    validationsForEdit :ValidForTimetableEditModel = new ValidForTimetableEditModel();
 
 
+  boolBezvezeZaPoruku: boolean = false;
+  boolBezvezeZaPorukuDenied: boolean = false;
+  userPom: any;
+  
+
+
   constructor(private lineService: LineService, 
-              private timetableService: TimetableService, private daysService: DayService, private router:Router) { 
+              private timetableService: TimetableService, 
+              private daysService: DayService, private router:Router,
+              private userService: UsersService) { 
+
+    this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
+      console.log("Userrr: ", a);
+      if(a != null && a != undefined){
+        
+        this.userPom = a;
+        this.boolBezvezeZaPoruku = this.userPom.Activated;
+        this.boolBezvezeZaPorukuDenied = this.userPom.Deny; 
+      }
+      
+    })
+                
     this.lineService.getAllLines().subscribe(d=>{
       this.allLinesFromDb = d;
     });
@@ -374,10 +395,32 @@ showTimetableForUser(){
   }
 
   LoggedAdmin(): boolean{
-    if(localStorage.getItem('role') == "Admin"){
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
       return true;
     }
     return false;
-  }  
+  }
+
+  NonActiveAdmin(){
+    if(localStorage.getItem('role') == "Admin" && !this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+    return false;
+  }
+
+  DeniedAdmin(){
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+  }
+
+
+  //Prije bilo
+  // LoggedAdmin(): boolean{
+  //   if(localStorage.getItem('role') == "Admin"){
+  //     return true;
+  //   }
+  //   return false;
+  // }  
 
 }

@@ -1,4 +1,7 @@
-<div>    
+<label *ngIf="NonActiveAdmin()">You are not authorized for add/edit/delete stations! Your request is processed! </label>
+<label *ngIf="DeniedAdmin()">You are not authorized for add/edit/delete stations! Your request is denied!</label>
+
+<div *ngIf="LoggedAdmin()">    
         <div align="center"><br>
           <h3>Currently existing stations</h3>
           <br/>

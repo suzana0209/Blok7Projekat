@@ -95,6 +95,10 @@ namespace WebApp.Controllers
         [Route("CheckDateTime")]
         public string CheckDateTime(PriceList pom)
         {
+            if(pom.FromTime > pom.ToTime)
+            {
+                return "less";
+            }
 
 
             string s =  (((DateTime.Parse(pom.FromTime.ToString()) < DateTime.Today) ||

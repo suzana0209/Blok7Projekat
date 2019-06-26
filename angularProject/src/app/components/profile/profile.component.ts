@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { PomModelForPassword } from 'src/app/models/PomModelForPassword.model';
 import { Router } from '@angular/router';
 import { PomModelForAuthorization } from 'src/app/models/pomModelForAuth.model';
+import { ValidForProfileModel, ValidForChangePassModel } from 'src/app/models/modelsForValidation/validForProfile.model';
 
 @Component({
   selector: 'app-profile',
@@ -38,6 +39,9 @@ export class ProfileComponent implements OnInit {
   wtfList: any;
   imagesLoaded: boolean = false;
   userBytesImage:any ;
+
+  validations: ValidForProfileModel = new ValidForProfileModel();
+  validationsForPass: ValidForChangePassModel = new ValidForChangePassModel();
 
   constructor(private usersService: UsersService, private router:Router) {
     this.usersService.getUserData(localStorage.getItem('name')).subscribe(data=>{
@@ -108,19 +112,54 @@ export class ProfileComponent implements OnInit {
     console.log("Atresaaa: ", this.addressFromDb)
     userForEdit.AddressId = this.user.AddressId
     userForEdit.Id = this.user.Id
+
+    if(this.validations.validate(userForEdit)){
+      return;
+    }
     
-    this.usersService.editAppUser(userForEdit).subscribe(d=>{
+    this.usersService.EmailExistForProfile(userForEdit).subscribe(a=>{
+      if(a == "Yes"){
+        alert("New email:"+userForEdit.Email+" alredy exist!");
+        return;
+      }
+      else if (a == "No"){
+        this.usersService.editAppUser(userForEdit).subscribe(d=>{
     
-      alert("Successful edit user!");
-      localStorage.setItem('name', userForEdit.Email);
-      window.location.reload();
+          alert("User profile successful edit!");
+          localStorage.setItem('name', userForEdit.Email);
+          window.location.reload();
+        })
+      }
     })
+
+    // this.usersService.editAppUser(userForEdit).subscribe(d=>{
+    
+    //   alert("Successful edit user!");
+    //   localStorage.setItem('name', userForEdit.Email);
+    //   window.location.reload();
+    // })
   }
 
   onSubmitPassword(pomModelForPassword: PomModelForPassword, form:NgForm){
+      if(this.validationsForPass.validations(pomModelForPassword)){
+        return;
+      }
+
+      let errorss = [];
+
       this.usersService.editPassword(pomModelForPassword).subscribe(x=>{
-        alert("Password seccesfully changed");
+        alert("Password successful changed!");
         window.location.reload();
+      }, 
+      err=> {
+        for(var key in err.error.ModelState){
+          for(var i = 0; i < err.error.ModelState[key].length; i++){
+            errorss.push(err.error.ModelState[key][i]);
+          }
+        }
+        console.log("ERRRORR: ", errorss);
+        window.alert(errorss);
+        
       });
   }
 

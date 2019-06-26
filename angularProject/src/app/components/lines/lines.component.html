@@ -1,4 +1,8 @@
-<div>
+<label *ngIf="NonActiveAdmin()">You are not authorized for add/edit/delete lines! Your request is processed! </label>
+<label *ngIf="DeniedAdmin()">You are not authorized for add/edit/delete lines! Your request is denied!</label>
+
+
+<div *ngIf="LoggedAdmin()">
   <div align="center">
       <button type="submit" class="button" class="btn" (click)='showAdd()' >Add line</button>
       <button type="submit" class="button" class="btn" (click)='showEdit()' >Edit line</button>
@@ -29,14 +33,11 @@
       <div *ngIf="!isSelectedDelete() && !isSelectedEdit()">
         <!-- <div *ngFor = "let key of keys"> -->
           <!-- <div *ngFor="let ls of pomModelList, let i = index">
-
           <agm-polyline  [strokeColor]="'red'">
             <agm-polyline-point *ngFor="let station of ls.List" [latitude]="station.Latitude" [longitude]="station.Longitude">
             </agm-polyline-point>
           </agm-polyline>
-
           
-
       </div> -->
 
 
@@ -101,8 +102,16 @@
       <!-- <h3>Add line</h3> -->
       <form #lineForm="ngForm" (ngSubmit)="onSubmit(lineForm.value, lineForm)">
           <div class="form-group">
+              <div *ngIf="!validationsForAdd.listOfStationsOk" style="color:red">please select at least two stations, otherwise you will not be able to add a line</div>
+              <br><br>  
+
             <label for="RegularNumber">Regular Number</label>
             <input required type="number" class="form-control" name="RegularNumber" value="{{regularNumber}}" ngModel>
+            <div *ngIf="!validationsForAdd.regularLineOk" style="color:red">Line number can't be empty.</div>
+            <div *ngIf="!validationsForAdd.regularLineOk0" style="color:red">Line number  must not be zero.</div>
+            <div *ngIf="!validationsForAdd.regularLineOkMinus" style="color:red">Line number must not be less than zero.</div>
+        
+
 
           <div align="center">
               <button type="submit" class="button" class="btn">Add line</button>
@@ -129,7 +138,7 @@
                 <option *ngFor="let line of allLinesForEditFromDb" value={{line.RegularNumber}}>{{line.RegularNumber}}</option>
               </select>
               <br/><br/>
-              <label>ListOfStations</label>
+              <label *ngIf="showListOfStations">ListOfStations</label>
               <table border="1">
               <div *ngFor="let station of sLineForEdit?.ListOfStations">
                 <tr>
@@ -146,9 +155,9 @@
             <div *ngFor="let station of sLineForEdit?.ListOfStations" class="class-form">
                 <button type="submit" class="button" class="btn" clas="form-group" (click)='removeStationFromLine(station.Id)'>Remove station: {{station.Name}}</button>
             </div>
-
-            <div align="center">
-              <button type="submit" class="button" class="btn"  (click)="showComboBox()">Add new station in Line</button> <br/>
+            <br><br>
+            <div align="center" *ngIf="showListOfStations">
+              <button type="submit" class="button" class="btn btn-primary"  (click)="showComboBox()">Add new station in Line</button> <br/><br>
             </div>
 
             <div *ngIf = "showComboBoxForAddSt">
@@ -157,44 +166,28 @@
                   <option disabled>Please select...</option>
                   <option *ngFor="let station of restStation" value={{station.Id}}>{{station.Name}}</option>
                 </select>
+                <!--validationsForEdit-->
+                <div *ngIf="!validationsForEdit.idAddedOk" style="color:red">Station can't be empty.</div>
+            
             </div>
-
+            <br>
             <div *ngIf = "showComboBoxForAddSt2">
-                <label for="NumberStation">Select station for adding: </label>
+                <label for="NumberStation">Select positon for new station </label>
                 <select name="NumberStation" class="form-control" (click)='showAddButton($event)' ngModel>
                   <option disabled>Please select...</option>
                   <option *ngFor="let i of arrayIntForAddStation" value={{i}}>{{i}}</option>
                 </select>
+                <div *ngIf="!validationsForEdit.addStationPositionOk" style="color:red">Position can't be empty.</div>
+            
             </div>
-
+            <br><br>
             <div *ngIf = "showAddButtonBool">
-              <button type="submit" class="button" (click)="finallyAdd()"  class="btn" >Add Station</button>
+              <button type="submit" class="button" (click)="finallyAdd()"  class="btn btn-primary" >Add Station</button><br><br>
             </div>
 
 
-
-            <!-- <div  *ngFor="let station of selectedLineForEdit?.ListOfStations; let i = index;">
-              <input type="checkbox" name="station{{station.Name}}" checked>
-              <label for="station{{station.Name}}">{{station.Name}}</label>
-            </div>
-
-            <div  *ngFor="let station2 of otherStations; let i = index;">
-                <input type="checkbox" name="station2{{station2.Name}}" >
-                <label for="station2{{station2.Name}}">{{station2.Name}}</label>
-                         </div> -->
-
-                         <!-- <form #lineForm="ngForm" (ngSubmit)="onSubmitEdit(lineForm.value, lineForm)">
-                          <div class="form-group"> -->
-
-
-            <!-- <div align="center">
-                <button type="submit" class="button" class="btn">Edit line</button>
-            </div>
-          </div>
-      </form> -->
-
-      <button type="submit" class="button" class="btn" (click) = "onSubmitEdit()">Edit line</button>
-
+      <button *ngIf="showListOfStations" type="submit" class="button" class="btn btn-primary" (click) = "onSubmitEdit()" align="center">Save changes for line</button>
+      <br><br>
 
       <!-- <h3>Edit line</h3> -->
   </div>
@@ -211,6 +204,8 @@
                 <!-- <option value="Controller" >Controller</option>
                 <option value="AppUser" >Passanger</option> -->
               </select>
+              <div *ngIf="!validationsForAdd.regularLineOk" style="color:red">Please select regular number!</div>
+        
 
               <div align="center">
                   <button type="submit" class="button" class="btn">Delete line</button>
@@ -218,11 +213,4 @@
           </div>
       </form>
   </div>
-
-
-
-
-
-
-
 </div>

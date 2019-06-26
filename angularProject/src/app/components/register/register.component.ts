@@ -100,6 +100,7 @@ export class RegisterComponent implements OnInit {
     //   }
     // })
 
+   let errorss = [];
 
     if (this.selectedImage == undefined){
       //alert("No image selected!");
@@ -110,8 +111,9 @@ export class RegisterComponent implements OnInit {
         alert("Registration succesfull!");
         this.router.navigate(['/logIn']);
       },
-      error => {
-        //alert("Pasword must have number and special symbol! ")
+      err=> {
+        
+        
       });
      //return; 
    }

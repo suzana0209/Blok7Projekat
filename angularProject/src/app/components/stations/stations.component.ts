@@ -8,6 +8,7 @@ import { NgForm } from '@angular/forms';
 import { MapComponent } from '../map/map.component';
 import { Router } from '@angular/router';
 import { ValidForAddStationModel } from 'src/app/models/modelsForValidation/validForStation.model';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-stations',
@@ -38,10 +39,26 @@ export class StationsComponent implements OnInit {
   version: number;
 
   validationsForAdd: ValidForAddStationModel = new ValidForAddStationModel();
+  boolBezvezeZaPoruku: boolean = false;
+  boolBezvezeZaPorukuDenied: boolean = false;
+  userPom: any;
 
 
 
-  constructor(private ngZone: NgZone, private route: Router, private mapsApiLoader: MapsAPILoader,private stationService: StationService) {
+
+  constructor(private ngZone: NgZone, private route: Router, private mapsApiLoader: MapsAPILoader,
+    private stationService: StationService, private userService: UsersService) {
+    this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
+      console.log("Userrr: ", a);
+      if(a != null && a != undefined){
+        
+        this.userPom = a;
+        this.boolBezvezeZaPoruku = this.userPom.Activated;
+        this.boolBezvezeZaPorukuDenied = this.userPom.Deny;
+      }
+      
+    })
+    
     this.stationService.getAllStations().subscribe(st =>{
       this.stations = st;
     });
@@ -76,18 +93,27 @@ export class StationsComponent implements OnInit {
         window.location.reload();
       }
       else if (a == "No"){
-        this.stationService.addStation(stationData).subscribe(data => {
-          alert("Station: " +stationData.Name+ " is successfully added");
-          //this.route.navigate(['/station']);
-          window.location.reload();
-        },
-        err => {
-          //alert("Station - error!");
-          window.alert(err.error);
-          //window.refresh();
-          window.location.reload();
-    
-        });
+        this.stationService.AlredyExistsStationForEdit(stationData).subscribe(a2=>{
+          if(a2 == "Yes"){
+            alert("On address: "+ stationData.AddressStation +" alredy exists station!");
+            window.location.reload();
+          }
+          else{
+            this.stationService.addStation(stationData).subscribe(data => {
+              alert("Station: " +stationData.Name+ " is successfully added!");
+              //this.route.navigate(['/station']);
+              window.location.reload();
+            },
+            err => {
+              //alert("Station - error!");
+              window.alert(err.error);
+              //window.refresh();
+              window.location.reload();
+        
+            });
+          }
+        })
+        
       }
     })
 
@@ -122,13 +148,13 @@ export class StationsComponent implements OnInit {
 
     this.stationService.AlredyExistsStationForEdit(stationData).subscribe(aa=>{
       if(aa == "Yes"){
-        alert("On adress alredy exists station!");
+        alert("On address: "+ stationData.AddressStation +" alredy exists station!");
         window.location.reload();
         //return;
       }
       else if(aa == "No"){
         this.stationService.editStation(stationData).subscribe(data => {
-          alert("Station changed successfully!");
+          alert("Station with Name="+ stationData.Name +" changed successfully!");
           //this.route.navigate(['/station']);
           window.location.reload();
         },
@@ -176,6 +202,26 @@ export class StationsComponent implements OnInit {
       });
     }
     
+  }
+
+  LoggedAdmin(): boolean{
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+    return false;
+  }
+
+  NonActiveAdmin(){
+    if(localStorage.getItem('role') == "Admin" && !this.boolBezvezeZaPoruku && !this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
+    return false;
+  }
+
+  DeniedAdmin(){
+    if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPorukuDenied){
+      return true;
+    }
   }
 
   markerDragEnd($event: MouseEvent, nameOfStation:string, id: number, version:number) {

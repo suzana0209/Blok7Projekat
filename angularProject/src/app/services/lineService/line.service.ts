@@ -36,4 +36,8 @@ export class LineService {
     return this.httpClient.get(this.baseUrl + "/api/Lines/GetLine?id=" + id);
   }
 
+  AlredyExistRegularNumber(line){
+    return this.httpClient.post(this.baseUrl + "/api/Lines/AlredyExistRegularNumber", line);
+  }
+
 }
