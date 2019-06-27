@@ -1,5 +1,13 @@
 <div class="container">
+    <!-- <h3>AAA: {{pm.PassangerTypeId == 1 ? Student : Pensioner}}</h3> -->
     <h1>Profile:</h1>
+    <h3>
+        You are: 
+        {{(user?.PassangerTypeId.toString() == "1") ? "Student" : ""}}
+        {{(user?.PassangerTypeId.toString() == "2") ? "Pensioner" : ""}}
+        {{(user?.PassangerTypeId.toString() == "1") ? "Regular user" : ""}}
+        
+    </h3>
     <h3>Name: {{user?.Name}}</h3>
     <h3>Last Name: {{user?.LastName}}</h3>
     <h3>Email: {{user?.Email}}</h3>

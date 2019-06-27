@@ -35,6 +35,8 @@ import { ValidateTicketComponent } from './components/validate-ticket/validate-t
 
 import { AgmDirectionModule } from 'agm-direction';   // agm-direction
 import { AdminGuard } from './guard/adminGuard';
+
+import { NgxPayPalModule } from 'ngx-paypal';
  
 const Routes = [
   {
@@ -137,6 +139,8 @@ const Routes = [
     ToastrModule.forRoot({
       toastComponent: ToastNoAnimation,
     }),
+
+    NgxPayPalModule,
     
   ],
   providers: [

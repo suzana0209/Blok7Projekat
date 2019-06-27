@@ -37,4 +37,8 @@ export class BuyTicketService {
      return this.httpClient.get(this.baseUrl + "/api/Tickets/GetNameOfCustomer?idTicket=" + idTicket);
    }
 
+   PriceForPayPal(ticket){
+     return this.httpClient.post(this.baseUrl + "/api/Tickets/PriceForPayPal", ticket);
+   }
+
 }

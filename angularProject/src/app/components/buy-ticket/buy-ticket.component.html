@@ -1,3 +1,5 @@
+
+
 <div *ngIf="!nonRegister() && !nonActivated() && !requestDeny()">
   <label>You are not authorized to purchase tickets. Your request is processed! </label>
 </div>
@@ -32,7 +34,9 @@
         </div>
       </div>
 
-      <button *ngIf="nonActivated() || nonRegister()" type="submit" class="nav-link" class="btn btn-primary">Buy ticket</button>
+      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+
+      <button *ngIf="(nonActivated() || nonRegister()) && (showButtonComplete)" type="submit" class="nav-link" class="btn btn-primary">Complete shopping</button>
   </form>
 
   <div *ngIf="!nonRegister() && nonActivated() && !requestDeny()">
@@ -56,6 +60,6 @@
         <td>{{t.Valid == false ? 'No' : 'Yes'}}</td>
       </tr>
     </table>
-
+    <label>{{nekiTest}}</label>
     
   </div>

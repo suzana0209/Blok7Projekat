@@ -113,6 +113,85 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //[Route("PriceForPayPal")]
+        //public string PriceForPayPal(PomModelForBuyTicket pom)
+        //{
+        //    double c = 0;
+        //    TypeOfTicket tt = new TypeOfTicket();
+        //    TicketPrice ticketPrice = new TicketPrice();
+
+        //    //if (pom.Email != null)
+        //    //{
+        //    AppUser appUser = _unitOfWork.AppUsers.Find(user => user.Email == pom.Email).FirstOrDefault();
+        //    tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault();
+
+        //    ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
+
+        //    double coeff = _unitOfWork.PassangerTypes.Find(dd => dd.Id == appUser.PassangerTypeId).FirstOrDefault().RoleCoefficient;
+        //    c = ticketPrice.Price - (ticketPrice.Price * coeff);
+
+
+        //    //}
+        //    //else
+        //    //{
+        //    //    tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault();
+
+        //    //    ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
+        //    //    c = ticketPrice.Price;
+
+        //    //}
+
+        //    return c.ToString();
+
+        //    //return "Ok";
+
+        //}
+
+
+        [Route("PriceForPayPal")]
+        public string PriceForPayPal(PomModelForBuyTicket pom)
+        {
+            //Pokusaj za dobijenje cijena aktivnog cjenovnika
+            double c = 0;
+            TypeOfTicket tt = new TypeOfTicket();
+            TicketPrice ticketPrice = new TicketPrice();
+            PriceList pList = new PriceList();
+
+            if(pom.Email != "")
+            {
+                AppUser appUser = _unitOfWork.AppUsers.Find(user => user.Email == pom.Email).FirstOrDefault();
+                tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault(); //1 - TimeLimited
+
+
+                pList = _unitOfWork.PriceLists.Find(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now).FirstOrDefault();
+                ticketPrice = _unitOfWork.TicketPrices.Find(aa => aa.PriceListId == pList.Id && aa.TypeOfTicketId == tt.Id).FirstOrDefault();
+
+
+                double coeff = _unitOfWork.PassangerTypes.Find(dd => dd.Id == appUser.PassangerTypeId).FirstOrDefault().RoleCoefficient;
+                c = ticketPrice.Price - (ticketPrice.Price * coeff);
+
+            }
+            else
+            {
+                tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault(); //1 - TimeLimited
+
+
+                pList = _unitOfWork.PriceLists.Find(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now).FirstOrDefault();
+                ticketPrice = _unitOfWork.TicketPrices.Find(aa => aa.PriceListId == pList.Id && aa.TypeOfTicketId == tt.Id).FirstOrDefault();
+
+                c = ticketPrice.Price;
+            }
+
+
+
+
+
+            return c.ToString();
+            
+
+        }
+
+
         [Route("Add")]
         // POST: api/Tickets
         //[ResponseType(typeof(void))]
