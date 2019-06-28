@@ -19,6 +19,8 @@
 
       <ul class="navbar-nav" *ngIf="loggedIn() && getRoleAdmin()"> 
         <li><a class="nav-link" [routerLink]="['/request']" >Requests for authorization</a></li>
+        <li><a class="nav-link" [routerLink]="['/deniedUsers']" >Denied request</a></li>
+        <!---->
       </ul>
 
       <ul class="navbar-nav" *ngIf="getRoleController() && loggedIn()"> 

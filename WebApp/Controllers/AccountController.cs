@@ -745,6 +745,15 @@ namespace WebApp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [Route("GetDenyUsers")]
+        public List<AppUser> GetDenyUsers()
+        {
+            List<AppUser> deniedUsers = _unitOfWork.AppUsers.GetAll().Where(a => a.Deny).ToList();
+
+            return deniedUsers;
+        }
+
+        [Authorize(Roles = "Admin")]
         [Route("GetAwaitingAControllers")]
         public List<AppUser> GetAwaitingControllers()
         {
@@ -792,6 +801,7 @@ namespace WebApp.Controllers
             return "Ok";
 
         }
+
 
         [Authorize(Roles = "Admin")]
         [Route("AuthorizeController")]
@@ -852,6 +862,38 @@ namespace WebApp.Controllers
             NotifyViaEmail(controllerEmail, subject, desc);
 
             return "Ok";
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("AuthorizeDeniedUser")]
+        public string AuthorizeDeniedUser([FromBody]PomModelForAuthorization pomModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState).ToString();
+            }
+            //Get user data, and update activated to true
+            //ApplicationUser current = UserManager.FindById(Id.Id);
+            AppUser current = _unitOfWork.AppUsers.Get(pomModel.Id);
+            current.Activated = true;
+            current.Deny = false;
+
+            string passType = _unitOfWork.PassangerTypes.Find(a => a.Id == current.PassangerTypeId).FirstOrDefault().Name;
+
+
+            _unitOfWork.AppUsers.Update(current);
+            _unitOfWork.Complete();
+
+
+            string subject = $"{passType} approved";
+            string desc = $"Dear {current.Name}, You have been approved as {passType}.";
+            var adminEmail = current.Email;
+
+            NotifyViaEmail(adminEmail, subject, desc);
+
+            return "Ok";
+
         }
 
         [Authorize(Roles = "Admin")]

@@ -38,6 +38,8 @@ export class PriceListComponent implements OnInit {
   boolBezvezeZaPoruku: boolean = false;
   boolBezvezeZaPorukuDenied: boolean = false;
 
+  typePassanger: string = ""
+
   constructor( private pricelistServ: PricelistService, private userService: UsersService) { 
     this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
       console.log("Userrr: ", a);
@@ -252,5 +254,6 @@ export class PriceListComponent implements OnInit {
     }
     return false;
   }
+
 
 }

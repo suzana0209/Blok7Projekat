@@ -43,6 +43,8 @@ export class ProfileComponent implements OnInit {
   validations: ValidForProfileModel = new ValidForProfileModel();
   validationsForPass: ValidForChangePassModel = new ValidForChangePassModel();
 
+  typePassanger: string = ""
+
   constructor(private usersService: UsersService, private router:Router) {
     this.usersService.getUserData(localStorage.getItem('name')).subscribe(data=>{
       this.user = data;
@@ -58,6 +60,17 @@ export class ProfileComponent implements OnInit {
 
         this.user.Birthaday = this.user.Birthaday.split('T')[0];
          this.pp.Id = this.user.Email;
+
+        if(this.user.PassangerTypeId == "1"){
+          this.typePassanger = "Student";
+        }
+        else if(this.user.PassangerTypeId == "2"){
+          this.typePassanger = "Pensioner";
+        }
+        else if(this.user.PassangerTypeId == "3"){
+          this.typePassanger = "Regular";
+        }
+
 
         usersService.getUserImage(this.pp).subscribe(c=>{
           this.userBytesImage = c;
@@ -257,5 +270,9 @@ export class ProfileComponent implements OnInit {
       this.showApplyButton = true;
 
     this.selectedImage = event.target.files;
+  }
+
+  getPassType(){
+
   }
 }

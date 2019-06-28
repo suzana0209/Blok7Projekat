@@ -37,6 +37,7 @@ import { AgmDirectionModule } from 'agm-direction';   // agm-direction
 import { AdminGuard } from './guard/adminGuard';
 
 import { NgxPayPalModule } from 'ngx-paypal';
+import { DeniedUserComponent } from './components/denied-user/denied-user.component';
  
 const Routes = [
   {
@@ -101,6 +102,11 @@ const Routes = [
     path:"validetTicket",
     component: ValidateTicketComponent,
     canActivate: [ControlorGuard]
+  },
+  {
+    path:"deniedUsers",
+    component: DeniedUserComponent,
+    canActivate: [AdminGuard]
   }
 
 
@@ -124,7 +130,8 @@ const Routes = [
     TimeTableComponent,
     BuyTicketComponent,
     RequestsComponent,
-    ValidateTicketComponent
+    ValidateTicketComponent,
+    DeniedUserComponent
   ],
   imports: [
     BrowserModule,

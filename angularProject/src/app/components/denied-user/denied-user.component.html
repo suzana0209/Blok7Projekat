@@ -1,0 +1,17 @@
+<div *ngIf="user" class="container">
+  <div *ngIf="!user.Activated && !denyAdmin">You are not authorized for approval of the request ! Your request is processed! </div>
+  <div *ngIf="denyAdmin">You are not authorized for approval of the request! Your request is denied! </div>
+  <div *ngIf="user.Activated">
+    <div *ngIf="loggedAdmin()">
+        <div class="col-md-12">
+            <h5>Authorize denied users </h5> <br>
+            <ul class="list-group" *ngFor="let userr of deniedUsers; let i = index">
+              <li class="list-group-item">{{userr.Name}} <span class="pull-right" style="float:right">
+                <button class="btn" (click)="AuthorizeDeniedAdmins(userr.Id,i)">Authorize user</button>
+              </span>
+            </li>
+            </ul>
+           </div>
+    </div>
+  </div>
+</div>

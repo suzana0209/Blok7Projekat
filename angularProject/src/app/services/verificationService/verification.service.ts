@@ -59,6 +59,17 @@ export class VerificationService {
       return this.httpClient.post(this.baseUrl + "/api/Account/DenyControll", conttrollerId);
     }
 
+    getDeniedUsers(): Observable<any> {
+      return this.httpClient.get(this.baseUrl + "/api/Account/GetDenyUsers");
+    }
+
+    //
+    authorizeDeniedUser(userId): Observable<any> {
+        let headers = new HttpHeaders();
+        headers = headers.append( "Content-type","application/json");
+        return this.httpClient.post(this.baseUrl + "/api/Account/AuthorizeDeniedUser", userId);
+      }
+
 
 
   
