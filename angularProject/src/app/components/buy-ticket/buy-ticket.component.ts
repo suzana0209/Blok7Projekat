@@ -47,6 +47,8 @@ export class BuyTicketComponent implements OnInit {
   nekiTest: number = 0;
   showButtonComplete: boolean = false;
 
+  mailPayPalUnregisterUser: string = ""
+
   constructor(private authService: AuthenticationService, private usersService: UsersService,
     private buyTicketService: BuyTicketService,
     private router: Router,
@@ -143,6 +145,8 @@ export class BuyTicketComponent implements OnInit {
   onSubmit(buyTicketForm: PomModelForBuyTicket, form: NgForm){
     //this.showButtonComplete = false;  //za dugme Complete shopping
     console.log("Karta: ", buyTicketForm);
+
+    this.mailPayPalUnregisterUser = buyTicketForm.Email;  //potrebno za neregistrovanog korisnika pri upisu u bazu
     
     
     console.log("Email from Local storage: ", this.emailLoggedUser);
@@ -195,6 +199,7 @@ export class BuyTicketComponent implements OnInit {
 
   buyTicketUnregisterUser(){
     console.log("Formmrrrr:", this.buyTicketForm1);
+    this.buyTicketForm1.Email = this.mailPayPalUnregisterUser;
     if(this.buyTicketForm1.Email.length != 0){
       // this.buyTicketForm1.PurchaseDate = new Date();
       // this.buyTicketForm1.TypeOfTicket = "TimeLimited";

@@ -163,7 +163,7 @@ namespace WebApp.Controllers
                 tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault(); //1 - TimeLimited
 
 
-                pList = _unitOfWork.PriceLists.Find(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now).FirstOrDefault();
+                pList = _unitOfWork.PriceLists.Find(a => a.ToTime >= DateTime.Now).FirstOrDefault();
                 ticketPrice = _unitOfWork.TicketPrices.Find(aa => aa.PriceListId == pList.Id && aa.TypeOfTicketId == tt.Id).FirstOrDefault();
 
 
