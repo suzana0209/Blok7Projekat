@@ -86,19 +86,10 @@ export class RegisterComponent implements OnInit {
     this.userService.EmailAlreadyExists(registrationData).subscribe(a=>{},
     err=>{
      window.alert(err.error);
-     //this.router.navigate(['/register']);
-     //window.location.reload();
+     
    })
 
-    //provjeriti da li taj mejl vec postoji u bazi !
-    // this.userService.EmailAlreadyExists(registrationData).subscribe(ret=>{
-    //   console.log("Retttttt", ret);
-    //   if(ret.toString() != 'Ok'){
-    //     alert("Email already exists!");
-    //     //this.router.navigate(['/register'])
-    //     return;
-    //   }
-    // })
+    
 
    let errorss = [];
 

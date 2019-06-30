@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   selector: 'app-bus-lines',
   templateUrl: './bus-lines.component.html',
   styleUrls: ['./bus-lines.component.css'],
-  styles: ['agm-map {height: 500px; width: 700px;}']
+  styles: ['agm-map {height: 350px; width: 90%;}']
 })
 export class BusLinesComponent implements OnInit {
 

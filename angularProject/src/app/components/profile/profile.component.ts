@@ -141,6 +141,8 @@ export class ProfileComponent implements OnInit {
           alert("User profile successful edit!");
           localStorage.setItem('name', userForEdit.Email);
           window.location.reload();
+          //form.reset();
+          //this.selected = "";
         })
       }
     })

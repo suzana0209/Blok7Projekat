@@ -127,10 +127,11 @@ export class PriceListComponent implements OnInit {
       if(x){
         alert("Price list succesfull added!");
         window.location.reload();
+        //form.reset();
       }
       else{
         alert("Erorr!");
-        window.location.reload();
+        //window.location.reload();
       }
       //console.log(x);
     })

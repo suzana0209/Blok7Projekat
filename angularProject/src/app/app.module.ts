@@ -48,12 +48,12 @@ const Routes = [
   {
     path: "register",
     component: RegisterComponent,
-    //canActivate: [GuardForUser]
+    canActivate: [GuardForUser]
   },
   {
     path: "logIn",
     component: LogInComponent,
-    //canActivate: [GuardForUser]
+    canActivate: [GuardForUser]
   },
   {
     path: "busLines",
@@ -62,7 +62,7 @@ const Routes = [
   {
     path: "priceList",
     component: PriceListComponent
-    // canActivate: [AdminGuard]
+    //canActivate: [AdminGuard]
   },
   {
     path: "cvl",

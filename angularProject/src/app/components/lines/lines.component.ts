@@ -197,20 +197,23 @@ export class LinesComponent implements OnInit {
     this.lineService.AlredyExistRegularNumber(lineData).subscribe(a=>{
       if(a == "Yes"){
         alert("Line number: "+ lineData.RegularNumber +" alredy exists!");
-        window.location.reload();
+        //window.location.reload();
       }
       else if(a == "No"){
         console.log(lineData);
         this.lineService.addLine(lineData).subscribe(data => {
         alert("Line "+ lineData.RegularNumber +" successful added!");
-        window.location.reload();
+        //window.location.reload();
+        form.reset();
+        //this.refresh();
 
       },
       err => {
         //alert("Add line - error - already exist!");
         window.alert(err.error);
-        window.location.reload();
-        //console.log(lineData);
+
+        //window.location.reload();
+        
         })
       }
     })
@@ -249,13 +252,14 @@ export class LinesComponent implements OnInit {
     // else{
       this.lineService.deleteLine(this.selectedLine.Id).subscribe(data => {
         alert("Line with Number="+ lineData.RegularNumber +" successful delted!");
-        window.location.reload();
+        form.reset();
+        //window.location.reload();
   
       },
       err => {
         //alert("Delete line - error!");
         window.alert(err.error);
-        window.location.reload();
+        //window.location.reload();
   
         //console.log(lineData);
       })
@@ -296,12 +300,15 @@ export class LinesComponent implements OnInit {
     //this.newLineEdit.Version = this.sLineForEdit.Version;
     this.lineService.editLine(this.newLineEdit.Id, this.newLineEdit).subscribe(d=>{
       alert("Line with ID="+ this.newLineEdit.Id +" successful changed!")
+
+
+
       window.location.reload();
 
     },
     err=>{
       window.alert(err.error);
-      window.location.reload();
+      //window.location.reload();
     })
 
   }
@@ -559,4 +566,9 @@ export class LinesComponent implements OnInit {
     }
     return false;
   }
+
+  refresh(){
+   window.location.reload();
+  }
+
 }

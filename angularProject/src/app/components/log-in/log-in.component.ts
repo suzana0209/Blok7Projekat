@@ -34,11 +34,8 @@ export class LogInComponent implements OnInit {
 
    
 
-    // if(p == undefined){
-    //   alert("Invalid username or password! ");
-    //   window.location.reload();
-      
-    // }  
+   
+     
   }
 
 }

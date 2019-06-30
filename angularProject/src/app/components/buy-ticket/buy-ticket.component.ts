@@ -210,8 +210,8 @@ export class BuyTicketComponent implements OnInit {
       // this.buyTicketForm1.TypeOfTicket = "TimeLimited";
       this.buyTicketService.buyTicketViaEmail(this.buyTicketForm1).subscribe();
       alert("Succesfull bought ticket. Expect e-mail notification");
-      //this.router.navigate(['/busLines'])
-      window.location.reload()
+      //this.router.navigateByUrl('/busLines');
+      window.location.reload();
     }else{
       alert("Please enter your email address");
     }    
