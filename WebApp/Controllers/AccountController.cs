@@ -879,15 +879,24 @@ namespace WebApp.Controllers
             current.Activated = true;
             current.Deny = false;
 
-            string passType = _unitOfWork.PassangerTypes.Find(a => a.Id == current.PassangerTypeId).FirstOrDefault().Name;
+            string userTypee = _unitOfWork.UserTypes.Find(a => a.Id == current.UserTypeId).FirstOrDefault().Name;
+            string passType = "";
+
+            if (userTypee == "AppUser")
+            {
+                passType = _unitOfWork.PassangerTypes.Find(a => a.Id == current.PassangerTypeId).FirstOrDefault().Name;
+            }
+
 
 
             _unitOfWork.AppUsers.Update(current);
             _unitOfWork.Complete();
 
 
-            string subject = $"{passType} approved";
-            string desc = $"Dear {current.Name}, You have been approved as {passType}.";
+            //string subject = $"{(userTypee == "AppUser") ? passType : userTypee} approved";
+            string subject = (userTypee == "AppUser") ? passType : userTypee + " approved";
+            string desc = $"Dear {current.Name}, You have been approved as ";
+            desc += (userTypee == "AppUser") ? passType : userTypee + ".";
             var adminEmail = current.Email;
 
             NotifyViaEmail(adminEmail, subject, desc);

@@ -153,9 +153,13 @@
         <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
       </select>
       <div *ngIf="!validations.selectedLineOk" style="color:red">Line  can't be empty.</div>
-       
+      
+      <br><br><br>
+      <!-- <h2>{{messageForEmptyLine}}</h2> -->
+
       </div>
   
+      
       <br><br><br>
 
       
@@ -164,8 +168,8 @@
            
       <div *ngIf="showDepForUnregisterUser">
         <!-- <label >Departures for {{selectedDayForEdit}} on Line: {{pom}}:</label> -->
-        <label>{{allDeparturesForSelect.length != 0 ? 'Departures for ' + selectedDayForEdit + ' on Line: ' : 
-          'No departures for ' + selectedDayForEdit +' on Line: '}} {{pom != "Please select" ? pom : ""}}  </label>
+        <label>{{allDeparturesForSelect.length != 0 ? 'Departures for ' + selectedDayForEdit + " " : 
+          'No departures for ' + selectedDayForEdit +' '}} {{pom != "Please select" && pom != "" ? "on Line: " + pom : ""}}  </label>
         <p *ngFor="let line of allDeparturesForSelect">{{line}}</p>
       </div>
       

@@ -78,6 +78,8 @@ export class TimeTableComponent implements OnInit {
   boolBezvezeZaPoruku: boolean = false;
   boolBezvezeZaPorukuDenied: boolean = false;
   userPom: any;
+
+  messageForEmptyLine: string = ""
   
 
 
@@ -272,6 +274,12 @@ export class TimeTableComponent implements OnInit {
       })
     }
     
+    if(this.allLineForSelDay.length != 0){
+      this.messageForEmptyLine = "";
+    }
+    else{
+      this.messageForEmptyLine = "There is not Line!";
+    }
 
   }
 
