@@ -4,6 +4,7 @@
 
 <div *ngIf="LoggedAdmin()" align="center">
      <h3>Currently active pricelist</h3>   <!--Poruka ako ne postoji cjenovnik! -->
+     <label *ngIf="!showPriceInInput">{{messageNoExistPricelist}}</label>
 
     <h4 *ngIf="priceList" >From: {{priceList.FromTime.split('T')[0]}}</h4>  
     <h4 *ngIf="priceList">To: {{priceList.ToTime.split('T')[0]}}</h4><br/> 
@@ -14,11 +15,14 @@
         <h4>Monthly ticket: {{validPricesForShow.Monthly}} din.</h4>
         <h4>Annual ticket: {{validPricesForShow.Annual}} din.</h4>
       </div>
-      <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Edit currently price list</button>  
+      <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Add(edit) currently price list</button>  
 </div>  
 
+      <div *ngIf="!LoggedAdmin() && messageNoExistPricelist">
+        <h2>There is not exist valid pricelist! </h2>
+      </div>
 
-      <div *ngIf = "!LoggedAdmin()">
+      <div *ngIf = "!LoggedAdmin() && !messageNoExistPricelist">
         <h2 align="center">Currently active price list</h2>
           <div class="form-group">
               <label for="TypeOfTicket">Select type of ticket</label>

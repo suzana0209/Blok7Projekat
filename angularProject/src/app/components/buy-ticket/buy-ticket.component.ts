@@ -49,10 +49,15 @@ export class BuyTicketComponent implements OnInit {
 
   mailPayPalUnregisterUser: string = ""
 
+  ng: NgForm;
+
   constructor(private authService: AuthenticationService, private usersService: UsersService,
     private buyTicketService: BuyTicketService,
     private router: Router,
     private priceServie: PricelistService) { 
+
+      //ovo je samo dodato zbog email -> trebalo bi da email = ""
+      //this.ng.controls['Email'].reset();
 
       this.showButtonComplete = true;
 
@@ -288,7 +293,20 @@ export class BuyTicketComponent implements OnInit {
 
     var diffDays;
     this.buyTicketService.PriceForPayPal(this.buyTicketForm1ForPrice).subscribe(s=>{
+      if(s == "null"){
+        alert("There is not active pricelist!");
+        //return;
+        //window.location.reload();
+
+        this.router.navigateByUrl("/buyTicket");
+        this.showButtonComplete = true;
+        //this.buyTicketForm.controls['Email'].reset()
+        
+        //this.buyTicketForm1ForPrice.Email = "";
+        return;
+      }
       diffDays = parseFloat(s.toString());
+      
     //})
 
     //var diffDays =this.nekiTest;

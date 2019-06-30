@@ -163,7 +163,14 @@ namespace WebApp.Controllers
                 tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault(); //1 - TimeLimited
 
 
-                pList = _unitOfWork.PriceLists.Find(a => a.ToTime >= DateTime.Now).FirstOrDefault();
+                //pList = _unitOfWork.PriceLists.Find(a => a.ToTime >= DateTime.Now).FirstOrDefault();
+                pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
+
+                if(pList == null)
+                {
+                    return "null";
+                }
+
                 ticketPrice = _unitOfWork.TicketPrices.Find(aa => aa.PriceListId == pList.Id && aa.TypeOfTicketId == tt.Id).FirstOrDefault();
 
 
@@ -175,8 +182,13 @@ namespace WebApp.Controllers
             {
                 tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault(); //1 - TimeLimited
 
+                pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
 
-                pList = _unitOfWork.PriceLists.Find(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now).FirstOrDefault();
+                if (pList == null)
+                {
+                    return "null";
+                }
+
                 ticketPrice = _unitOfWork.TicketPrices.Find(aa => aa.PriceListId == pList.Id && aa.TypeOfTicketId == tt.Id).FirstOrDefault();
 
                 c = ticketPrice.Price;
@@ -207,7 +219,10 @@ namespace WebApp.Controllers
             AppUser appUser = _unitOfWork.AppUsers.Find(user => user.Email == pom.Email).FirstOrDefault();
             TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault();
 
-            TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
+            PriceList pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
+
+
+            TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id && pList.Id == a.PriceListId).FirstOrDefault();
 
             double coeff = _unitOfWork.PassangerTypes.Find(dd => dd.Id == appUser.PassangerTypeId).FirstOrDefault().RoleCoefficient;
             double c = ticketPrice.Price - (ticketPrice.Price * coeff);
@@ -237,16 +252,28 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState).ToString();
             }
 
+            PriceList pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
+
+            if(pList == null)
+            {
+                return "null";
+            }
+
+            TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == ticket.TypeOfTicket).FirstOrDefault();
+
+            TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => pList.Id == a.PriceListId && a.TypeOfTicketId == tt.Id).FirstOrDefault();
+            
+
             string subject = "Ticket purchase";
             string desc =   $"Dear {ticket.Email},\nYour purchase is successfull.\n " +
-                $"Ticket price: {_unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == a.Id).FirstOrDefault().Price} din\n " +
+                $"Ticket price: {ticketPrice.Price} din\n " +
                             $"Type of ticket:Time Limited\n" +
                             $"Time of purchase: {DateTime.Now}\n" +
                             $"Ticket is valid for the next hour.\n\n" +
                             $"Thank you.";
+
             var email = ticket.Email;
-            TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == ticket.TypeOfTicket).FirstOrDefault();
-            TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
+            //TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
 
             Ticket storeTicket = new Ticket();
             storeTicket.Email = email;

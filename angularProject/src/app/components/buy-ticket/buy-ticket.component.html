@@ -10,7 +10,7 @@
 
   </div>
 
-    <form #buyTicketForm="ngForm" (ngSubmit)="onSubmit(buyTicketForm.value, buyTicketForm)">
+    <form #buyTicketForm="ngForm"  (ngSubmit)="onSubmit(buyTicketForm.value, buyTicketForm)">
         <div *ngIf="nonRegister()" class="form-group">
             <label for="email">Email address</label>
             <input required type="email" class="form-control" name="Email" placeholder="Email" ngModel>
@@ -60,6 +60,5 @@
         <td>{{t.Valid == false ? 'No' : 'Yes'}}</td>
       </tr>
     </table>
-    <label>{{nekiTest}}</label>
     
   </div>

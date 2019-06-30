@@ -17,7 +17,8 @@ export class PriceListComponent implements OnInit {
   priceList: any;
   ticketPricesPom: TicketPricesPomModel = new TicketPricesPomModel(0,0,0,0,0,new PriceListModel(new Date(),new Date(),0, []));
   datumVazenjaBool: boolean = false;
-  validPrices: TicketPricesPomModel;
+  validPrices: TicketPricesPomModel = new TicketPricesPomModel(0,0,0,0,0,null);
+  //validPrices: TicketPricesPomModel
   validPricesForShow: TicketPricesPomModel;
 
   selectedTicket: string = "";
@@ -38,7 +39,8 @@ export class PriceListComponent implements OnInit {
   boolBezvezeZaPoruku: boolean = false;
   boolBezvezeZaPorukuDenied: boolean = false;
 
-  typePassanger: string = ""
+  typePassanger: string = "";
+  messageNoExistPricelist: string = ""
 
   constructor( private pricelistServ: PricelistService, private userService: UsersService) { 
     this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
@@ -56,6 +58,7 @@ export class PriceListComponent implements OnInit {
     this.pricelistServ.getPricelist().subscribe(data => {  
       if(data == null){
         alert("There is not currently active price list!");
+        this.messageNoExistPricelist = "There is not valid price list!";
         return;
       }    
       this.priceList = data; 

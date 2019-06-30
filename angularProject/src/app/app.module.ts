@@ -38,6 +38,7 @@ import { AdminGuard } from './guard/adminGuard';
 
 import { NgxPayPalModule } from 'ngx-paypal';
 import { DeniedUserComponent } from './components/denied-user/denied-user.component';
+import { GuardForUser } from './guard/pomGuard';
  
 const Routes = [
   {
@@ -46,11 +47,13 @@ const Routes = [
   },
   {
     path: "register",
-    component: RegisterComponent
+    component: RegisterComponent,
+    //canActivate: [GuardForUser]
   },
   {
     path: "logIn",
-    component: LogInComponent
+    component: LogInComponent,
+    //canActivate: [GuardForUser]
   },
   {
     path: "busLines",
@@ -154,6 +157,7 @@ const Routes = [
     CanActivateViaAuthGuard,
     UserLoggedInGuard,
     ControlorGuard,
+    GuardForUser,
     AdminGuard,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}],
   bootstrap: [AppComponent]
