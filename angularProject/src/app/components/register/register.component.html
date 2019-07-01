@@ -1,6 +1,9 @@
+<div id="wholePage">
 <div class="container">
-  <h1 align="center">Welcome - Registration</h1>
+  <h1 id="headerh1">Registration form</h1>
+  <div class="row">
   <form #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm.value, registrationForm)">
+      <div class="column">
       <div class="form-group">
         <label for="email">Email address</label>
         <input  required type="email"  pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" class="form-control" name="Email" placeholder="Email" ngModel>
@@ -37,12 +40,22 @@
         <div *ngIf="!validations.streetOk" style="color:red">Street can't be empty.</div>
       </div>
 
+      <div *ngIf="isSelectedForImage()" class="form-group">
+          <input  type="file" id="imageFile" (change)="onFileSelected($event)" 
+          style="color:transparent;" onchange="this.style.color = 'transparent';"/>  
+          <!-- <label> Selected file: {{selectedImage}}</label> -->
+        </div>
+
+    </div>
+    <div class="column">
+
       <div class="form-group">
         <label for="Number">Number</label>
         <input required type="text" class="form-control" name="Number" placeholder="Number" ngModel>
 
         <div *ngIf="!validations.numberOk" style="color:red">Number can't be empty.</div>
       </div>
+    
 
       <div class="form-group" >
         <label for="UserType">User Type</label>
@@ -55,6 +68,8 @@
 
         <div *ngIf="!validations.userTypeOk" style="color:red">UserType can't be empty.</div>
       </div>
+
+    
 
       <div class="form-group" *ngIf="isSelected()">
         <label for="PassangerType">Passanger Type</label>
@@ -70,6 +85,7 @@
 
       <div class="form-group">
         <label for="Birthaday">Birthaday</label>
+        <!-- <i class="fa fa-birthday-cake" aria-hidden="true"></i> -->
         <input required type="date" class="form-control" [max]="datePickerId" name="Birthaday" placeholder="dd/mm/yyyy" ngModel>
 
         <div *ngIf="!validations.birthadayOk" style="color:red">Birthaday can't be empty.</div>
@@ -89,14 +105,14 @@
           <div *ngIf="!validations.confirmPasswordOk" style="color:red">Confirm password can't be empty.</div>
       </div>
 
-      <div *ngIf="isSelectedForImage()" class="form-group">
-        <input  type="file" (change)="onFileSelected($event)" 
-        style="color:transparent;" onchange="this.style.color = 'transparent';"/>  
-        <!-- <label> Selected file: {{selectedImage}}</label> -->
-      </div>
       
       
+    
 
-      <button type="submit" class="nav-link" class="btn">Register</button>
+    </div>
+    
+    <button type="submit" class="nav-link" class="btn" style="text-align: center">Register</button>
   </form>
+</div>
+</div>
 </div>

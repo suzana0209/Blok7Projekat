@@ -1,10 +1,11 @@
 
-
+<div id="wholePage">
  <div class="container">
-  <h1>Log In</h1>
+  <h1 id="headerh1">Login form</h1>
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value, loginForm)">
       <div class="form-group">
-        <label for="email">Email address</label>
+        <!-- <label for="email">Email address</label> -->
+        <i class="fa fa-user" aria-hidden="true"></i>
         <input required type="email" class="form-control" pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"
          name="Email" placeholder="Email" ngModel>
       
@@ -15,7 +16,8 @@
 
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <!-- <label for="password">Password</label> -->
+        <i class="fa fa-lock" aria-hidden="true"></i>
         <input required type="password" class="form-control" name="Password" placeholder="Password" ngModel>
       
         <div *ngIf="!validations.passwordOk" style="color:red">Password can't be empty.</div>
@@ -25,4 +27,5 @@
 
       <button type="submit" class="btn">Log In</button>
     </form>
+  </div>
 </div>

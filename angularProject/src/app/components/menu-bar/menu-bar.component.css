@@ -20,7 +20,7 @@ nav{
     background-color:#ffff66 !important;
     vertical-align: center;
     position: fixed;
-    top: 220px;
+    top: 200px;
     width: 100%;
     /* overflow: hidden; */
     z-index: 10;
@@ -32,7 +32,7 @@ div#busImage{
   /* bcolor: red !important; */
   position: fixed;
   top: 0;
-  height: 250px !important;
+  height: 230px !important;
   /* width: 70%;*/
 
    display: block;
@@ -114,8 +114,10 @@ container{
     max-width:120rem;
     width: 90%;
     margin: 0 auto;
+    /* background-color: lightgray !important; */
 }
 
 div#glavna{
   background-color: lightgrey !important;
+  
 }

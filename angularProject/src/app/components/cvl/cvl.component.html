@@ -1,19 +1,20 @@
+<div id="wholePage">
 <div>
-  <h2 align="center">See current location of vehicle for selected line</h2>
-</div> <br><br>
-<div  align="center">
-  <label>Select regular number</label><br>
-  <select #regularNumber (change)="onSelectionChangeNumber($event)">
-    <option disabled value="">-- Please Select --</option>
+  <h2 id="headerh2">See current location of vehicle - select the line number</h2>
+</div> 
+<div  id="comboboxLine">
+  <!-- <label>Select the line number: </label> -->
+  <select id="cbox" #regularNumber (change)="onSelectionChangeNumber($event)">
+    <option disabled value="">Please Select</option>
     <option *ngFor="let option of options;" [value]="option">
         {{option}}
     </option>
   </select> 
 </div>
-<br><br>
-<div align="center">
+
+<div align="center" id="mapaa">
   <!-- Kreiramo mapu -->
-   <agm-map [latitude]="startLat" [longitude]="startLon" [zoom]="zoom" id = "mapa"> 
+   <agm-map  [latitude]="startLat" [longitude]="startLon" [zoom]="zoom" id = "mapa"> 
 
 
 
@@ -60,4 +61,5 @@
     </agm-marker>
 
  </agm-map>
+</div>
 </div>

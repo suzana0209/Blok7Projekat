@@ -13,7 +13,7 @@ import { StationService } from 'src/app/services/stationService/station.service'
   selector: 'app-cvl',
   templateUrl: './cvl.component.html',
   styleUrls: ['./cvl.component.css'],
-  styles: ['agm-map {height: 500px; width: 80%;}']
+  styles: ['agm-map {height: 400px; width: 90%;}']
 })
 export class CvlComponent implements OnInit {
 
