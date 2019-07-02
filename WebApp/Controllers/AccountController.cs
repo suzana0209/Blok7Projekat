@@ -140,7 +140,12 @@ namespace WebApp.Controllers
             appUser.Name = model.Name;
             appUser.Email = model.Email;
             appUser.Birthaday = model.Birthaday;
-            appUser.Image = path;
+            //appUser.Image = path;
+
+            if (path != "")
+            {
+                appUser.Image = path;
+            }
 
             path = "";
 

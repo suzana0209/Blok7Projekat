@@ -1,54 +1,98 @@
+<div id="wholePage">
 <div class="container">
     <!-- <h3>AAA: {{pm.PassangerTypeId == 1 ? Student : Pensioner}}</h3> -->
-    <h1>Profile:</h1>
-    <h3>
-        
-        {{typePassanger != "" ? 'You are: ' : ''}} {{typePassanger}}
+    <h1 id="headerh1">Profile information  {{typePassanger != "" ? '- You are: ' : ''}} {{typePassanger}}</h1>
+    <br>
+    <div class="row">
+    <div class="col-75" >
+    <div id="infoAboutUser">
+    <h3 class="row">
+        <h3 id="forPrint" class="col-20">Full name:</h3>
+        <h3 class="col-25">{{user?.Name}} {{user?.LastName}}</h3>
     </h3>
-    <h3>Name: {{user?.Name}}</h3>
-    <h3>Last Name: {{user?.LastName}}</h3>
-    <h3>Email: {{user?.Email}}</h3>
-    <h3>Birthaday: {{user?.Birthaday}}</h3>
-    <h3>Address: {{user?.Street}} {{user?.Number}}, {{user?.City}}</h3>
+    <!-- <h3 class="row">
+        <h3 class="col-20">Last Name:</h3>
+        <h3 class="col-25"></h3>
+    </h3> -->
+    <h3 class="row">
+        <h3 class="col-20">Email: </h3>
+        <h3 class="col-25">{{user?.Email}}</h3>
+    </h3>
 
-    <img  src="{{wtfList}}" width="200" height="100" alt="">
+    <h3 class="row">
+        <h3 class="col-20">Birthday: </h3>
+        <!--{{valueDate | date: 'dd/MM/yyyy'}}-->
+        <!-- <h3 class="col-25">{{user?.Birthaday}}</h3> -->
+        <h3 class="col-25">{{user?.Birthaday.split('-')[2] }}-{{user?.Birthaday.split('-')[1] }}-{{user?.Birthaday.split('-')[0] }}</h3>
+    </h3>
+    <h3 class="row">
+        <h3 class="col-20">Address: </h3>
+        <h3 class="col-25">{{user?.Street}} {{user?.Number}}, {{user?.City}}</h3>
+    </h3>
+    </div>
+    </div>
+    <div class="col-25">
+        <h3 id="imageInfo">{{typePassanger == "Student" ? "Photo index" : ''}} {{typePassanger == "Pensioner" ? "Pensioner check" : ""}}</h3>
+        <img src="{{wtfList}}" width="300" height="170" alt="">
+        <div class="row">
+        <div *ngIf="studentOrPensioner" class="upload-btn-wrapper" >
+            <button class="btnForFilee">Upload file</button>
+            <input  type="file" id="btnImage"  (change)="onFileSelected($event)" *ngIf="studentOrPensioner" value=""
+            style="color:transparent;" onchange="this.style.color = 'transparent';"/>
+        </div>
         
-
+        <button *ngIf="showApplyButton" class="col-25" id="btnForEdit" type="submit" class="button" class="btn btn-primary" (click)='ApplyImage()'>Apply image</button>
+        </div>
+    </div>
+    </div>
 
 </div>
 
 <div align="center">
-        <button type="submit" class="button" class="btn" (click)='showPassword()'>Change Password</button>
-        <button type="submit" class="button" class="btn" (click)='showEdit()'>Change Profile</button>
-        <input  type="file" class="button" class="btn" (change)="onFileSelected($event)" *ngIf="studentOrPensioner" value="Choose image">
+        <button id="btnForEdit" type="submit" class="button" class="btn" (click)='showPassword()'>Edit Password</button>
+        <button id="btnForEdit" type="submit" class="button" class="btn" (click)='showEdit()'>Edit Profile</button>
+        <!-- <input  type="file" class="button" class="btn" (change)="onFileSelected($event)" *ngIf="studentOrPensioner" value="Choose image"> -->
 
-        <button *ngIf="showApplyButton" type="submit" class="button" class="btn btn-primary" (click)='ApplyImage()'>Apply image</button>
-
+        
 </div>
-
-<div *ngIf="isSelectedEdit()">
+<div class="form1">
+<div *ngIf="isSelectedEdit()" class="designForForm">
     <form #PomAppUserModelForm="ngForm" (ngSubmit)="onSubmit(PomAppUserModelForm.value, PomAppUserModelForm)">
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input required type="email" class="form-control" name="Email" placeholder="Email"  [(ngModel)]="userForEdit.Email">
-            <div *ngIf="!validations.emailOk" style="color:red">Email can't be empty.</div>
-            <div *ngIf="!validations.emailOk1" style="color:red">Email must have '@' character! </div>
+        
     
-        </div>
-          
-        <div class="form-group">
-            <label for="Name">Name</label>
-            <input required type="text" class="form-control" name="Name" placeholder="Name" [(ngModel)]="userForEdit.Name">
-            <div *ngIf="!validations.nameOk" style="color:red">Name can't be empty.</div>
-      
-        </div>
-
+        
+    <div class="row1">
+            <div class="columnEmail">
+                    <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input required type="email" class="form-control" name="Email" placeholder="Email"  [(ngModel)]="userForEdit.Email">
+                            <div *ngIf="!validations.emailOk" style="color:red">Email can't be empty.</div>
+                            <div *ngIf="!validations.emailOk1" style="color:red">Email must have '@' character! </div>
+                    
+                    </div>
+                </div>
+            <div class="column1">
+            <div class="form-group">
+                <label for="Name">Name</label>
+                <input required type="text" class="form-control" name="Name" placeholder="Name" [(ngModel)]="userForEdit.Name">
+                <div *ngIf="!validations.nameOk" style="color:red">Name can't be empty.</div>
+        
+            </div>
+        
         <div class="form-group">
             <label for="LastName">Last Name</label>
             <input required type="text" class="form-control" name="LastName" placeholder="LastName" [(ngModel)]="userForEdit.LastName">
             <div *ngIf="!validations.lastNameOk" style="color:red">LastName can't be empty.</div>
-     
+
         </div>
+        <div class="form-group">
+                <label for="Birthaday">Birthaday</label>
+                <input required type="date" class="form-control" name="Birthaday" placeholder="dd/mm/yyyy" [(ngModel)]="userForEdit.Birthaday">
+                <div *ngIf="!validations.birthadayOk" style="color:red">Birthaday can't be empty.</div>
+         
+        </div>
+    </div>
+    <div class="column1">
 
         <div class="form-group">
             <label for="City">City</label>
@@ -70,22 +114,21 @@
             <div *ngIf="!validations.numberOk" style="color:red">Number can't be empty.</div>
      
         </div>
+    </div>
+    </div>
+        
 
-        <div class="form-group">
-            <label for="Birthaday">Birthaday</label>
-            <input required type="date" class="form-control" name="Birthaday" placeholder="dd/mm/yyyy" [(ngModel)]="userForEdit.Birthaday">
-            <div *ngIf="!validations.birthadayOk" style="color:red">Birthaday can't be empty.</div>
-     
-        </div>
-
-       <button type="submit" class="nav-link" class="btn btn-primary">Edit user information</button>
+       <button type="submit" class="nav-link" class="btnEdit" id="btnForEdit11">Edit user information</button>
 
     </form>
 </div>
+</div>
 
-
-<div *ngIf="isSelectedPassword()">
+<div class="form1">
+<div *ngIf="isSelectedPassword()" class="designForFormPassword">
+    <div class="row1">
     <form #PomModelForPassword="ngForm" (ngSubmit)="onSubmitPassword(PomModelForPassword.value, PomModelForPassword)">
+        <div class="column1">
         <div class="form-group">
             <label for="OldPassword">Old Password</label>
             <input required type="password" class="form-control" name="OldPassword" placeholder="Password" ngModel>
@@ -108,6 +151,10 @@
      
         </div>
 
-        <button type="submit" class="nav-link" class="btn btn-primary">Change password</button>
+        <button type="submit" class="nav-link" class="btn" id="btnForEditPassword">Change password</button>
+    </div>
     </form>
+</div>
+</div>
+</div>
 </div>

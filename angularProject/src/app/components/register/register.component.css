@@ -89,6 +89,20 @@ h1#headerh1:hover{
 
 }
 
+button#btnForReg{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: 20%;
+}
+
 .column {
     float: left;
     width: 50%;
@@ -96,9 +110,6 @@ h1#headerh1:hover{
     
   }
 
-
-  
-  /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
