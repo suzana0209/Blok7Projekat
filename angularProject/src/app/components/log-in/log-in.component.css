@@ -64,7 +64,7 @@ h1#headerh1:hover{
     border: none;
     outline: none;
     background: none;
-    color: white;
+    color: black;   /*white*/
     font-size: 18px;
     width: 80%;
     float: left;

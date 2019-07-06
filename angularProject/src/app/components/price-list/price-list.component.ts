@@ -40,9 +40,11 @@ export class PriceListComponent implements OnInit {
   boolBezvezeZaPorukuDenied: boolean = false;
 
   typePassanger: string = "";
-  messageNoExistPricelist: string = ""
+  messageNoExistPricelist: string = "";
+  prviAddPL: boolean = true;
 
   constructor( private pricelistServ: PricelistService, private userService: UsersService) { 
+    this.prviAddPL = true;
     this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
       console.log("Userrr: ", a);
       if(a != null && a != undefined){
@@ -57,7 +59,7 @@ export class PriceListComponent implements OnInit {
     this.showPriceInInput = false;
     this.pricelistServ.getPricelist().subscribe(data => {  
       if(data == null){
-        alert("There is not currently active price list!");
+        //alert("There is not currently active price list!");
         this.messageNoExistPricelist = "There is not valid price list!";
         return;
       }    
@@ -238,6 +240,7 @@ export class PriceListComponent implements OnInit {
   
   editPricelistClick(){
     this.showPriceInInput = true;
+    this.prviAddPL = false;
   }
 
   checkIsAuthorized(){

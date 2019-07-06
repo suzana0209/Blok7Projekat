@@ -1,8 +1,76 @@
 div#wholePage{
     width: 100%;
     
-    margin-top: 240px !important;
+    margin-top: 260px !important;
     padding: 11px !important;
     
     background-color:lightgray !important;
+    height: 500px !important;
 }
+
+
+
+button#designBtn{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: 0%;
+}
+
+button#designBtn:active{
+    background:white;
+    color: black;
+}
+
+button#designBtn:focus{
+    background: white;
+    color: black;
+}
+
+.form-group{
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin:10px;
+    border-bottom: 1px solid;
+    text-align: center
+    
+}
+
+.form1{
+    /* width: 600px !important; */
+    background-color: lightgrey;
+    width: 100%;
+  }
+  
+  .column1 {
+    float: left;
+    width: 50%;
+    padding: 30px;
+    
+  }
+  
+  .row1:after {
+    content: "";
+    display: table;
+    clear: both;
+    
+  }
+
+  .designForFormAdd{
+    background-color: lightgrey;
+    transform: translate(80%, 0%);
+    width: 700px !important;
+  }
+
+  .marginForAddButton{
+      margin-left: 22% !important;
+  }

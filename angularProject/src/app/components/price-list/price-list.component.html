@@ -1,29 +1,68 @@
-
-<label *ngIf="NonActiveAdmin()">You are not authorized for edit price list! Your request is processed! You can only look at the currently active pricelist!</label>
-<label *ngIf="DeniedAdmin()">You are not authorized for edit price list! Your request is denied! You can only look at the currently active pricelist!</label>
-
+<div id="wholePage">
+  <h2 *ngIf="NonActiveAdmin()" id="info">You are not authorized for edit price list! Your request is processed! You can only look at the currently active pricelist!</h2>
+  <h2 *ngIf="DeniedAdmin()" id="info">You are not authorized for edit price list! Your request is denied! You can only look at the currently active pricelist!</h2>
+  <br>
 <div *ngIf="LoggedAdmin()" align="center">
-     <h3>Currently active pricelist</h3>   <!--Poruka ako ne postoji cjenovnik! -->
-     <label *ngIf="!showPriceInInput">{{messageNoExistPricelist}}</label>
+     <h2 id="info">Currently active pricelist</h2>   <!--Poruka ako ne postoji cjenovnik! --><br>
+     <h2 *ngIf="!showPriceInInput" id="notExistPL">{{messageNoExistPricelist}}</h2>
 
-    <h4 *ngIf="priceList" >From: {{priceList.FromTime.split('T')[0]}}</h4>  
-    <h4 *ngIf="priceList">To: {{priceList.ToTime.split('T')[0]}}</h4><br/> 
+    <h4 *ngIf="priceList" id="designWithHover">
+      {{priceList.FromTime.split('T')[0].split('-')[2]}}/{{priceList.FromTime.split('T')[0].split('-')[1]}}/{{priceList.FromTime.split('T')[0].split('-')[0]}}
+      - {{priceList.ToTime.split('T')[0].split('-')[2]}}/{{priceList.ToTime.split('T')[0].split('-')[1]}}/{{priceList.ToTime.split('T')[0].split('-')[0]}}
+    </h4>  
+    <!-- <h4 *ngIf="priceList">To: {{priceList.ToTime.split('T')[0]}}</h4><br/>  -->
 
       <div *ngIf="validPricesForShow"> 
-        <h4>TimeLimited ticket: {{validPricesForShow.TimeLimited}} din.</h4>
-        <h4>Daily ticket:{{validPricesForShow.Daily}} din.</h4>
-        <h4>Monthly ticket: {{validPricesForShow.Monthly}} din.</h4>
-        <h4>Annual ticket: {{validPricesForShow.Annual}} din.</h4>
+      <table>
+        <tr>
+          <h4 id="info">
+          <td id = "tdName">TimeLimited ticket</td>
+          <td id = "tdPrice">{{validPricesForShow.TimeLimited}}</td>
+          <td id="tdPrice">din</td>
+        </h4>
+        </tr>
+
+        <tr>
+            <h4 id="info">
+            <td id="tdName">Daily ticket</td>
+            <td id = "tdPrice">{{validPricesForShow.Daily}}</td>
+            <td id="tdPrice">din</td>
+          </h4>
+        </tr>
+
+        <tr>
+            <h4 id="info">
+            <td id="tdName">Monthly ticket</td>
+            <td id="tdPrice">{{validPricesForShow.Monthly}}</td>
+            <td id="tdPrice">din</td>
+          </h4>
+        </tr> 
+        <tr>
+            <h4 id="info">
+            <td id="tdName">Annual ticket</td>
+            <td id="tdPrice">{{validPricesForShow.Annual}}</td>
+            <td id="tdPrice">din</td>
+          </h4>
+        </tr>
+      </table> <br><br>
       </div>
-      <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Add(edit) currently price list</button>  
+      <!-- <button class="btn" type="submit" class="button" (click)="editPricelistClick()">Add(edit) price list</button>   -->
+      <div *ngIf="prviAddPL">
+      <button *ngIf="validPricesForShow" class="btn" type="submit" class="button" (click)="editPricelistClick()" id="btnForAddPL">Edit price list</button>  
+      <button *ngIf="!validPricesForShow" class="btn" type="submit" class="button" (click)="editPricelistClick()" id="btnForAddPL">Add price list</button>  
+    </div>
 </div>  
 
       <div *ngIf="!LoggedAdmin() && messageNoExistPricelist">
-        <h2>There is not exist valid pricelist! </h2>
-      </div>
+        <h2 id="notExistPL">There is not exist valid pricelist!</h2>
+      </div> 
 
+      <div class="form3">
       <div *ngIf = "!LoggedAdmin() && !messageNoExistPricelist">
-        <h2 align="center">Currently active price list</h2>
+        
+       <div class="designForFormTickets3">
+          <h2 align="center" id="info">Currently active price list</h2>
+        
           <div class="form-group">
               <label for="TypeOfTicket">Select type of ticket</label>
               <select name="TypeOfTicket" (click)="getSelectedTicket($event)"  class="form-group"  class="form-control" >
@@ -49,60 +88,84 @@
             </div><br><br>
             
 
-            <button type="button" class="nav-link" (click)="calculatePrice()" class="btn" align="center">OK</button><br><br>
+            <button type="button" class="nav-link" (click)="calculatePrice()" class="btn" align="center"
+            class="marForButton" id="btnForAddPL">Show price</button><br><br>
 
-            <label *ngIf = "showLabel" align="center">Price for selected ticket: {{retPrice.Id}} din.</label>
+            <p *ngIf = "showLabel" align="center" id="info">Price for selected ticket: {{retPrice.Id}} din.</p>
       </div>
+    </div>
+    </div>
 
-<div *ngIf="LoggedAdmin() && showPriceInInput">
-  <form #ticketPricesForm="ngForm" (ngSubmit)="onSubmit1(ticketPricesForm.value,ticketPricesForm)">
+<div class="form1">
+<div *ngIf="LoggedAdmin() && showPriceInInput" class="designForFormTickets">
+  <div class="row1">
+  <form #ticketPricesForm="ngForm"  (ngSubmit)="onSubmit1(ticketPricesForm.value,ticketPricesForm)">
     <div *ngIf="validPrices"> 
+      <div class="column1">
+      <div class="form-group">
       <label>TimeLimited ticket:</label>
-      <input type="number" name="TimeLimited"  class="form-group"  class="form-control"   [(ngModel)] = "validPrices.TimeLimited"> <br/>
+      <input type="number" name="TimeLimited"  class="form-control"   [(ngModel)] = "validPrices.TimeLimited">
       <!---->
       <div *ngIf="!validationsForPrice.timeLimitedOk" style="color:red">The price of time limited ticket can't be empty.</div>      
       <div *ngIf="!validationsForPrice.timeLimitedOk0" style="color:red">The price of time limited ticket must not be zero.</div>
       <div *ngIf="!validationsForPrice.timeLimitedOkMinus" style="color:red">The price of time limited ticket must not be less than zero.</div>
-        
+    </div>
+
+    <div class="form-group">
       <label>Daily ticket:</label>
-      <input type="number" name="Daily"  class="form-group"  class="form-control"  [(ngModel)] = "validPrices.Daily"><br/>
+      <input type="number" name="Daily"  class="form-group"  class="form-control"  [(ngModel)] = "validPrices.Daily">
       <div *ngIf="!validationsForPrice.dailyOk" style="color:red">The price of daily ticket can't be empty.</div>      
       <div *ngIf="!validationsForPrice.dailyOk0" style="color:red">The price of daily ticket must not be zero.</div>
       <div *ngIf="!validationsForPrice.dailyOkMinus" style="color:red">The price of daily ticket must not be less than zero.</div>
-        
+    </div> 
+      </div> 
+      <div class="column1">
 
+    <div class="form-group">
       <label>Monthly ticket:</label>
-      <input type="number" name="Monthly"  class="form-group"  class="form-control"  [(ngModel)] = "validPrices.Monthly"><br/>
+      <input type="number" name="Monthly"  class="form-group"  class="form-control"  [(ngModel)] = "validPrices.Monthly">
       <div *ngIf="!validationsForPrice.monthlyOk" style="color:red">The price of monthly ticket can't be empty.</div>      
       <div *ngIf="!validationsForPrice.monthlyOk0" style="color:red">The price of monthly ticket must not be zero.</div>
       <div *ngIf="!validationsForPrice.mohtlyOkMinus" style="color:red">The price of monthly ticket must not be less than zero.</div>
-        
-
+     </div>
+     
+     <div class="form-group">
       <label>Annual ticket:</label>
-      <input type="number" name="Annual"  class="form-group"  class="form-control" [(ngModel)] = "validPrices.Annual"><br/>
+      <input type="number" name="Annual"  class="form-group"  class="form-control" [(ngModel)] = "validPrices.Annual">
       <div *ngIf="!validationsForPrice.annualOk" style="color:red">The price of annual ticket can't be empty.</div>      
       <div *ngIf="!validationsForPrice.annualOk0" style="color:red">The price of annual ticket must not be zero.</div>
       <div *ngIf="!validationsForPrice.annualOkMinus" style="color:red">The price of annual ticket must not be less than zero.</div>
-        
-      
-      <button *ngIf="!datumVazenjaBool"  class="btn" type="submit" class="button">Add new prices</button>
+     </div>   
     </div>
+      <button *ngIf="!datumVazenjaBool"  class="btn" type="submit" class="button" class="marginForButton" id="btnForAddPL">Add new prices</button>
+    
+  </div>
   </form>
+</div>
 
-  <div *ngIf="datumVazenjaBool">  
-    <form #pricelistForm="ngForm" (ngSubmit)="onSubmit(pricelistForm.value,pricelistForm)">
-        <div>
-          <label>Start of validity:</label>
-          <input type="date" name="FromTime" [min]= "datePickerId" ngModel><br/>
+  <div *ngIf="datumVazenjaBool" class="designForFormTickets2">  
+    <div class="row2">
+    <form #pricelistForm="ngForm" class="form2" (ngSubmit)="onSubmit(pricelistForm.value,pricelistForm)">
+      <div class="column2">
+        <div class="form-group">
+          <label>Start of validity:</label><br>
+          <input type="date" name="FromTime" [min]= "datePickerId" ngModel>
           <div *ngIf="!validationsForDate.fromTimeOk" style="color:red">Date can't be empty.</div>
           <!--validationsForDate-->
-          
-          <label>End of validity:</label>
-          <input type="date" name="ToTime" [min]="datePickerId" ngModel><br/>
-          <div *ngIf="!validationsForDate.toTimeOk" style="color:red">Date can't be empty.</div>
-          
-          <button type="submit" class="btn" class="button">Add pricelist</button>
         </div>
+      </div>
+        <div class="column2">
+        <div class="form-group">
+          <label>End of validity:</label><br>
+          <input type="date" name="ToTime" [min]="datePickerId" ngModel>
+          <div *ngIf="!validationsForDate.toTimeOk" style="color:red">Date can't be empty.</div>
+        </div>
+      </div>
+          <button type="submit" class="btn" class="button" class="marginForButton" id="btnForAddPL">Add pricelist</button>
+        
       </form>
+    </div>
   </div>
+</div>
+</div>
 </div>

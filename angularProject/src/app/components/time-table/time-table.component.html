@@ -5,14 +5,17 @@
 
 <div *ngIf = "LoggedAdmin()">    
     <div align="center">
-        <button type="submit" class="button" class="btn" (click)='showTimeT()'>Show timetable</button>
-      <button type="submit" class="button" class="btn" (click)='showAdd()' >Add timetable</button> 
-      <button type="submit" class="button" class="btn" (click)='showEdit()' >Edit timetable</button>  
-      <button type="submit" class="button" class="btn" (click)='showDelete()'>Delete timetable</button>  
+      <button type="submit" class="button" class="btn" id="designBtn" (click)='showTimeT()'>Show timetable</button>
+      <button type="submit" class="button" class="btn" id="designBtn" (click)='showAdd()' >Add timetable</button> 
+      <button type="submit" class="button" class="btn" id="designBtn" (click)='showEdit()' >Edit timetable</button>  
+      <button type="submit" class="button" class="btn" id="designBtn" (click)='showDelete()'>Delete timetable</button>  
     </div>
   
-    <div *ngIf="isSelectedAdd()">  
+    <div class="form1">
+    <div *ngIf="isSelectedAdd()" class="designForFormAdd">  
+      <div class="row1">
       <form #timetableForm="ngForm" (ngSubmit)="onSubmit(timetableForm.value, timetableForm)">
+        <div class="column1">
         <div class="form-group" >
           <label for="DayId">Day type</label>
           <select name="DayId" class="form-group"  class="form-control" ngModel>
@@ -24,27 +27,31 @@
           <div *ngIf="!validationsForAdd.dayIdOk" style="color:red">Please select day type.</div>
         
         </div>
-  
-        <label for="LineId">Select line: </label>
+        <div class="form-group" >
+        <label for="LineId">Select line </label>
         <select name="LineId"  class="form-control" ngModel>
         <option disabled>Please select...</option>
         <option *ngFor="let line of allLinesFromDb" value={{line.RegularNumber}}>{{line.RegularNumber}}</option>
         </select>
         <div *ngIf="!validationsForAdd.lineIdOk" style="color:red">Please select line number.</div>
-        
-        
-        <br><label for="Departures" >Select time</label>
+        </div>
+        <div class="form-group" >
+        <label for="Departures" >Select time</label>
         <input type="time" name="Departures" class="form-control" ngModel>    
-        <div *ngIf="!validationsForAdd.departuresOk" style="color:red">Departure can't be empty!</div> <br><br>
-        
+        <div *ngIf="!validationsForAdd.departuresOk" style="color:red">Departure can't be empty!</div>
+      </div>
   
-        <button type="submit" class="nav-link" class="btn btn-primary">Add timetable</button>
-  
+        <button type="submit" class="nav-link" class="btn" id="designBtn" class="marginForAddButton">Add timetable</button>
+      </div>
       </form> 
     </div>
-  
-    <div *ngIf="isSelectedDelete()">
+    </div>
+  </div>
+  <div class="form1">
+    <div *ngIf="isSelectedDelete()" class="designForFormAdd">
+      <div class="row1">
       <form #timetableForm="ngForm" (ngSubmit)="onSubmitDelete(timetableForm.value, timetableForm)">
+        <div class="column1">
         <div class="form-group" >
           <label for="DayId">Day type</label>
           <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)" ngModel>
@@ -54,22 +61,25 @@
             <option value="Sunday">Sunday</option>
           </select>
           <!--validationsForDelete-->
-          <div *ngIf="!validationsForDelete.dayIdOk" style="color:red">Please select day type!</div> <br><br>
+          <div *ngIf="!validationsForDelete.dayIdOk" style="color:red">Please select day type!</div>
         
         </div>
   
+        <div class="form-group">
         <label for="LineId">Select line: </label>
         <select name="LineId"  class="form-control"  ngModel>
           <option disabled>Please select...</option>
           <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
         </select>
-        <div *ngIf="!validationsForDelete.lineIdOk" style="color:red">Please select line number!</div> <br><br>
-        
+        <div *ngIf="!validationsForDelete.lineIdOk" style="color:red">Please select line number!</div>
+      </div>
 
-        <button type="submit" class="nav-link" class="btn btn-primary">Delete timetable</button>
-  
+        <button type="submit"  class="btn" id="designBtn" class="marginForAddButton">Delete timetable</button>
+      </div>
       </form>
+      </div>
     </div>
+  </div>
   
     <div *ngIf="isSelectedEdit()">
         <form #timetableForm="ngForm" (ngSubmit)="onSubmitEdit(timetableForm.value, timetableForm)">

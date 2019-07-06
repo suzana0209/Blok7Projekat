@@ -38,20 +38,22 @@ th{
     padding-right: 30px;
 }
 
-p#busLineGrid{
-    font-size: 40px;
-    width: 100%;
-    text-align: center;
-    font-family: cursive;
-    
-    
-}
+
 
 h4#infoh4{
     text-align: left;
     font-size: 15px;
     width: 100%;
     margin-top: 0px;
+    
+}
+
+p#busLineGrid{
+    font-size: 40px;
+    width: 100%;
+    text-align: center;
+    font-family: cursive;
+    
     
 }
 
