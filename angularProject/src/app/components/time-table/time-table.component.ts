@@ -8,7 +8,7 @@ import { element } from 'protractor';
 import { DayService } from 'src/app/services/dayService/day.service';
 import { Router } from '@angular/router';
 import { ValidTimetableModel } from 'src/app/models/validTimetable.model';
-import { ValidForTimetableModel, ValidForTimetableDeleteModel, ValidForTimetableEditModel } from 'src/app/models/modelsForValidation/validForTimetable.model';
+import { ValidForTimetableModel, ValidForTimetableDeleteModel, ValidForTimetableEditModel, ValidForNewDepModel } from 'src/app/models/modelsForValidation/validForTimetable.model';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -73,6 +73,8 @@ export class TimeTableComponent implements OnInit {
    validationsForAdd: ValidForTimetableModel = new ValidForTimetableModel();
    validationsForDelete: ValidForTimetableDeleteModel = new ValidForTimetableDeleteModel();
    validationsForEdit :ValidForTimetableEditModel = new ValidForTimetableEditModel();
+
+   validForNewD: ValidForNewDepModel = new ValidForNewDepModel();
 
 
   boolBezvezeZaPoruku: boolean = false;
@@ -207,6 +209,10 @@ export class TimeTableComponent implements OnInit {
 
     console.log("TTTTT", ttt);
 
+    if(this.validForNewD.validate(ttt.NewDepartures)){
+      return;
+    }
+
     if(this.clickedDeleteTime){
       ttt.NewDepartures = ttt.Departures;
       this.timetableService.editTimetable(this.timetableIdForSend, ttt).subscribe(dd=>{
@@ -224,6 +230,8 @@ export class TimeTableComponent implements OnInit {
           });
         }
         else if(a == "Yes"){
+          console.log("Timetableeeee: ", this.timetableIdForSend);
+          console.log("TTTTT", ttt);
           alert("New departure alredy exist in timetable!");
           window.location.reload();
         }

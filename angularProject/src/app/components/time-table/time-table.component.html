@@ -81,9 +81,12 @@
     </div>
   </div>
   
-    <div *ngIf="isSelectedEdit()">
+  <div class="form1">
+    <div *ngIf="isSelectedEdit()" class="designForFormAdd">
+      <div class="row1">
         <form #timetableForm="ngForm" (ngSubmit)="onSubmitEdit(timetableForm.value, timetableForm)">
-            <div class="form-group">
+          <div class="column1">  
+          <div class="form-group">
               <label for="DayId">Select day type</label>
           <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)" ngModel>
             <option disabled>Please select...</option>
@@ -93,10 +96,10 @@
           </select>
           <div *ngIf="!validationsForEdit.dayIdOk" style="color:red">Please select day type.</div>
         
-            </div>
+          </div>
         
   
-        <div *ngIf="showLineComboBox">
+        <div *ngIf="showLineComboBox" class="form-group">
         <label for="LineId">Select line </label>
         <select name="LineId"  class="form-control" (click)="getDeparturesForEditt($event)" ngModel>
           <option disabled>Please select...</option>
@@ -106,8 +109,8 @@
         
         </div>
   
-        <br><br>
-        <div *ngIf="showDepartureComboBox">
+        
+        <div *ngIf="showDepartureComboBox" class="form-group">
           <label for="Departures">Select departure </label>
           <select name="Departures"  class="form-control" (click) = "setNewDepartures($event)" ngModel>
             <option disabled>Please select...</option>
@@ -115,37 +118,48 @@
           </select>
           <div *ngIf="!validationsForEdit.departuresOk" style="color:red">Please select departure.</div>
         
-          <br><br>
+          
           <!-- <label>{{messageDontDepartures}}</label> -->
           </div>
 
           
   
-          <div *ngIf="boolForButton">
-          <button *ngIf="hiddenDeleteButton" type="button" class="nav-link" class="btn btn-primary" (click)="editTime()">Edit time</button>
-          <br><br>
-          <button *ngIf = "hiddenEditButton" type="button" class="nav-link" class="btn btn-primary" (click)="deleteTime()">Delete time</button>
+          <div *ngIf="boolForButton" class="row1">
+            <div class="column33">
+          <button *ngIf="hiddenDeleteButton" type="button" class="nav-link" class="btn" id="designBtn"  (click)="editTime()">Edit time</button>
+          
+          <button *ngIf = "hiddenEditButton" type="button" class="nav-link" class="btn" id="designBtn"  (click)="deleteTime()">Delete time</button>
+        </div>
             </div>
   
-        <div *ngIf="showInputTime">
+        <div *ngIf="showInputTime" class="form-group">
           <br><label for="NewDepartures" >Select time</label>
           <input type="time" name="NewDepartures" value="{{departuresForEditInput}}" class="form-control" ngModel><br>
           <div *ngIf="!validationsForEdit.newDeparturesOk" style="color:red">New departure can't be empty.</div>
+          <div *ngIf="!validForNewD.newDepaturesOk" style="color:red">New departure can't be empty.</div>
         
         </div>
   
   
         <br><br>
         <div *ngIf="editSubmitBool">
-        <button type="submit" class="nav-link" class="btn btn-primary">Save changes for timetable</button>
+        <button type="submit" class="nav-link" class="btn" id="designBtn" class="marginForEditButton">Save changes</button>
         </div>
+      </div>
       </form>
     </div>
+    </div>
+  </div>
   </div>
   
 
   <!--Ovaj dio vide SVI cak i neautorizovani admini-->
-  <div *ngIf="(!isSelectedAdd() && !isSelectedDelete() && !isSelectedEdit() && isSelectedShow()) || !LoggedAdmin()">  
+  <div class="form1">
+  <div *ngIf="(!isSelectedAdd() && !isSelectedDelete() && !isSelectedEdit() && isSelectedShow()) || !LoggedAdmin()" 
+  class="designForFormShow">  
+    <div class="row1">
+      <div class="columnShow50">
+    <div class="form-group">    
     <label for="DayId">Day type</label>
     <select name="DayId" class="form-group"  class="form-control" (click)="getLineForEdit($event)">
       <option disabled>Please select</option>
@@ -154,36 +168,40 @@
       <option value="Sunday">Sunday</option>
     </select>
       <div *ngIf="!validations.dayTypeOk" style="color:red">Day type can't be empty.</div>
-        
+    </div>  
     
   
     <div *ngIf="showLineCbForUnlogedUser">
+      <div class="form-group">
       <label for="LineId">Select line: </label>
       <select name="LineId"  class="form-control" (click)="getDeparturesForEditt($event)">
         <option disabled>Please select</option>
         <option *ngFor="let line of allLineForSelDay" value={{line}}>{{line}}</option>
       </select>
       <div *ngIf="!validations.selectedLineOk" style="color:red">Line  can't be empty.</div>
-      
-      <br><br><br>
+    </div>   
       <!-- <h2>{{messageForEmptyLine}}</h2> -->
 
       </div>
   
-      
-      <br><br><br>
-
-      
+      <br>
       <!--Prikazi polaske i za neregistrovanog korisnika i za ostale-->
-      <button *ngIf = "showDepartureComboBox" type="button" class="nav-link" class="btn btn-primary" (click)="showDepartureOnClick()">Show departure time</button> <br><br>
-           
+      <button *ngIf = "showDepartureComboBox" type="button" class="nav-link" class="btn" (click)="showDepartureOnClick()" 
+      id="designBtn" class="marginForAddButton">Show departures</button> 
+      </div>
+      <div class = "columnShow50">
       <div *ngIf="showDepForUnregisterUser">
+        <h4 id="infoh4">
         <!-- <label >Departures for {{selectedDayForEdit}} on Line: {{pom}}:</label> -->
         <label>{{allDeparturesForSelect.length != 0 ? 'Departures for ' + selectedDayForEdit + " " : 
           'No departures for ' + selectedDayForEdit +' '}} {{pom != "Please select" && pom != "" ? "on Line: " + pom : ""}}  </label>
-        <p *ngFor="let line of allDeparturesForSelect">{{line}}</p>
+        
+        
+        <p *ngFor="let line of allDeparturesForSelect; index as i" id="infop">{{i+1}}.  {{line}}</p>
+      </h4>
       </div>
-      
+      </div>
+      </div>
   </div>
-
+</div>
 </div>

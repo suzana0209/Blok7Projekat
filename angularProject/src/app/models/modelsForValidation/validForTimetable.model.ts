@@ -90,6 +90,25 @@ export class ValidForTimetableEditModel{
     }
 }
 
+export class ValidForNewDepModel{
+    newDepaturesOk: boolean = true;
+
+    validate(newDep: string){
+        let wrong = false;
+
+        if(newDep == null || newDep == ""){
+            this.newDepaturesOk = false;
+            wrong = true;
+        }
+        else this.newDepaturesOk = true;
+
+        return wrong;
+    }
+
+    
+
+}
+
 
 
 
