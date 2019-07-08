@@ -1,47 +1,89 @@
 <div id="wholePage">
-<div *ngIf="user" class="container">
-  <div *ngIf="!user.Activated && !denyAdmin">You are not authorized for approval of the request ! Your request is processed! </div>
-  <div *ngIf="denyAdmin">You are not authorized for approval of the request! Your request is denied! </div>
+<div *ngIf="user"  class="container"  class="row1" >   <!-- class="container"-->
+  <div *ngIf="!user.Activated && !denyAdmin" id="info">You are not authorized for approval of the request ! Your request is processed! </div>
+  <div *ngIf="denyAdmin" id="info">You are not authorized for approval of the request! Your request is denied! </div>
   <div *ngIf="user.Activated">
     <div *ngIf="loggedAdmin()">
+      <div class="column1">
     <div class="col-md-12">
-      <h5>Authorize awaiting controllers </h5> <br>
+      <h1 id="headerh1">Authorize controllers </h1> 
       <ul class="list-group" *ngFor="let awaitingController of awaitingControllers; let i = index">
-        <li class="list-group-item">{{awaitingController.Name}} <span class="pull-right" style="float:right">
-          <button class="btn" (click)="AuthorizeControllers(awaitingController.Id,i)">Authorize Controller</button>
-          <button class="btn" (click)="DenyControllers(awaitingController.Id,i)">Deny Controller</button>
+        <li class="list-group-item" class="row1">
+          <div class="columnForInside50" >
+            Fullname: {{awaitingController.Name}} {{awaitingController.LastName}} <br>
+            {{awaitingController.Email}}
+          </div>
+          <span class="pull-right" style="float:right">
+          
+          <div class="columnForInside">
+          <button class="btn" (click)="AuthorizeControllers(awaitingController.Id,i)" id="designButton">&#10003;</button>
+          </div>
+          
+          <div class="columnForInside">
+          <button class="btn" (click)="DenyControllers(awaitingController.Id,i)" id="designButton">X</button>
+          </div>
         </span>
       </li>
       </ul>
      </div>
-     
-     <br><br>
+    </div>
+    <div class="column1"> 
     <div class="col-md-12">
-        <h5>Authorize awaiting admins </h5>
+        <h1 id="headerh1">Authorize  admins</h1>
         <ul class="list-group" *ngFor="let awaitingAdmin of awaitingAdmins; let i = index">
-          <li class="list-group-item">{{awaitingAdmin.Name}} <span class="pull-right" style="float:right">
-            <button class="btn" (click)="AuthorizeAdmins(awaitingAdmin.Id,i)">Authorize Admin</button>
-            <button class="btn" (click)="DenyAdmin(awaitingAdmin.Id,i)">Deny Admin</button>
+          <li class="list-group-item" class="row1">
+              <div class="columnForInside50" >
+            Fullname: {{awaitingAdmin.Name}} {{awaitingAdmin.LastName}} <br>
+            {{awaitingAdmin.Email}} 
+            </div>
+            <span class="pull-right" style="float:right">
+            <div class="columnForInside">
+            <button class="btn" (click)="AuthorizeAdmins(awaitingAdmin.Id,i)"  id="designButton">&#10003;</button>
+            </div>
+            <div class="columnForInside">
+            <button class="btn" (click)="DenyAdmin(awaitingAdmin.Id,i)"  id="designButton">X</button>
+            </div>
           </span>
         </li>
         </ul>
       </div>
+    </div>
 
-      <br><br>
-      <div>
-          <div class="col-md-12">
-              <h5>Authorize awaiting appUser </h5>
-              <ul class="list-group" *ngFor="let awaitingAppUser of awaitingAppUsers; let i = index">
-                <li class="list-group-item">{{awaitingAppUser.Name}} <br/>
-                  <img *ngIf="imagesLoaded" src="{{wtfList[i]}}" width="200" height="100" alt="">
-                  <span class="pull-right" style="float:right">
-                  <button class="btn" (click)="AuthorizeAppUsers(awaitingAppUser.Id,i)">Authorize appUser</button>
-                  <button class="btn" (click)="DenyAppUsers(awaitingAppUser.Id,i)">Deny appUser</button>
-                </span>
-              </li>
-              </ul>
+    <div class="column1">
+      
+      <div class="col-md-12">
+          <h1 id="headerh1">Authorize appUser </h1>
+          <ul class="list-group" *ngFor="let awaitingAppUser of awaitingAppUsers; let i = index">
+            <li class="list-group-item">
+              <!-- {{awaitingAppUser.Name}} -->
+              <div class="columnForInside50" >
+                  Fullname: {{awaitingAppUser.Name}} {{awaitingAppUser.LastName}} <br>
+                  {{awaitingAppUser.Email}} 
+                  </div>
+              <!-- <img *ngIf="imagesLoaded" src="{{wtfList[i]}}" width="200" height="100" alt=""> -->
+              <span class="pull-right" style="float:right">
+                <div class="columnForInside" >
+              <button class="btn" (click)="AuthorizeAppUsers(awaitingAppUser.Id,i)"  id="designButton">&#10003;</button>
+                </div>
+              <div class="columnForInside" >
+              <button class="btn" (click)="DenyAppUsers(awaitingAppUser.Id,i)"  id="designButton">X</button>
             </div>
-          </div>
+            <!-- <div class="columnForInside">
+                <button class="btn" (click)="DenyAppUsers(awaitingAppUser.Id,i)"  id="designButton">S img</button>
+              </div> -->
+            </span>
+            <div class="row1">
+              <div class="columnForInside50Img">
+                <img *ngIf="imagesLoaded" src="{{wtfList[i]}}" width="170" height="80" alt="">
+              </div>
+              
+            </div>
+          </li>
+          </ul>
+        </div>
+          <!--&#10003;
+              &#x2713;-->
+        </div>
     </div>
 
      

@@ -1,17 +1,29 @@
-<div *ngIf="user" class="container">
-  <div *ngIf="!user.Activated && !denyAdmin">You are not authorized for approval of the request ! Your request is processed! </div>
-  <div *ngIf="denyAdmin">You are not authorized for approval of the request! Your request is denied! </div>
+<div id="wholePage">
+<div *ngIf="user" class="container" class="row1">
+  <div *ngIf="!user.Activated && !denyAdmin" id="info">You are not authorized for approval of the request ! Your request is processed! </div>
+  <div *ngIf="denyAdmin" id="info">You are not authorized for approval of the request! Your request is denied! </div>
   <div *ngIf="user.Activated">
     <div *ngIf="loggedAdmin()">
+      <div class="column1">
         <div class="col-md-12">
-            <h5>Authorize denied users </h5> <br>
+            <h1 id="headerh1">Authorize denied users </h1> <br>
             <ul class="list-group" *ngFor="let userr of deniedUsers; let i = index">
-              <li class="list-group-item">{{userr.Name}} <span class="pull-right" style="float:right">
-                <button class="btn" (click)="AuthorizeDeniedAdmins(userr.Id,i)">Authorize user</button>
+              <li class="list-group-item" class="row1">
+                <!-- {{userr.Name}}  -->
+                <div class="columnForInside50" >
+                    Fullname: {{userr.Name}} {{userr.LastName}} <br>
+                    {{userr.Email}}
+                  </div>
+                <span class="pull-right" style="float:right">
+              <div class="columnForInside">
+                <button class="btn" (click)="AuthorizeDeniedAdmins(userr.Id,i)" id="designButton">&#10003;</button>
+              </div>
               </span>
             </li>
             </ul>
            </div>
+      </div>
     </div>
   </div>
+</div>
 </div>

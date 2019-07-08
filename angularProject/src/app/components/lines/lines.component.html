@@ -1,19 +1,12 @@
-<label *ngIf="NonActiveAdmin()">You are not authorized for add/edit/delete lines! Your request is processed! </label>
-<label *ngIf="DeniedAdmin()">You are not authorized for add/edit/delete lines! Your request is denied!</label>
+<div id="wholePage">
+<h2 *ngIf="NonActiveAdmin()" id="info">You are not authorized for add/edit/delete lines! Your request is processed! </h2>
+<h2 *ngIf="DeniedAdmin()" id="info">You are not authorized for add/edit/delete lines! Your request is denied!</h2>
 
 
-<div *ngIf="LoggedAdmin()">
-  <div align="center">
-      <button type="submit" class="button" class="btn" (click)='showAdd()' >Add line</button>
-      <button type="submit" class="button" class="btn" (click)='showEdit()' >Edit line</button>
-      <button type="submit" class="button" class="btn" (click)='showDelete()'>Delete line</button>
-      <button type="submit" align="right" class="button" class="btn btn-primary" (click)='refresh()'>Refresh</button>
-      
-  </div>
+<div *ngIf="LoggedAdmin()" class="row1">
 
-  <!-- Kreiranje mape -->
-  <div style="width:50%; height: 50%; margin: 5% 25%">
-      <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18">
+  <div class="column70">
+    <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18">
         <agm-marker *ngFor="let station of stations" [latitude]="station.Latitude" [longitude]="station.Longitude" [title]="station.Name"
         [label]="" [iconUrl]="iconUrl" (markerClick) = "stationClick(station.Id)">
 
@@ -98,7 +91,22 @@
       </div>
 
       </agm-map>
+    </div>
+
+  <div class="column30">  
+  <div align="center" class="row1">
+    <div class="column100" *ngIf="sakrijDugmice">
+      <button type="submit" class="button" class="btn" (click)='showAdd()' id="designBtn">Add line</button>
+      <button type="submit" class="button" class="btn" (click)='showEdit()'id="designBtn" >Edit line</button>
+      <button type="submit" class="button" class="btn" (click)='showDelete()' id="designBtn">Delete line</button>
+      <!-- <button type="submit" align="right" class="button" class="btn btn-primary" (click)='refresh()'>Refresh</button> -->
+    </div>
   </div>
+
+  <!-- Kreiranje mape -->
+  <!-- <div style="width:50%; height: 50%; margin: 5% 25%"> -->
+      
+  <!-- </div> -->
 
   <div *ngIf="isSelectedAdd()">
       <!-- <h3>Add line</h3> -->
@@ -114,11 +122,11 @@
             <div *ngIf="!validationsForAdd.regularLineOkMinus" style="color:red">Line number must not be less than zero.</div>
         
 
-
+          </div> <br>
           <div align="center">
-              <button type="submit" class="button" class="btn">Add line</button>
+              <button type="submit" class="button" class="btn" id="designBtnForAction">Add line</button>
           </div>
-        </div>
+        
       </form>
 
       <!-- <div>
@@ -131,8 +139,6 @@
   </div>
 
   <div *ngIf="isSelectedEdit()">
-
-      
 
               <label for="RegularNumber">Select line: </label>
               <select name="RegularNumber" (click)='showLinesForChange($event)' class="form-control" ngModel>
@@ -188,8 +194,9 @@
             </div>
 
 
-      <button *ngIf="showListOfStations" type="submit" class="button" class="btn btn-primary" (click) = "onSubmitEdit()" align="center">Save changes for line</button>
-      <br><br>
+      <button *ngIf="showListOfStations" type="submit" class="button" class="btn" 
+      (click) = "onSubmitEdit()" align="center" id="designBtnForAction">Save changes</button>
+      
 
       <!-- <h3>Edit line</h3> -->
   </div>
@@ -208,11 +215,13 @@
               </select>
               <div *ngIf="!validationsForAdd.regularLineOk" style="color:red">Please select regular number!</div>
         
-
+            </div><br>
               <div align="center">
-                  <button type="submit" class="button" class="btn">Delete line</button>
+                  <button type="submit" class="button" class="btn" id="designBtnForAction">Delete line</button>
               </div>
-          </div>
+          
       </form>
   </div>
+</div>
+</div>
 </div>

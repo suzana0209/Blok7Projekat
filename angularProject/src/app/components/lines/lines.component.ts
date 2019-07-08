@@ -20,7 +20,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   selector: 'app-lines',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.css'],
-  styles: ['agm-map {height: 500px; width: 700px;}']
+  styles: ['agm-map {height: 400px; width: 100%;}']
 })
 export class LinesComponent implements OnInit {
   listOfColors: any = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
@@ -99,6 +99,7 @@ export class LinesComponent implements OnInit {
   boolBezvezeZaPoruku: boolean = false;
   boolBezvezeZaPorukuDenied: boolean = false;
   userPom: any;
+  sakrijDugmice: boolean = true;
   
 
   iconUrl: any = {url: "assets/busicon.png", scaledSize: {width: 50, height:50}}
@@ -108,6 +109,7 @@ export class LinesComponent implements OnInit {
     private lineService: LineService, 
     private lineStationService: LineStationService, private userService: UsersService) { 
 
+      this.sakrijDugmice = true;
       this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
         console.log("Userrr: ", a);
         if(a != null && a != undefined){
@@ -203,8 +205,8 @@ export class LinesComponent implements OnInit {
         console.log(lineData);
         this.lineService.addLine(lineData).subscribe(data => {
         alert("Line "+ lineData.RegularNumber +" successful added!");
-        //window.location.reload();
-        form.reset();
+        window.location.reload();
+        //form.reset();
         //this.refresh();
 
       },
@@ -524,14 +526,17 @@ export class LinesComponent implements OnInit {
   
 
   showAdd(){
+    this.sakrijDugmice = false;
     this.selected = "Add";
   }
 
   showEdit(){
+    this.sakrijDugmice = false;
     this.selected = "Edit";
   }
 
   showDelete(){
+    this.sakrijDugmice = false;
     this.selected = "Delete";
   }
 

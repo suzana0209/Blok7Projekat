@@ -1,0 +1,111 @@
+div#wholePage{
+    width: 100%;
+    
+    margin-top: 250px !important;
+    padding: 11px !important;
+    
+    background-color:lightgray !important;
+    /* height: 800px !important; */
+    /* overflow-y: hidden; */
+    height: 500px;
+    
+}
+
+div#info{
+    font-size: 40px;
+    width: 100% !important;
+    text-align: center !important;
+    font-family: cursive;
+    margin-top: 150px ;   
+}
+
+div#info:hover{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    border-color: white;
+    font-family: cursive;
+}
+
+button#designButton{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    /* padding: 5px 22px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 16px;
+    cursor: pointer;
+    /* width: 40px; */ 
+}
+
+.list-group{
+  background: #F5F5F5;
+  list-style-type: none;
+  border: lightgray 5px solid;
+}
+
+.list-group-item{
+  background: #F5F5F5;
+  border: lightgray 5px solid;
+}
+
+.column1 {
+    float: left;
+    width: 100%;
+    padding-left: 500px;
+    padding-right: 500px;
+    padding-top: 10px;
+    
+  }
+
+  .columnForInside{
+    float: left;
+    width: 25%;
+    padding: 10px !important;
+  }
+
+  .columnForInside50{
+    float: left;
+    width: 50%;
+    padding: 10px !important;
+  }
+
+  .columnForInside50Img{
+    float: left;
+    width: 100%;
+    padding: 0px !important;
+  }
+
+  .marginPom{
+    margin-top: 0% !important;
+  }
+
+
+
+  .row1:after {
+    content: "";
+    display: table;
+    clear: both;
+    
+  }
+
+  h1#headerh1{
+    font-size: 40px;
+    width: 100%;
+    text-align: center;
+    font-family: cursive;
+     
+  }
+  
+  h1#headerh1:hover{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    border-color: white;
+    font-family: cursive;
+  }

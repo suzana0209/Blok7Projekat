@@ -1,19 +1,16 @@
 <div id="wholePage">
-<label *ngIf="NonActiveAdmin()">You are not authorized for add/edit/delete stations! Your request is processed! </label>
-<label *ngIf="DeniedAdmin()">You are not authorized for add/edit/delete stations! Your request is denied!</label>
+<h2 *ngIf="NonActiveAdmin()" id="info">You are not authorized for add/edit/delete stations! Your request is processed! </h2>
+<h2 *ngIf="DeniedAdmin()" id="info">You are not authorized for add/edit/delete stations! Your request is denied!</h2>
 
-<div *ngIf="LoggedAdmin()">    
-        <div align="center"><br>
-          <h3>Currently existing stations</h3>
-          <br/>
-            <button type="submit" class="button" class="btn" (click)='showAdd()' >Add station</button>  
-            <button type="submit" class="button" class="btn" (click)='showEdit()' >Edit station</button>  
-            <button type="submit" class="button" class="btn" (click)='showDelete()'>Delete station</button>  
-        </div>
+<div *ngIf="LoggedAdmin()" class="row1">   
+  <!-- <div class="row1"> -->
+    
 
-        <div>
+      <div class="column70">
 
-            <div style="width:50%; height: 50%; margin: 5% 25%">
+        <!-- <div> -->
+
+            <!-- <div style="width:50%; height: 50%; margin: 5% 25%"> -->
                 <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18" 
                 (mapClick)="placeMarker1($event)">  
                   <agm-marker *ngFor="let station of stations" [latitude]="station.Latitude" [longitude]="station.Longitude" [title]="station.Name"
@@ -29,14 +26,28 @@
                     </agm-info-window>
                 </agm-marker>
                 </agm-map>
+              </div>
+
+              <div class="column30">
+                  <div align="center" class="row1">
+                    <!-- <h3>Currently existing stations</h3> -->
+                      <div class="column100"  *ngIf="sakrijDugmice">
+                          <button type="submit" class="button" class="btn" id="designBtn" (click)='showAdd()' >Add station</button><br>  
+                      
+                          <button type="submit" class="button" class="btn" id="designBtn" (click)='showEdit()' >Edit station</button> <br> 
+                          <button type="submit" class="button" class="btn" id="designBtn" (click)='showDelete()'>Delete station</button> <br> 
+                    </div>
+                  </div>
+                 
+              <!-- </div> -->
                 <!-- <app-map></app-map> -->
-            </div>
+            <!-- </div> -->
 
         <div *ngIf="isSelectedAdd()">
-          <h3>Add station</h3>
+          <h4 id="infoh4">Add station</h4>
           <form #stationForm="ngForm" (ngSubmit)="onSubmit(stationForm.value, stationForm)">
             <div class="form-group">
-              <label for="Name">Name station</label>
+              <label for="Name" id="idForLab">Name station</label>
               <input required type="text" class="form-control" name="Name" value="{{nameOfStation}}" ngModel>
               <div *ngIf="!validationsForAdd.nameOk" style="color:red">Station name can't be empty.</div>
         
@@ -67,11 +78,11 @@
 
             
             <div align="center">
-              <button type="submit" class="button" class="btn">Add station</button>  
+              <button type="submit" class="button" class="btn" id="designBtnForAction">Add station</button>  
             </div>
           </form>
         </div>
-        </div>
+        
 
 
   <div *ngIf="isSelectedEdit()">
@@ -110,7 +121,7 @@
 
             
             <div align="center">
-              <button type="submit" class="button" class="btn">Save changes</button>  
+              <button type="submit" class="button" class="btn" id="designBtnForAction">Save changes</button>  
             </div>
           </form>
   </div>
@@ -119,13 +130,15 @@
       <!-- <h2>DELETE STATION</h2> -->
     <form #stationForm="ngForm" (ngSubmit)="onSubmitDelete(stationForm.value, stationForm)">
         <div align="center">
-            <button type="submit" class="button" class="btn">Delete station</button>  
+            <button type="submit" class="button" class="btn" id="designBtnForAction">Delete station</button>  
           </div>
     </form>
 
   </div>
 </div>
 </div>
+</div>
+<!-- </div> -->
 
 
 

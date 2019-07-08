@@ -14,7 +14,8 @@ import { UsersService } from 'src/app/services/users/users.service';
   selector: 'app-stations',
   templateUrl: './stations.component.html',
   styleUrls: ['./stations.component.css'],
-  styles: ['agm-map {height: 500px; width: 700px;}']
+  styles: ['agm-map {height: 400px; width: 100%;}']
+  //styles: ['agm-map {height: 500px; width: 700px;}']
   //styles: ['agm-map {height: 500px; width: 80%;}']
 })
 export class StationsComponent implements OnInit {
@@ -42,12 +43,14 @@ export class StationsComponent implements OnInit {
   boolBezvezeZaPoruku: boolean = false;
   boolBezvezeZaPorukuDenied: boolean = false;
   userPom: any;
+  sakrijDugmice: boolean = true;
 
 
 
 
   constructor(private ngZone: NgZone, private route: Router, private mapsApiLoader: MapsAPILoader,
     private stationService: StationService, private userService: UsersService) {
+    this.sakrijDugmice = true;
     this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
       console.log("Userrr: ", a);
       if(a != null && a != undefined){
@@ -261,14 +264,20 @@ export class StationsComponent implements OnInit {
   }
 
   showAdd(){
+    this.sakrijDugmice = false;
     this.selected = "Add";
+    
   }
 
   showEdit(){
+    
+    this.sakrijDugmice = false;
     this.selected = "Edit";
   }
 
   showDelete(){
+    
+    this.sakrijDugmice = false;
     this.selected = "Delete";
   }
 

@@ -1,0 +1,103 @@
+div#wholePage{
+    width: 100%;
+    
+    margin-top: 260px !important;
+    padding: 11px !important;
+    
+    background-color:lightgray !important;
+    height: 500px !important;
+}
+
+button#designBtn{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 45px; /*32*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    margin: 2px 2px;
+    cursor: pointer;
+    margin-left: 0%;
+    margin-top: 0% !important;
+    width: 300px !important;
+    margin-bottom: 20% !important;
+    
+}
+button#designBtn:active{
+    background:white;
+    color: black;
+}
+
+button#designBtn:focus{
+    background: white;
+    color: black;
+}
+
+h2#info{
+    font-size: 40px;
+    width: 100% !important;
+    text-align: center !important;
+    font-family: cursive;
+    margin-top: 150px ;   
+}
+
+h2#info:hover{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    border-color: white;
+    font-family: cursive;
+}
+
+.form-group{ 
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin:10px;
+    border-bottom: 1px solid !important;
+    text-align: center !important;
+}
+
+.column30 {
+    float: left;
+    width: 30%;
+    padding: 30px;
+  }
+  .column70{
+    float: right;
+    width: 70%;
+    padding: 30px;
+  }
+
+  .column100{
+      float: left;
+      width: 100%;
+      padding: 30px;
+  }
+
+
+  .row1:after {
+    content: "";
+    display: table;
+    clear: both;
+    
+  }
+
+  button#designBtnForAction{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 45px; /*32*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    margin: 2px 2px;
+    cursor: pointer;
+    margin-left: 0%;
+    
+}
