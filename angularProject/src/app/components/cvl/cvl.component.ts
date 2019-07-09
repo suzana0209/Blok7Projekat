@@ -37,8 +37,6 @@ export class CvlComponent implements OnInit {
 
   latitude : number ;
   longitude : number;
-  // latitude: string = ""
-  // longitude: string = ""
   pomm: any = []
 
   marker: MarkerInfo = new MarkerInfo(new GeoLocation(this.startLat,this.startLon),"","","","");
@@ -50,6 +48,7 @@ export class CvlComponent implements OnInit {
     private ngZone: NgZone, 
     private lineService : LineService, 
     private clickService : ForCvlService, private stationsService: StationService) {
+    
     this.isConnected = false;
     this.notificationBus = [];
    }
@@ -70,15 +69,18 @@ export class CvlComponent implements OnInit {
     this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}});
    
     //za hub
+    this.subscribeForTime(); 
     this.checkConnection();
-    this.subscribeForTime();
+
+    //novo
+    this.stations = [];
+    
   }
 
   getStationsByLineNumber(regularNumber : string){
     console.log("Linije iz baze: ", this.options1);
 
-    //this.stationsService.getOrderedStation(line.id)
-    //let pomm = [];
+    
     this.options1.forEach(element => {
       if(element.RegularNumber == regularNumber)
       {
@@ -93,9 +95,12 @@ export class CvlComponent implements OnInit {
           this.polyline.addLocation(new GeoLocation(this.stations[i].Latitude, this.stations[i].Longitude));
         }
         console.log(this.stations);
-        this.clickService.click(this.stations).subscribe();
-        })
-        
+        this.clickService.click(this.stations).subscribe(d=>{
+          console.log("dataaa for location: ", d);
+
+          this.startTimer();
+        });
+        })    
       }
     });
    
@@ -110,12 +115,15 @@ export class CvlComponent implements OnInit {
       this.isChanged = false;
       this.stations = [];
       this.polyline.path = [];
-      this.stopTimer();
-    }else
-    {
-      this.getStationsByLineNumber(event.target.value);   
 
-      this.notifForBL.StartTimer(); 
+      this.stopTimer();
+    }
+    else{
+      this.stopTimer();
+
+      this.getStationsByLineNumber(event.target.value);   
+      //
+      //this.notifForBL.StartTimer(); 
     }
 
   }
@@ -123,19 +131,21 @@ export class CvlComponent implements OnInit {
   private checkConnection(){
     this.notifForBL.startConnection().subscribe(e => {
       this.isConnected = e; 
-        if (e) {
-          this.notifForBL.StartTimer();
-        }
+      if(e){
+
+      }
+        
     });
   }  
 
  public subscribeForTime() {
-    this.notifForBL.registerForTimerEvents().subscribe(e => 
+    this.notifForBL.registerForTimerEvents().subscribe(e => {
       this.onTimeEvent(e)
-      )};
+    });
+      
+  }
 
-  position1 : number;
-  position2: number;
+ 
 
   public onTimeEvent(pos: number[]){
     this.ngZone.run(() => { 
@@ -143,7 +153,8 @@ export class CvlComponent implements OnInit {
        if(this.isChanged){
          this.latitude = pos[0];
           this.longitude = pos[1];
-          
+          console.log("Possss Lat:", this.latitude);
+          console.log("Posss long", this.longitude);
 
        }else{
           this.latitude = 0;
@@ -158,7 +169,7 @@ export class CvlComponent implements OnInit {
 
   public stopTimer() {
     this.notifForBL.StopTimer();
-    console.log("valjda stopira timer")
+    console.log("stopira timer")
     this.time = null;
   }
 

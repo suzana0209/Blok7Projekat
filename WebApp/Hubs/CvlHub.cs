@@ -14,7 +14,7 @@ namespace WebApp.Hubs
     {
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<CvlHub>();
 
-        private static List<Station> listOfStations = new List<Station>();
+        private static List<Station> stations = new List<Station>();
 
         private static Timer timer = new Timer();
         private static int cnt = 0;
@@ -25,29 +25,60 @@ namespace WebApp.Hubs
 
         public void TimeServerUpdates()
         {
-            if (!timer.Enabled)
+            if(timer.Interval != 4000)
             {
-                timer.Interval = 5000;
-                timer.Start();
+                timer.Interval = 4000;
                 timer.Elapsed += OnTimedEvent;
+
+                
             }
+            timer.Enabled = true;
+
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            GetTime();
+            //GetTime();
+        #if DEBUG
+                (source as Timer).Enabled = false;
+        #endif
+            if(stations  != null)
+            {
+                
+                if (cnt >= stations.Count)    //provjeriti da li je brojEl. veci od nule  
+                {
+                    cnt = 0;
+                }
+                //if(stations.Count > 0)    //ovaj uslov je poslije dodat
+                //{
+                    double[] niz = { stations[cnt].Latitude, stations[cnt].Longitude };
+                    Clients.All.setRealTime(niz);
+                    cnt++;
+                //}
+                
+                
+            }
+            else
+            {
+                double[] nizz = { 0, 0 };
+            }
+            //do your work
+            
+        #if DEBUG
+            (source as Timer).Enabled = true;
+        #endif
         }
 
         public void GetTime()
         {
-            if (listOfStations.Count > 0)
+            if (stations.Count > 0)
             {
-                if (cnt >= listOfStations.Count)
+                if (cnt >= stations.Count)
                 {
                     cnt = 0;
                 }
-                double[] niz = { listOfStations[cnt].Latitude, listOfStations[cnt].Longitude };
-                Clients.All.setRealTime(niz);
+                double[] niz = { stations[cnt].Latitude, stations[cnt].Longitude };
+                //Clients.All.setRealTime(niz);
                 cnt++;
             }
         }
@@ -55,11 +86,13 @@ namespace WebApp.Hubs
         public void StopTimeServerUpdates()
         {
             timer.Stop();
+            stations = null;
         }
 
         public void AddStations(List<Station> stationsBM)
         {
-            listOfStations = stationsBM;
+            stations = new List<Station>();
+            stations = stationsBM;
         }
 
 
