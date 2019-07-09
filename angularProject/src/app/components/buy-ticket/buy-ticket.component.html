@@ -1,18 +1,18 @@
 <div id="wholePage">
 
 <div *ngIf="!nonRegister() && !nonActivated() && !requestDeny()">
-  <label>You are not authorized to purchase tickets. Your request is processed! </label>
+  <h2 id="info">You are not authorized to purchase tickets. Your request is processed! </h2>
 </div>
 
-<div *ngIf="requestDeny() && !nonRegister()">You do not have the right to purchase tickets, your request has been denied!</div>
-
-  <div>
-
-  </div>
-
+<h2 *ngIf="requestDeny() && !nonRegister()" id="info">You do not have the right to purchase tickets, your request has been denied!</h2>
+ 
+<h1 *ngIf="nonActivated()" id="headerh1">Buy ticket</h1>
+  <div class="row1" class="designForForm">
+  <div class="columnForInside40">
     <form #buyTicketForm="ngForm"  (ngSubmit)="onSubmit(buyTicketForm.value, buyTicketForm)">
         <div *ngIf="nonRegister()" class="form-group">
-            <label for="email">Email address</label>
+            
+            <label for="email" id="info">Email address</label>
             <input required type="email" class="form-control" name="Email" placeholder="Email" ngModel>
 
             <div *ngIf="!validations.emailForBuyTicketOk" style="color:red">Email can't be empty.</div>
@@ -21,7 +21,7 @@
       <div *ngIf="!nonRegister()" class="form-group">  <!--Ako je registrovan-->
         
         <div *ngIf="nonActivated()">
-          <label for="TypeOfTicket">Select type of ticket</label>
+          <label for="TypeOfTicket" id="info">Select type of ticket</label>
           <select name="TypeOfTicket"  class="form-group"  class="form-control" ngModel>
             <option disabled>Please select...</option>
             <option value="TimeLimited">TimeLimited</option>
@@ -36,23 +36,28 @@
 
       <ngx-paypal [config]="payPalConfig"></ngx-paypal>
 
-      <button *ngIf="(nonActivated() || nonRegister()) && (showButtonComplete)" type="submit" class="nav-link" class="btn btn-primary">Complete shopping</button>
+      <button *ngIf="(nonActivated() || nonRegister()) && (showButtonComplete)" type="submit" class="nav-link" class="btn" 
+      class="marginForBtn" id="btnDesign">Complete shopping</button>
   </form>
+</div>
 
+
+ <div class="columnForInside60">
+  <label *ngIf="nonRegister && !mailForPayPal" id="info">We are sorry, you are not registered, we do not have your ticket history</label>
   <div *ngIf="!nonRegister() && nonActivated() && !requestDeny()">
-    <br><br>
+    
     <!--Niste kupili ni jednu kartu-->
-    <h3>{{listOfBuyingTicket.length != 0 ? 'History of buying ticket' : 'You did not buy any tickets!'}}!</h3><br>
+    <label id="info">{{listOfBuyingTicket.length != 0 ? 'History of buying ticket' : 'You did not buy any tickets!'}}!</label>
 
-    <table border="1">
-      <tr *ngIf="listOfBuyingTicket.length">
+    <table border="0" class="marginForTable">
+      <tr *ngIf="listOfBuyingTicket.length" class="trHeader">
         <td>Id ticket</td>
         <td>Type of ticket</td>
         <td>Purchase date</td>
         <td>Price of ticket</td>
         <td>Valid</td>
       </tr>
-      <tr *ngFor="let t of listOfBuyingTicket">
+      <tr *ngFor="let t of listOfBuyingTicket" class="trClass">
         <td>{{t.Id}}</td>
         <td>{{tipKarte[t.TypeOfTicketId]}}</td>
         <td>{{t.PurchaseDate}}</td>
@@ -62,5 +67,7 @@
     </table>
     
   </div>
+</div>
+</div>
 
 </div>

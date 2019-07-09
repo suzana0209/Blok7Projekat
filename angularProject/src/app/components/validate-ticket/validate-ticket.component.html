@@ -1,6 +1,6 @@
-
-<label *ngIf="!pomBool && !denyController"> You are not authorized by admin! Your request is processed! </label>
-<label *ngIf="denyController">You are not authorized by admin! Your request has been denied!</label>
+<div id="wholePage">
+<h2 *ngIf="!pomBool && !denyController" id="info"> You are not authorized by admin! Your request is processed! </h2>
+<h2 *ngIf="denyController" id="info">You are not authorized by admin! Your request has been denied!</h2>
 
 <!-- <div *ngIf="pomBool">
 <label>Ticket ID:</label>
@@ -23,15 +23,22 @@
 
 </div> -->
 
-<div *ngIf="pomBool"> 
-  <label>Ticket ID:</label> <br><br>
+<div *ngIf="pomBool" class="row1">
+  <h1 id="headerh1">Validate ticket</h1>
+<div  class="columnForInside40"> 
+  <label id="info">Ticket ID:</label>
+  <div class="form-group">
   <input class="form-group"  class="form-control" type="number" name="ticketId" [(ngModel)]="inputIdTicket">
   <div *ngIf="!validations.ticketIdOk" style="color:red">Ticket id can't be empty!</div>
-  
-  <br><br><br>
-  <button name="butoon1" class="button" class="btn btn-primary" (click)="CheckTicket(inputIdTicket)">Check ticket</button>
+  </div>
+  <br>
+  <button name="butoon1" class="button" class="btn" id="btnDesign" class= "marginPom" (click)="CheckTicket(inputIdTicket)">Check ticket</button>
 </div>
 
-<br><br><br>
-<h2>{{ticketMessage}}</h2> 
-<h2>{{nameOfCustomerMessage}}</h2>
+<div class="columnForInside60">
+<label id="info">{{ticketMessage}}</label> 
+<label id="info2">{{nameOfCustomerMessage}}</label>
+</div>
+
+</div>
+</div>

@@ -10,3 +10,151 @@ div#wholePage{
     height: 500px;
     
 }
+
+h2#info{
+    font-size: 40px;
+    width: 100% !important;
+    text-align: center !important;
+    font-family: cursive;
+    margin-top: 150px ;   
+}
+
+h2#info:hover{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    border-color: white;
+    font-family: cursive;
+}
+
+h1#headerh1{
+    font-size: 40px;
+    width: 100%;
+    text-align: center;
+    font-family: cursive;
+     
+  }
+  
+  h1#headerh1:hover{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    border-color: white;
+    font-family: cursive;
+  }
+
+  label#info{
+    font-size: 30px;
+    width: 80% !important;
+    text-align: center !important;
+    font-family: cursive;
+    margin-top: 40px ;  
+    margin-bottom: 20px; 
+}
+
+.designForForm{
+    background-color: lightgrey;
+    transform: translate(10%, 20%);
+    width: 100% !important
+  }
+
+  .designForForm2{
+    background-color: lightgrey;
+    transform: translate(60%, 0%);
+    width: 50% !important
+  }
+
+  .form-group{
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin:10px;
+    border-bottom: 1px solid !important;
+    text-align: center !important;
+    
+}
+
+button#btnDesign{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    /* margin-left: 20% !important; */
+}
+
+.marginForBtn{
+    margin-left: 25% !important;
+}
+
+.columnForInside40{
+    float: left;
+    width: 30%;
+    padding: 30px !important;
+    padding-left: 0px !important;
+  }
+
+  .columnForInside60{
+    float: left;
+    width: 70%;
+    padding: 40px !important;
+    /* padding-left: 60px !important; */
+  }
+
+
+  .marginPom{
+    margin-top: 0% !important;
+  }
+
+  .row1:after {
+    content: "";
+    display: table;
+    clear: both;
+    
+  }
+
+  .marginForTable{
+      margin-left: 20% !important;
+  }
+
+
+
+  .trHeader {
+    background-color: #1F2739;
+    color: white;
+}
+
+.container td:first-child { color: #FB667A; }
+
+trClass{
+    background-color: #F5F5F5;
+    color: white;
+}
+
+.trClass:hover {
+ background-color: #464A52;
+-webkit-box-shadow: 0 6px 6px -6px #0E1119; /*0E1119*/
+     -moz-box-shadow: 0 6px 6px -6px #0E1119;
+          box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+td{   
+    padding: 10px;
+    /* align: center !important; */
+    text-align: center; 
+    vertical-align: middle;
+}
+
+td:hover {
+background-color: #FFF842;
+color: #403E10;
+font-weight: bold;
+}
