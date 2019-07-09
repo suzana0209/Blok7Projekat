@@ -1,0 +1,12 @@
+div#wholePage{
+    width: 100%;
+    
+    margin-top: 250px !important;
+    padding: 11px !important;
+    
+    background-color:lightgray !important;
+    /* height: 800px !important; */
+    /* overflow-y: hidden; */
+    height: 500px;
+    
+}

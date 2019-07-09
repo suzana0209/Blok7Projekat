@@ -86,6 +86,8 @@ namespace WebApp.App_Start
             container.RegisterType<IUserTypeRepository, UserTypeRepository>();
             container.RegisterType<IVehicleRepository, VehicleRepository>();
             container.RegisterType<ILineStationRepository, LineStationRepository>();
+            container.RegisterType<IPayPalModelRepository, PayPalModelRepository>();
+            
            
 
             container.RegisterType<IUnitOfWork, DemoUnitOfWork>();

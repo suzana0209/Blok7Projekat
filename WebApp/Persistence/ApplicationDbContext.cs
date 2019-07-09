@@ -28,6 +28,7 @@ namespace WebApp.Persistence
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<LineStation> LineStations { get; set; }
+        public DbSet<PayPalModel> PayPalModels { get; set; }
 
 
 

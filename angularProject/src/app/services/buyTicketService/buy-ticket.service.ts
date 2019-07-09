@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PomModelForBuyTicket } from 'src/app/models/pomModelForBuyTicket.model';
+import { PomModelForBuyTicket, PomModelForAddTicketPayPal } from 'src/app/models/pomModelForBuyTicket.model';
 import { PomModelForAuthorization } from 'src/app/models/pomModelForAuth.model';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class BuyTicketService {
 
     constructor(private http: Http, private httpClient: HttpClient) { }
     
-    buyTicket(buyTicketForm: PomModelForBuyTicket) {
+    buyTicket(buyTicketForm: PomModelForAddTicketPayPal) {
      return this.httpClient.post(this.baseUrl + "/api/Tickets/Add", buyTicketForm);
      
     //return this.httpClient.put(this.baseUrl + "/Tickets/Add", {email, typeOfTicket})

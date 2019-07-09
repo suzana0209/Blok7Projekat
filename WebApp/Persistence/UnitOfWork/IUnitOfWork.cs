@@ -25,6 +25,7 @@ namespace WebApp.Persistence.UnitOfWork
         IUserTypeRepository UserTypes { get; set; }
         IVehicleRepository Vehicles { get; set; }
         ILineStationRepository LineStations { get; set; }
+        IPayPalModelRepository PayPalModels { get; set; }
         int Complete();
     }
 }

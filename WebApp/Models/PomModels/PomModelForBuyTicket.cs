@@ -15,4 +15,14 @@ namespace WebApp.Models.PomModels
         public string TypeOfTicket { get; set; }
         public DateTime PurchaseDate { get; set; }
     }
+
+    public class PomModelForAddTicketPayPal
+    {
+        public PomModelForAddTicketPayPal()
+        {
+        }
+
+        public PomModelForBuyTicket pomModelForBuyTicket { get; set; }
+        public int PayPalModelId { get; set; }
+    }
 }

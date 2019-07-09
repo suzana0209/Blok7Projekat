@@ -31,5 +31,10 @@ namespace WebApp.Models.Entities
 
         public double PriceOfTicket { get; set; }
 
+        [ForeignKey("PayPalModel")]
+        public int PayPalModelId { get; set; }
+        public PayPalModel PayPalModel { get; set; }
+
+
     }
 }

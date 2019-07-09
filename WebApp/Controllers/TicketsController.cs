@@ -204,10 +204,49 @@ namespace WebApp.Controllers
         }
 
 
+        //[Route("Add")]
+        //// POST: api/Tickets
+        ////[ResponseType(typeof(void))]
+        //public IHttpActionResult PostTicket(PomModelForBuyTicket pom)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    Ticket ticket = new Ticket();
+
+        //    AppUser appUser = _unitOfWork.AppUsers.Find(user => user.Email == pom.Email).FirstOrDefault();
+        //    TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault();
+
+        //    PriceList pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
+
+
+        //    TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id && pList.Id == a.PriceListId).FirstOrDefault();
+
+        //    double coeff = _unitOfWork.PassangerTypes.Find(dd => dd.Id == appUser.PassangerTypeId).FirstOrDefault().RoleCoefficient;
+        //    double c = ticketPrice.Price - (ticketPrice.Price * coeff);
+
+        //    ticket.PriceOfTicket = c;
+
+        //    ticket.AppUserId = appUser.Id;
+        //    ticket.TicketPriceId = ticketPrice.Id;
+        //    ticket.Valid = true;
+        //    ticket.PurchaseDate = DateTime.Now;
+        //    ticket.TypeOfTicketId = tt.Id;
+        //    ticket.Email = pom.Email;
+
+        //    _unitOfWork.Tickets.Add(ticket);
+        //    _unitOfWork.Complete();
+
+        //    return Ok(ticket.Id);
+        //}
+
+        //PomModelForAddTicketPayPal
         [Route("Add")]
         // POST: api/Tickets
         //[ResponseType(typeof(void))]
-        public IHttpActionResult PostTicket(PomModelForBuyTicket pom)
+        public IHttpActionResult PostTicket(PomModelForAddTicketPayPal pom)
         {
             if (!ModelState.IsValid)
             {
@@ -216,8 +255,8 @@ namespace WebApp.Controllers
 
             Ticket ticket = new Ticket();
 
-            AppUser appUser = _unitOfWork.AppUsers.Find(user => user.Email == pom.Email).FirstOrDefault();
-            TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.TypeOfTicket).FirstOrDefault();
+            AppUser appUser = _unitOfWork.AppUsers.Find(user => user.Email == pom.pomModelForBuyTicket.Email).FirstOrDefault();
+            TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == pom.pomModelForBuyTicket.TypeOfTicket).FirstOrDefault();
 
             PriceList pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
 
@@ -234,7 +273,8 @@ namespace WebApp.Controllers
             ticket.Valid = true;
             ticket.PurchaseDate = DateTime.Now;
             ticket.TypeOfTicketId = tt.Id;
-            ticket.Email = pom.Email;
+            ticket.Email = pom.pomModelForBuyTicket.Email;
+            ticket.PayPalModelId = pom.PayPalModelId;
 
             _unitOfWork.Tickets.Add(ticket);
             _unitOfWork.Complete();
@@ -243,8 +283,58 @@ namespace WebApp.Controllers
         }
 
 
+        ////PomModelForAddTicketPayPal
+        //[Route("SendMail")]
+        //public string SendMail(PomModelForBuyTicket ticket)
+        //{
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState).ToString();
+        //    }
+
+        //    PriceList pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
+
+        //    if(pList == null)
+        //    {
+        //        return "null";
+        //    }
+
+        //    TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == ticket.TypeOfTicket).FirstOrDefault();
+
+        //    TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => pList.Id == a.PriceListId && a.TypeOfTicketId == tt.Id).FirstOrDefault();
+
+
+        //    string subject = "Ticket purchase";
+        //    string desc =   $"Dear {ticket.Email},\nYour purchase is successfull.\n " +
+        //        $"Ticket price: {ticketPrice.Price} din\n " +
+        //                    $"Type of ticket:Time Limited\n" +
+        //                    $"Time of purchase: {DateTime.Now}\n" +
+        //                    $"Ticket is valid for the next hour.\n\n" +
+        //                    $"Thank you.";
+
+        //    var email = ticket.Email;
+        //    //TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
+
+        //    Ticket storeTicket = new Ticket();
+        //    storeTicket.Email = email;
+        //    storeTicket.PriceOfTicket = ticketPrice.Price;
+        //    storeTicket.PurchaseDate = DateTime.Now;
+        //    storeTicket.TypeOfTicketId = tt.Id;
+        //    storeTicket.Valid = true;
+        //    storeTicket.TicketPriceId = ticketPrice.Id;
+
+        //    _unitOfWork.Tickets.NotifyViaEmail(email, subject, desc);
+        //    _unitOfWork.Tickets.Add(storeTicket);
+        //    _unitOfWork.Complete();
+
+        //    return "Ok";
+
+        //}
+
+        //PomModelForAddTicketPayPal
         [Route("SendMail")]
-        public string SendMail(PomModelForBuyTicket ticket)
+        public string SendMail(PomModelForAddTicketPayPal ticket)
         {
 
             if (!ModelState.IsValid)
@@ -254,25 +344,25 @@ namespace WebApp.Controllers
 
             PriceList pList = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(a => a.FromTime <= DateTime.Now && a.ToTime >= DateTime.Now);
 
-            if(pList == null)
+            if (pList == null)
             {
                 return "null";
             }
 
-            TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == ticket.TypeOfTicket).FirstOrDefault();
+            TypeOfTicket tt = _unitOfWork.TypeOfTickets.Find(s => s.Name == ticket.pomModelForBuyTicket.TypeOfTicket).FirstOrDefault();
 
             TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => pList.Id == a.PriceListId && a.TypeOfTicketId == tt.Id).FirstOrDefault();
-            
+
 
             string subject = "Ticket purchase";
-            string desc =   $"Dear {ticket.Email},\nYour purchase is successfull.\n " +
+            string desc = $"Dear {ticket.pomModelForBuyTicket.Email},\nYour purchase is successfull.\n " +
                 $"Ticket price: {ticketPrice.Price} din\n " +
                             $"Type of ticket:Time Limited\n" +
                             $"Time of purchase: {DateTime.Now}\n" +
                             $"Ticket is valid for the next hour.\n\n" +
                             $"Thank you.";
 
-            var email = ticket.Email;
+            var email = ticket.pomModelForBuyTicket.Email;
             //TicketPrice ticketPrice = _unitOfWork.TicketPrices.Find(a => a.TypeOfTicketId == tt.Id).FirstOrDefault();
 
             Ticket storeTicket = new Ticket();
@@ -282,6 +372,7 @@ namespace WebApp.Controllers
             storeTicket.TypeOfTicketId = tt.Id;
             storeTicket.Valid = true;
             storeTicket.TicketPriceId = ticketPrice.Id;
+            storeTicket.PayPalModelId = ticket.PayPalModelId;
 
             _unitOfWork.Tickets.NotifyViaEmail(email, subject, desc);
             _unitOfWork.Tickets.Add(storeTicket);
@@ -292,7 +383,7 @@ namespace WebApp.Controllers
         }
 
 
-        
+
         [Route("ValidateTicket")]
         public string ValidateTicket(PomModelForAuthorization pomModel)
         {

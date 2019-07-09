@@ -257,6 +257,7 @@
     <Compile Include="Controllers\LinesController.cs" />
     <Compile Include="Controllers\LineStationsController.cs" />
     <Compile Include="Controllers\PassangerTypesController.cs" />
+    <Compile Include="Controllers\PayPalModelsController.cs" />
     <Compile Include="Controllers\PriceListsController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Controllers\TicketPricesController.cs" />
@@ -309,6 +310,14 @@
     <Compile Include="Migrations\201906211554287_VersionMigracija.Designer.cs">
       <DependentUpon>201906211554287_VersionMigracija.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907081909404_PayPalModelMigracija.cs" />
+    <Compile Include="Migrations\201907081909404_PayPalModelMigracija.Designer.cs">
+      <DependentUpon>201907081909404_PayPalModelMigracija.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907081911248_PayPalModelMigracija2.cs" />
+    <Compile Include="Migrations\201907081911248_PayPalModelMigracija2.Designer.cs">
+      <DependentUpon>201907081911248_PayPalModelMigracija2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -319,6 +328,7 @@
     <Compile Include="Models\Entities\LineStation.cs" />
     <Compile Include="Models\Entities\NetworkLine.cs" />
     <Compile Include="Models\Entities\PassangerType.cs" />
+    <Compile Include="Models\Entities\PayPalModel.cs" />
     <Compile Include="Models\Entities\PriceList.cs" />
     <Compile Include="Models\Entities\Ticket.cs" />
     <Compile Include="Models\Entities\Line.cs" />
@@ -345,6 +355,7 @@
     <Compile Include="Persistence\Repository\ILineRepository.cs" />
     <Compile Include="Persistence\Repository\ILineStationRepository.cs" />
     <Compile Include="Persistence\Repository\IPassangerTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\IPayPalModelRepository.cs" />
     <Compile Include="Persistence\Repository\IPriceListRepository.cs" />
     <Compile Include="Persistence\Repository\IRepository.cs" />
     <Compile Include="Persistence\Repository\IStationRepository.cs" />
@@ -357,6 +368,7 @@
     <Compile Include="Persistence\Repository\LineRepository.cs" />
     <Compile Include="Persistence\Repository\LineStationRepository.cs" />
     <Compile Include="Persistence\Repository\PassangerTypeRepository.cs" />
+    <Compile Include="Persistence\Repository\PayPalModelRepository.cs" />
     <Compile Include="Persistence\Repository\PriceListRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
     <Compile Include="Persistence\Repository\StationRepository.cs" />
@@ -495,6 +507,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906211554287_VersionMigracija.resx">
       <DependentUpon>201906211554287_VersionMigracija.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907081909404_PayPalModelMigracija.resx">
+      <DependentUpon>201907081909404_PayPalModelMigracija.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907081911248_PayPalModelMigracija2.resx">
+      <DependentUpon>201907081911248_PayPalModelMigracija2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
