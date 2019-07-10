@@ -106,12 +106,7 @@ export class PriceListComponent implements OnInit {
     if(this.validationsForDate.validate(pm)){
       return;
     }
-    // let datee = pm.FromTime.toString().split('T')[0];
-    // let newDate = new Date(datee);
-    // this.priceListModelForCheckDatum.FromTime = newDate;
-
-    // let newDate1 = new Date(pm.ToTime.toString().split('T')[0]);
-    // this.priceListModelForCheckDatum.ToTime = newDate1;
+    
 
     this.pricelistServ.CheckDateTime(pm).subscribe(a=>{
       if(a == "No"){

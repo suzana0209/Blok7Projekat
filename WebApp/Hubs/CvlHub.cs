@@ -45,18 +45,15 @@ namespace WebApp.Hubs
             if(stations  != null)
             {
                 
-                if (cnt >= stations.Count)    //provjeriti da li je brojEl. veci od nule  
+                if (cnt >= stations.Count)  
                 {
                     cnt = 0;
                 }
-                //if(stations.Count > 0)    //ovaj uslov je poslije dodat
-                //{
-                    double[] niz = { stations[cnt].Latitude, stations[cnt].Longitude };
-                    Clients.All.setRealTime(niz);
-                    cnt++;
-                //}
-                
-                
+               
+                double[] niz = { stations[cnt].Latitude, stations[cnt].Longitude };
+                Clients.All.setRealTime(niz);
+                cnt++;
+                 
             }
             else
             {

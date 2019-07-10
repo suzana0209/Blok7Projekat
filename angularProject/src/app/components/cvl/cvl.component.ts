@@ -13,7 +13,7 @@ import { StationService } from 'src/app/services/stationService/station.service'
   selector: 'app-cvl',
   templateUrl: './cvl.component.html',
   styleUrls: ['./cvl.component.css'],
-  styles: ['agm-map {height: 400px; width: 90%;}']
+  styles: ['agm-map {height: 400px; width: 100%;}']
 })
 export class CvlComponent implements OnInit {
 
@@ -121,9 +121,7 @@ export class CvlComponent implements OnInit {
     else{
       this.stopTimer();
 
-      this.getStationsByLineNumber(event.target.value);   
-      //
-      //this.notifForBL.StartTimer(); 
+      this.getStationsByLineNumber(event.target.value);    
     }
 
   }
@@ -153,9 +151,6 @@ export class CvlComponent implements OnInit {
        if(this.isChanged){
          this.latitude = pos[0];
           this.longitude = pos[1];
-          console.log("Possss Lat:", this.latitude);
-          console.log("Posss long", this.longitude);
-
        }else{
           this.latitude = 0;
           this.longitude = 0;
@@ -169,7 +164,6 @@ export class CvlComponent implements OnInit {
 
   public stopTimer() {
     this.notifForBL.StopTimer();
-    console.log("stopira timer")
     this.time = null;
   }
 

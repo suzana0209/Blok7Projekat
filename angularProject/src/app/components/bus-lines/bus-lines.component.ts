@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   selector: 'app-bus-lines',
   templateUrl: './bus-lines.component.html',
   styleUrls: ['./bus-lines.component.css'],
-  styles: ['agm-map {height: 360px; width: 90%;}']
+  styles: ['agm-map {height: 360px; width: 100%;}']
 })
 export class BusLinesComponent implements OnInit {
 
@@ -88,8 +88,7 @@ export class BusLinesComponent implements OnInit {
   ShowCheckedLine(event: any){
     let checkedBool = event.target.checked;
     let parse = parseInt(event.target.value, 10)
-    console.log("Bool",checkedBool)
-    console.log("Parse", parse);
+    
     
     if(checkedBool){
       if(this.alreadyExistsId(this.idOfCheckedLines, parse)){        
@@ -102,9 +101,7 @@ export class BusLinesComponent implements OnInit {
           this.listOfCheckedLines.push(element);
         }
       });
-      console.log("Dodavanje")
-      console.log("ListOfCheckedLines: ",this.listOfCheckedLines);
-      console.log("idOfCheckedLines", this.idOfCheckedLines);
+      
     }
     else{
       let a: number;
@@ -125,17 +122,6 @@ export class BusLinesComponent implements OnInit {
       this.idOfCheckedLines.splice(index, 1);
       this.listOfCheckedLines.splice(index, 1);
 
-      console.log("Brisanje")
-      console.log("ListOfCheckedLines: ",this.listOfCheckedLines);
-      console.log("idOfCheckedLines", this.idOfCheckedLines);
-
-      // this.listOfCheckedLines.forEach(element =>{
-      //   let counter = 0;
-      //   if(element.Id == parse){
-      //     this.listOfCheckedLines.splice(counter, 1);
-      //   }
-      //   counter++;
-      // });
     }
   }
 
@@ -146,10 +132,6 @@ export class BusLinesComponent implements OnInit {
       }
     });
     return true;
-  }
-
-  getLocation(){
-    this.router.navigateByUrl('/cvl');
   }
 
 }

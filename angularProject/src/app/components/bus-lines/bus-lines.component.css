@@ -15,10 +15,20 @@ div#mapa{
     
     /* position: relative; */
     /* text-align: center; */
-    margin-left: 18%;
-    background-color: lightgray;
+    margin-left: 5%;
+    /* background-color: lightgray; */
     margin-bottom: 0px;
+    border: 5px solid #555555;
+
+     border-top-width: 0% !important;
+    border-bottom-width: 1% !important;
+
+    border-left-width: 5px !important;
+    border-right-width: 5px !important;
     
+
+    height:370px !important;
+    width: 90% !important;
     
 }
 

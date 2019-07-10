@@ -91,7 +91,7 @@ export class TimeTableComponent implements OnInit {
               private userService: UsersService) { 
 
     this.userService.getUserData(localStorage.getItem('name')).subscribe(a=>{
-      console.log("Userrr: ", a);
+      
       if(a != null && a != undefined){
         
         this.userPom = a;
@@ -107,12 +107,11 @@ export class TimeTableComponent implements OnInit {
 
     this.timetableService.getAll().subscribe(e =>{
       this.allTimetablesFromDb = e; 
-      console.log("TT",this.allTimetablesFromDb);
+      
     })
 
     this.daysService.getAll().subscribe(d1=>{
-        this.allDaysFromDb = d1
-        console.log(d1);
+        this.allDaysFromDb = d1;
     }) 
 
     this.clickedDeleteTime = false;
@@ -129,7 +128,7 @@ export class TimeTableComponent implements OnInit {
       var kk: string = "";
       kk = timetableData.Departures.toString()
       var tt = new TimetableModel2(timetableData.LineId, timetableData.DayId, kk);
-      console.log(tt);
+      
 
       if(this.validationsForAdd.validate(tt)){
         return;
@@ -145,7 +144,7 @@ export class TimeTableComponent implements OnInit {
         }
         else if(a == "Yes"){
           alert("Timetable aleredy exists!");
-          window.location.reload();
+          //window.location.reload();
         }
       })
 
@@ -154,7 +153,6 @@ export class TimeTableComponent implements OnInit {
   }
 
   onSubmitDelete(timetableData: TimetableModel3, form:NgForm){
-    console.log("TimeTableForDelete:", timetableData);
 
     if(this.validationsForDelete.validate(timetableData)){
       return;
@@ -182,7 +180,7 @@ export class TimeTableComponent implements OnInit {
     });
 
     this.timetableService.deleteTimetable(this.timetableId).subscribe(data => {
-      alert("Timetable delete successful!");
+      alert("Timetable deleted successful!");
       window.location.reload();
     },
     error => {
@@ -193,35 +191,21 @@ export class TimeTableComponent implements OnInit {
   }
 
   onSubmitEdit(timetableData: TimetableModel4, form:NgForm){
-
-    
-
-    // if(this.clickedDeleteTime){
-    //   timetableData.NewDepartures = timetableData.Departures;
-    // }
-    // else{
-    //   if(this.validationsForEdit.validate(timetableData)){
-    //     return;
-    //   }
-    // }
    
     let ttt = new TimetableModel4(this.lineId, this.dayId, this.departuresForEditInput, timetableData.NewDepartures);
-
-    console.log("TTTTT", ttt);
-
-    if(this.validForNewD.validate(ttt.NewDepartures)){
-      return;
-    }
 
     if(this.clickedDeleteTime){
       ttt.NewDepartures = ttt.Departures;
       this.timetableService.editTimetable(this.timetableIdForSend, ttt).subscribe(dd=>{
-        alert("Departure successful delete!");
+        alert("Departure successful deleted!");
         window.location.reload();
         
       });
     }
     else{
+      if(this.validForNewD.validate(ttt.NewDepartures)){
+        return;
+      }
       this.timetableService.AlreadyExistByEdit(ttt).subscribe(a=>{
         if(a == "No"){
           this.timetableService.editTimetable(this.timetableIdForSend, ttt).subscribe(dd=>{
@@ -230,16 +214,11 @@ export class TimeTableComponent implements OnInit {
           });
         }
         else if(a == "Yes"){
-          console.log("Timetableeeee: ", this.timetableIdForSend);
-          console.log("TTTTT", ttt);
           alert("New departure alredy exist in timetable!");
-          window.location.reload();
+          //window.location.reload();
         }
       });
     }
-    
-
-    // this.timetableService.editTimetable(this.timetableIdForSend, ttt).subscribe();
   }
 
  
@@ -257,7 +236,6 @@ export class TimeTableComponent implements OnInit {
       this.idLinesArray = []
   
       this.selectedDayForEdit = event.target.value;
-      console.log("Selected day: ", this.selectedDayForEdit)
   
       this.allDaysFromDb.forEach(element => {
         if(element.Name == this.selectedDayForEdit){
@@ -313,7 +291,6 @@ export class TimeTableComponent implements OnInit {
      });
      this.polasci = this.allDeparturesForSelect;
      this.allDeparturesForSelect.pop();
-     console.log("Departures: ", this.allDeparturesForSelect)
     }
   }
 
@@ -335,7 +312,7 @@ export class TimeTableComponent implements OnInit {
     this.clickedDeleteTime = false;
 
     this.showInputTime = true;
-    this.editSubmitBool = true;
+    this.editSubmitBool = true; //prikaz glavnog dugmica
     this.hiddenEditButton = false;
 
     this.hiddenDeleteButton = false;
@@ -358,9 +335,6 @@ export class TimeTableComponent implements OnInit {
   }
 
   showDepartureOnClick(){
-    // if(this.validations.validate(this.selectedDayForEdit, this.pom)){
-    //   return;
-    // }
     this.showDepForUnregisterUser = true;
   }
 
@@ -428,15 +402,5 @@ showTimetableForUser(){
     if(localStorage.getItem('role') == "Admin" && this.boolBezvezeZaPorukuDenied){
       return true;
     }
-  }
-
-
-  //Prije bilo
-  // LoggedAdmin(): boolean{
-  //   if(localStorage.getItem('role') == "Admin"){
-  //     return true;
-  //   }
-  //   return false;
-  // }  
-
+  }  
 }

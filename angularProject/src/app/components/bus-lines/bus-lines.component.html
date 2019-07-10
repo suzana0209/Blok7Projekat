@@ -1,17 +1,6 @@
 <div id="wholePage">
     <div>
-        <!-- za cvl -->
-      <!-- <table border="1">
-        <tr>
-          <div class="funkyradio-danger"  *ngFor="let line of lines">
-              <th>
-              <label for="line{{line.RegularNumber}}">Linija: {{line.RegularNumber}}</label>
-              <input class="button" class="btn" type="checkbox" value = "{{line.Id}}" (click)="ShowCheckedLine($event)"/>
-          </th>
-          </div>
-        </tr>
-      </table> -->
-
+       
       <div>
         <p id="busLineGrid">BUS LINE GRID SYSTEM</p> 
         <h4 id="infoh4">You can choose one or more lines by pressing checkbox</h4>
@@ -36,14 +25,15 @@
       <!-- <div class="mapa"  style="width:80%; height: 50%; margin: 5% 25%"> -->
    
     <div id="mapa">
+      
       <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18">
           <agm-marker *ngFor="let station of stations" [latitude]="station.Latitude" [longitude]="station.Longitude" [title]="station.Name"
           [label]="" [iconUrl]="iconUrl" (markerClick) = "stationClick(station.Id)">
   
             <!-- Svakom markeru dodajemo info-window (Nije obavezno!) -->
             <agm-info-window [latitude]="station.Latitude" [longitude]="station.Longitude" >
-              <span style="font-family:'Times New Roman'; color:gray;"><strong>{{station.Name}}</strong></span>
-              <span style="font-family:'Times New Roman'; color:gray;"><strong>{{station.AddressStation}}</strong></span>
+              <span style="font-family:'Times New Roman'; color:gray;"><strong>Station name:{{station.Name}}</strong></span><br>
+              <span style="font-family:'Times New Roman'; color:gray;"><strong>Station address:{{station.AddressStation}}</strong></span>
               <!-- <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span> -->
               <!-- <a [href]="markerInfo.link">See the site.</a> -->
             </agm-info-window>

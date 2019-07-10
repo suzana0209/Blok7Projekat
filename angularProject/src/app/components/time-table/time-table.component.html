@@ -119,7 +119,6 @@
           <div *ngIf="!validationsForEdit.departuresOk" style="color:red">Please select departure.</div>
         
           
-          <!-- <label>{{messageDontDepartures}}</label> -->
           </div>
 
           
@@ -140,11 +139,13 @@
         
         </div>
   
+        
   
         <br><br>
         <div *ngIf="editSubmitBool">
-        <button type="submit" class="nav-link" class="btn" id="designBtn" class="marginForEditButton">Save changes</button>
+        <button type="submit"  class="btn" id="designBtn" class="marginForEditButton">Save changes</button>
         </div>
+       
       </div>
       </form>
     </div>
@@ -180,7 +181,6 @@
       </select>
       <div *ngIf="!validations.selectedLineOk" style="color:red">Line  can't be empty.</div>
     </div>   
-      <!-- <h2>{{messageForEmptyLine}}</h2> -->
 
       </div>
   

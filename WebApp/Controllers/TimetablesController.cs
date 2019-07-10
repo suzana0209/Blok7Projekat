@@ -18,7 +18,7 @@ namespace WebApp.Controllers
     [RoutePrefix("api/Timetable")]
     public class TimetablesController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
         IUnitOfWork _unitOfWork;
 
         public TimetablesController(IUnitOfWork unitOfWork)
@@ -38,19 +38,7 @@ namespace WebApp.Controllers
             List<Timetable> v = _unitOfWork.Timetables.GetAllTimetable();
             return v;
         }
-
-        // GET: api/Timetables/5
-        [ResponseType(typeof(Timetable))]
-        public IHttpActionResult GetTimetable(int id)
-        {
-            Timetable timetable = db.Timetables.Find(id);
-            if (timetable == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(timetable);
-        }
+        
 
         [Route("AlreadyExistByEdit")]
         public string AlreadyExistByEdit(PomModelTimetableForEdit pom)
@@ -176,16 +164,7 @@ namespace WebApp.Controllers
 
             int lineIdd = _unitOfWork.Lines.GetIdLine(timetablePom.LineId).Id;
             //List<Line> l = _unitOfWork.Lines.GetAll().ToList();
-
-            //foreach (var item in l)
-            //{
-            //    if (item.RegularNumber == timetablePom.LineId)
-            //    {
-            //        lineIdd = item.Id;
-            //        break;
-            //    }
-            //}
-
+            
             bool existsTimetable = false;
 
             foreach (var item in listTimetableFromDb)
@@ -248,20 +227,7 @@ namespace WebApp.Controllers
                 return Ok();
 
             }
-
-
             
-            //newTimetable.LineId = timetablePom.LineId;
-           
-            //newTimetable.DayId = _unitOfWork.Days.GetAll 
-
-            //string time = timetablePom.Departures.ToString();
-
-            ////db.Timetables.Add(timetable);
-            ////db.SaveChanges();
-
-            //return Ok();
-            //return CreatedAtRoute("DefaultApi", new { id = timetable.Id }, timetable);
         }
 
         // DELETE: api/Timetables/5
@@ -290,33 +256,15 @@ namespace WebApp.Controllers
             return tt;
         }
 
-
-        //// GET: api/Timetables
-        //[Route("GetAll")]
-        //[ResponseType(typeof(Timetable))]
-        //public List<Timetable> GetTimetables()
-        //{
-        //    //var v = db.Timetables.ToList();
-
-        //    //var v = _unitOfWork.Timetables.GetAll().ToList();
-
-        //    List<Timetable> v = _unitOfWork.Timetables.GetAllTimetable();
-        //    return v;
-        //}
-
+        
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _unitOfWork.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool TimetableExists(int id)
-        {
-            return db.Timetables.Count(e => e.Id == id) > 0;
         }
     }
 }

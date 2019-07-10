@@ -18,7 +18,7 @@ namespace WebApp.Controllers
     [RoutePrefix("api/Pricelist")]
     public class PriceListsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
         private readonly IUnitOfWork _unitOfWork;
 
         public PriceListsController()
@@ -43,10 +43,7 @@ namespace WebApp.Controllers
         public PriceList GetPriceList()
         {
             
-           PriceList p = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(x => x.ToTime >= DateTime.Now && x.FromTime <= DateTime.Now);
-           
-           
-
+            PriceList p = _unitOfWork.PriceLists.GetAllPricelists().ToList().FindLast(x => x.ToTime >= DateTime.Now && x.FromTime <= DateTime.Now);
             return p;
         }
 
@@ -58,40 +55,7 @@ namespace WebApp.Controllers
         }
 
         // PUT: api/PriceLists/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutPriceList(int id, PriceList priceList)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != priceList.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(priceList).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PriceListExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
+        
         [Route("CheckDateTime")]
         public string CheckDateTime(PriceList pom)
         {
@@ -123,11 +87,13 @@ namespace WebApp.Controllers
                 return false;
             }
 
-            //provjeri da li postoji isti cjenovnik, onda ne vrsi dodavanje
-            //POSLIJE ODRADITI
+            
 
             PriceList priceList = new PriceList();
             priceList = ticketPrices.PriceList;
+            //priceList.FromTime = ticketPrices.PriceList.FromTime.Value.AddHours(23);
+            priceList.ToTime = ticketPrices.PriceList.ToTime.Value.AddHours(23).AddMinutes(59).AddSeconds(59);
+            
             priceList.ListOfTicketPrices = new List<TicketPrice>();
             TicketPrice ticketPrice = new TicketPrice
             {
@@ -181,33 +147,14 @@ namespace WebApp.Controllers
         }
 
         // DELETE: api/PriceLists/5
-        [ResponseType(typeof(PriceList))]
-        public IHttpActionResult DeletePriceList(int id)
-        {
-            PriceList priceList = db.PriceLists.Find(id);
-            if (priceList == null)
-            {
-                return NotFound();
-            }
-
-            db.PriceLists.Remove(priceList);
-            db.SaveChanges();
-
-            return Ok(priceList);
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _unitOfWork.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool PriceListExists(int id)
-        {
-            return db.PriceLists.Count(e => e.Id == id) > 0;
         }
     }
 }
