@@ -3,7 +3,7 @@ namespace WebApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class NovaMigracija1 : DbMigration
+    public partial class Migracija123 : DbMigration
     {
         public override void Up()
         {
@@ -32,6 +32,7 @@ namespace WebApp.Migrations
                         UserTypeId = c.Int(),
                         AddressId = c.Int(),
                         Birthaday = c.DateTime(),
+                        Deny = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Addresses", t => t.AddressId)
@@ -77,6 +78,7 @@ namespace WebApp.Migrations
                         DayId = c.Int(nullable: false),
                         LineId = c.Int(nullable: false),
                         Departures = c.String(),
+                        Version = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Days", t => t.DayId, cascadeDelete: true)
@@ -90,6 +92,7 @@ namespace WebApp.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         RegularNumber = c.Int(nullable: false),
+                        Version = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -117,22 +120,25 @@ namespace WebApp.Migrations
                         AddressStation = c.String(),
                         Longitude = c.Double(nullable: false),
                         Latitude = c.Double(nullable: false),
+                        Version = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Vehicles",
+                "dbo.PayPalModels",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        RegistrationNumber = c.String(nullable: false),
-                        Longitude = c.Double(nullable: false),
-                        Latitude = c.Double(nullable: false),
-                        LineId = c.Int(nullable: false),
+                        PayementId = c.String(),
+                        PayerEmail = c.String(),
+                        PayerName = c.String(),
+                        PayerSurname = c.String(),
+                        CreateTime = c.DateTime(),
+                        CurrencyCode = c.String(),
+                        Status = c.String(),
+                        Value = c.Double(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Lines", t => t.LineId, cascadeDelete: true)
-                .Index(t => t.LineId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.PriceLists",
@@ -173,19 +179,37 @@ namespace WebApp.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Email = c.String(),
+                        TypeOfTicketId = c.Int(),
+                        PurchaseDate = c.DateTime(),
                         Valid = c.Boolean(nullable: false),
                         AppUserId = c.String(maxLength: 128),
                         TicketPriceId = c.Int(nullable: false),
                         PriceOfTicket = c.Double(nullable: false),
-                        TypeOfTicket_Id = c.Int(),
+                        PayPalModelId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AppUsers", t => t.AppUserId)
+                .ForeignKey("dbo.PayPalModels", t => t.PayPalModelId, cascadeDelete: true)
                 .ForeignKey("dbo.TicketPrices", t => t.TicketPriceId, cascadeDelete: true)
-                .ForeignKey("dbo.TypeOfTickets", t => t.TypeOfTicket_Id)
+                .ForeignKey("dbo.TypeOfTickets", t => t.TypeOfTicketId)
+                .Index(t => t.TypeOfTicketId)
                 .Index(t => t.AppUserId)
                 .Index(t => t.TicketPriceId)
-                .Index(t => t.TypeOfTicket_Id);
+                .Index(t => t.PayPalModelId);
+            
+            CreateTable(
+                "dbo.Vehicles",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        RegistrationNumber = c.String(nullable: false),
+                        TypeOfVehicle = c.String(),
+                        LineId = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Lines", t => t.LineId)
+                .Index(t => t.LineId);
             
             CreateTable(
                 "dbo.StationLines",
@@ -207,14 +231,15 @@ namespace WebApp.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Vehicles", "LineId", "dbo.Lines");
             DropForeignKey("dbo.AspNetUsers", "AppUserId", "dbo.AppUsers");
-            DropForeignKey("dbo.Tickets", "TypeOfTicket_Id", "dbo.TypeOfTickets");
+            DropForeignKey("dbo.Tickets", "TypeOfTicketId", "dbo.TypeOfTickets");
             DropForeignKey("dbo.Tickets", "TicketPriceId", "dbo.TicketPrices");
+            DropForeignKey("dbo.Tickets", "PayPalModelId", "dbo.PayPalModels");
             DropForeignKey("dbo.Tickets", "AppUserId", "dbo.AppUsers");
             DropForeignKey("dbo.TicketPrices", "TypeOfTicketId", "dbo.TypeOfTickets");
             DropForeignKey("dbo.TicketPrices", "PriceListId", "dbo.PriceLists");
             DropForeignKey("dbo.Timetables", "LineId", "dbo.Lines");
-            DropForeignKey("dbo.Vehicles", "LineId", "dbo.Lines");
             DropForeignKey("dbo.LineStations", "StationId", "dbo.Stations");
             DropForeignKey("dbo.StationLines", "Line_Id", "dbo.Lines");
             DropForeignKey("dbo.StationLines", "Station_Id", "dbo.Stations");
@@ -225,13 +250,14 @@ namespace WebApp.Migrations
             DropForeignKey("dbo.AppUsers", "AddressId", "dbo.Addresses");
             DropIndex("dbo.StationLines", new[] { "Line_Id" });
             DropIndex("dbo.StationLines", new[] { "Station_Id" });
+            DropIndex("dbo.Vehicles", new[] { "LineId" });
             DropIndex("dbo.AspNetUsers", new[] { "AppUserId" });
-            DropIndex("dbo.Tickets", new[] { "TypeOfTicket_Id" });
+            DropIndex("dbo.Tickets", new[] { "PayPalModelId" });
             DropIndex("dbo.Tickets", new[] { "TicketPriceId" });
             DropIndex("dbo.Tickets", new[] { "AppUserId" });
+            DropIndex("dbo.Tickets", new[] { "TypeOfTicketId" });
             DropIndex("dbo.TicketPrices", new[] { "TypeOfTicketId" });
             DropIndex("dbo.TicketPrices", new[] { "PriceListId" });
-            DropIndex("dbo.Vehicles", new[] { "LineId" });
             DropIndex("dbo.LineStations", new[] { "LineId" });
             DropIndex("dbo.LineStations", new[] { "StationId" });
             DropIndex("dbo.Timetables", new[] { "LineId" });
@@ -241,11 +267,12 @@ namespace WebApp.Migrations
             DropIndex("dbo.AppUsers", new[] { "PassangerTypeId" });
             DropColumn("dbo.AspNetUsers", "AppUserId");
             DropTable("dbo.StationLines");
+            DropTable("dbo.Vehicles");
             DropTable("dbo.Tickets");
             DropTable("dbo.TypeOfTickets");
             DropTable("dbo.TicketPrices");
             DropTable("dbo.PriceLists");
-            DropTable("dbo.Vehicles");
+            DropTable("dbo.PayPalModels");
             DropTable("dbo.Stations");
             DropTable("dbo.LineStations");
             DropTable("dbo.Lines");

@@ -23,7 +23,7 @@ namespace WebApp.Controllers
     [RoutePrefix("api/AppUser")]
     public class AppUsersController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
         private readonly IUnitOfWork unitOfWork;
 
         private const string LocalLoginProvider = "Local";
@@ -58,16 +58,7 @@ namespace WebApp.Controllers
             }
         }
 
-        //public AppUsersController(IUnitOfWork unitOfWork)
-        //{
-        //    this.unitOfWork = unitOfWork;
-        //}
-
-        // GET: api/AppUsers
-        //public IQueryable<AppUser> GetAppUser()
-        //{
-        //    return db.AppUser;
-        //}
+        
 
         [Route("GetUser")]
         public AppUser GetUser(string email)
@@ -84,139 +75,10 @@ namespace WebApp.Controllers
             return adresa;
         }
 
-        // GET: api/AppUsers/5
-        //[ResponseType(typeof(AppUser))]
-        //public IHttpActionResult GetAppUser(string id)
-        //{
-        //    AppUser appUser = db.AppUser.Find(id);
-        //    if (appUser == null)
-        //    {
-        //        return NotFound();
-        //    }
+       
 
-        //    return Ok(appUser);
-        //}
-
-        // PUT: api/AppUsers/5
-        //public IHttpActionResult PutAppUser(string id, AppUser appUser)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != appUser.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(appUser).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!AppUserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        // POST: api/AppUsers
-        //[ResponseType(typeof(AppUser))]
-        //public IHttpActionResult PostAppUser(AppUser appUser)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.AppUser.Add(appUser);
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (AppUserExists(appUser.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtRoute("DefaultApi", new { id = appUser.Id }, appUser);
-        //}
-
-        // DELETE: api/AppUsers/5
-        //[ResponseType(typeof(AppUser))]
-        //public IHttpActionResult DeleteAppUser(string id)
-        //{
-        //    AppUser appUser = db.AppUser.Find(id);
-        //    if (appUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.AppUser.Remove(appUser);
-        //    db.SaveChanges();
-
-        //    return Ok(appUser);
-        //}
-
-          
-        //[Route("Edit")]        
-        //// POST: api/Stations
-        ////[ResponseType(typeof(void))]
-        //public async Task<IHttpActionResult> EditAppUser(PomAppUser model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-
-        //    AppUser appUser = unitOfWork.AppUsers.Find(x => x.Id == model.Id).FirstOrDefault();
-        //    string oldEmail = appUser.Email;            
-        //    appUser.LastName = model.LastName;
-        //    appUser.Name = model.Name;
-        //    appUser.Email = model.Email;
-        //    appUser.Birthaday = model.Birthaday;
-        //    appUser.Image = AccountController.path ;
-
-        //    Address address = unitOfWork.Addresses.Find(x => x.Id == model.AddressId).FirstOrDefault();
-        //    address.Number = model.Number;
-        //    address.City = model.City;
-        //    address.Street = model.Street;
-
-        //    ApplicationUser applicationUser = _userManager.FindByEmail(oldEmail);
-        //    applicationUser.Email = appUser.Email;
-
-
-
-        //    unitOfWork.Addresses.Update(address);
-        //    unitOfWork.AppUsers.Update(appUser);
-        //    //_userManager.Update(applicationUser);
-
-        //    IdentityResult result = await UserManager.Update(applicationUser);
-
-        //    unitOfWork.Complete();
-
-        //    return Ok();
-        //}
+        
+        
 
         [Route("EditPassword")]
         // POST: api/Stations
@@ -270,10 +132,7 @@ namespace WebApp.Controllers
             base.Dispose(disposing);
         }
 
-        //private bool AppUserExists(string id)
-        //{
-        //    return db.AppUser.Count(e => e.Id == id) > 0;
-        //}
+        
 
 
 

@@ -274,49 +274,9 @@
     <Compile Include="Migrations\201905222056072_InitialMigration.Designer.cs">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906101816511_NovaMigracija1.cs" />
-    <Compile Include="Migrations\201906101816511_NovaMigracija1.Designer.cs">
-      <DependentUpon>201906101816511_NovaMigracija1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906111359102_novaNova.cs" />
-    <Compile Include="Migrations\201906111359102_novaNova.Designer.cs">
-      <DependentUpon>201906111359102_novaNova.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121842438_vozila.cs" />
-    <Compile Include="Migrations\201906121842438_vozila.Designer.cs">
-      <DependentUpon>201906121842438_vozila.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121851395_vozila2.cs" />
-    <Compile Include="Migrations\201906121851395_vozila2.Designer.cs">
-      <DependentUpon>201906121851395_vozila2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121859219_vozila3.cs" />
-    <Compile Include="Migrations\201906121859219_vozila3.Designer.cs">
-      <DependentUpon>201906121859219_vozila3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121907367_vozila4.cs" />
-    <Compile Include="Migrations\201906121907367_vozila4.Designer.cs">
-      <DependentUpon>201906121907367_vozila4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906140244424_migracijaVozila.cs" />
-    <Compile Include="Migrations\201906140244424_migracijaVozila.Designer.cs">
-      <DependentUpon>201906140244424_migracijaVozila.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906210812499_DenyMigracija.cs" />
-    <Compile Include="Migrations\201906210812499_DenyMigracija.Designer.cs">
-      <DependentUpon>201906210812499_DenyMigracija.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906211554287_VersionMigracija.cs" />
-    <Compile Include="Migrations\201906211554287_VersionMigracija.Designer.cs">
-      <DependentUpon>201906211554287_VersionMigracija.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907081909404_PayPalModelMigracija.cs" />
-    <Compile Include="Migrations\201907081909404_PayPalModelMigracija.Designer.cs">
-      <DependentUpon>201907081909404_PayPalModelMigracija.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907081911248_PayPalModelMigracija2.cs" />
-    <Compile Include="Migrations\201907081911248_PayPalModelMigracija2.Designer.cs">
-      <DependentUpon>201907081911248_PayPalModelMigracija2.cs</DependentUpon>
+    <Compile Include="Migrations\201907100855238_Migracija123.cs" />
+    <Compile Include="Migrations\201907100855238_Migracija123.Designer.cs">
+      <DependentUpon>201907100855238_Migracija123.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -481,38 +441,8 @@
     <EmbeddedResource Include="Migrations\201905222056072_InitialMigration.resx">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906101816511_NovaMigracija1.resx">
-      <DependentUpon>201906101816511_NovaMigracija1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906111359102_novaNova.resx">
-      <DependentUpon>201906111359102_novaNova.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121842438_vozila.resx">
-      <DependentUpon>201906121842438_vozila.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121851395_vozila2.resx">
-      <DependentUpon>201906121851395_vozila2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121859219_vozila3.resx">
-      <DependentUpon>201906121859219_vozila3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121907367_vozila4.resx">
-      <DependentUpon>201906121907367_vozila4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906140244424_migracijaVozila.resx">
-      <DependentUpon>201906140244424_migracijaVozila.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906210812499_DenyMigracija.resx">
-      <DependentUpon>201906210812499_DenyMigracija.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906211554287_VersionMigracija.resx">
-      <DependentUpon>201906211554287_VersionMigracija.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907081909404_PayPalModelMigracija.resx">
-      <DependentUpon>201907081909404_PayPalModelMigracija.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907081911248_PayPalModelMigracija2.resx">
-      <DependentUpon>201907081911248_PayPalModelMigracija2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907100855238_Migracija123.resx">
+      <DependentUpon>201907100855238_Migracija123.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

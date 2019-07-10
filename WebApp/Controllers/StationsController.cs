@@ -87,55 +87,7 @@ namespace WebApp.Controllers
             return retVal;
         }
 
-        // GET: api/Stations/5
-        //[ResponseType(typeof(Station))]
-        //public IHttpActionResult GetStation(int id)
-        //{
-        //    Station station = db.Stations.Find(id);
-        //    if (station == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(station);
-        //}
-
-
-        // PUT: api/Stations/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutStation(int id, Station station)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != station.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(station).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!StationExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
+        
         [Route("AlredyExistStation")]
         public string AlredyExistStation(Station station)
         {
@@ -181,8 +133,6 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            //db.Stations.Add(station);
-            //db.SaveChanges();
 
             if (_unitOfWork.Stations.ExistStation(station.Id))
             {
@@ -265,10 +215,5 @@ namespace WebApp.Controllers
             }
             base.Dispose(disposing);
         }
-
-        //private bool StationExists(int id)
-        //{
-        //    return db.Stations.Count(e => e.Id == id) > 0;
-        //}
     }
 }

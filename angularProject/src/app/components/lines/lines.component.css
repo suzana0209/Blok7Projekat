@@ -4,7 +4,7 @@ div#wholePage{
     margin-top: 260px !important;
     padding: 11px !important;
     
-    background-color:lightgray !important;
+    background-color:white !important;
     height: 500px !important;
 }
 
@@ -25,6 +25,43 @@ button#designBtn{
     margin-bottom: 20% !important;
     
 }
+
+button#designBtn2{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 10px; /*32*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    margin: 2px 2px;
+    cursor: pointer;
+    margin-right: 18%;
+    margin-top: 0% !important;
+    width: 200px !important;
+    margin-bottom: 5% !important;
+    
+}
+
+button#designBtn1{
+    background-color: #555555; /* Black */
+    border: none;
+    color: white;
+    padding: 15px 45px; /*32*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 2px 2px;
+    cursor: pointer;
+    margin-left: 0%;
+    margin-top: 0% !important;
+    width: 80px !important;
+    margin-bottom: 2% !important;
+    
+}
+
 button#designBtn:active{
     background:white;
     color: black;
@@ -44,6 +81,23 @@ h2#info{
 }
 
 h2#info:hover{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    border-color: white;
+    font-family: cursive;
+}
+
+h5#info{
+    font-size: 25px;
+    width: 100% !important;
+    text-align: center !important;
+    font-family: cursive;
+    margin-top: 10px ;   
+}
+
+h5#info:hover{
     width: 100%;
     background-color: gray;
     color: white;
@@ -79,6 +133,19 @@ h2#info:hover{
       padding: 30px;
   }
 
+  .column50{
+      float: left;
+      width: 50%;
+      padding: 15px !important;
+      padding-left: 30px !important;
+  }
+
+  .column50Text{
+    float: left;
+    width: 50%;
+    padding: 5px !important;
+  }
+
 
   .row1:after {
     content: "";
@@ -100,4 +167,47 @@ h2#info:hover{
     cursor: pointer;
     margin-left: 0%;
     
+}
+
+
+.marginForTable{
+    margin-left: 20% !important;
+}
+
+
+
+.trHeader {
+  background-color: #1F2739;
+  color: white;
+}
+
+.container td:first-child { color: #FB667A; }
+
+trClass{
+  background-color: #F5F5F5;
+  color: white;
+}
+
+.trClass:hover {
+background-color: #464A52;
+-webkit-box-shadow: 0 6px 6px -6px #0E1119; /*0E1119*/
+   -moz-box-shadow: 0 6px 6px -6px #0E1119;
+        box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+td{   
+  padding: 10px;
+  /* align: center !important; */
+  text-align: center; 
+  vertical-align: middle;
+}
+
+td:hover {
+background-color: #FFF842;
+color: #403E10;
+font-weight: bold;
+}
+
+.backk{
+    background-color: white !important;
 }

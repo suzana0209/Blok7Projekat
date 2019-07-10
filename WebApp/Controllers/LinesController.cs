@@ -117,53 +117,6 @@ namespace WebApp.Controllers
             _unitOfWork.Complete();
 
             return Ok(lineFromDb.Id);
-
-            //try
-            //{
-            //    Line l = new Line();
-
-
-            //    _unitOfWork.Lines.AddStationsInList(line.Id, line.ListOfStations);
-            //    //provjeri message
-
-            //    List<Line> linesFromDbWithStations = _unitOfWork.Lines.CompleteLine().ToList();
-
-            //    List<LineStation> lineStations = _unitOfWork.LineStations.GetAll().Where(data => data.LineId == line.Id).ToList();
-
-            //    _unitOfWork.LineStations.RemoveRange(lineStations);
-            //    int i = 0;
-            //    foreach (Station s in line.ListOfStations)
-            //    {
-            //        i++;
-            //        LineStation o = new LineStation();
-            //        o.LineId = line.Id;
-            //        o.StationId = s.Id;
-            //        o.OrdinalNumber = i;
-            //        _unitOfWork.LineStations.Add(o);
-
-            //    }
-
-
-            //    // _unitOfWork.Lines.Update(line);
-
-            //    _unitOfWork.Complete();
-
-
-            //    return Ok(line.Id);
-
-            //    //db.Entry(line).State = EntityState.Modified;
-
-
-            //    //db.SaveChanges();
-
-            //}
-
-            //catch (DbUpdateConcurrencyException)
-            //{
-
-            //}
-
-            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         [Route("AlredyExistRegularNumber")]
@@ -222,20 +175,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-           // newLine.ListOfStations = listModel;
-            //PRIJE BILO
-            //foreach (var item in listStationFromDb)
-            //{
-            //    if (listModel.Any(a => a.Id == item.Id))
-            //    {
-
-            //        newLine.ListOfStations.Add(item);
-            //    }
-            //}
-
-
-            
-
+           
             List<LineStation> l = new List<LineStation>();
             for (int i = 0; i < listModel.Count; i++)
             {
@@ -282,38 +222,20 @@ namespace WebApp.Controllers
 
             return Ok(newLine.Id);
 
-            //db.Lines.Add(line);
-            //db.SaveChanges();
-
-            //return CreatedAtRoute("DefaultApi", new { id = line.Id }, line);
+            
         }
 
-        //public bool CanAddLine(List<Station> l1, List<Station> l2)
-        //{
-        //    foreach (var item in l2)
-        //    {
-        //        if(!l1.Any(p=> p.Name == item.Name))
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-
-        //    //return l1.All(l2.Contains);
-        //}
+        
 
         [Route("Delete")]
         // DELETE: api/Lines/5
         [ResponseType(typeof(Line))]
         public IHttpActionResult DeleteLine(int id)
         {
-            // = db.Lines.Find(id);
+            
 
             Line line = _unitOfWork.Lines.Get(id);
-           // Vehicle v = _unitOfWork.Vehicles.Find(x => x.LineId == line.Id).FirstOrDefault();
-           // v.LineId = null;
-           //_unitOfWork.Vehicles.Update(v);
-           //_unitOfWork.Complete();
+           
 
             if (line == null)
             {
@@ -339,9 +261,6 @@ namespace WebApp.Controllers
             base.Dispose(disposing);
         }
 
-        //private bool LineExists(int id)
-        //{
-        //    return db.Lines.Count(e => e.Id == id) > 0;
-        //}
+        
     }
 }

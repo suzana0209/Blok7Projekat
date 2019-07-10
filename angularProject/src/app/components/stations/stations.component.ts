@@ -25,9 +25,6 @@ export class StationsComponent implements OnInit {
   private geocoder : any;
 
 
-  // street: string;
-  // city: string;
-  // numberStreet: string;
   address: string;
 
   public stations: any = [];
@@ -93,18 +90,18 @@ export class StationsComponent implements OnInit {
     this.stationService.AlredyExistStation(stationData).subscribe(a=>{
       if(a == "Yes"){
         alert("Station name "+ stationData.Name +" already exists! ");
-        window.location.reload();
+        //window.location.reload();
       }
       else if (a == "No"){
         this.stationService.AlredyExistsStationForEdit(stationData).subscribe(a2=>{
           if(a2 == "Yes"){
             alert("On address: "+ stationData.AddressStation +" alredy exists station!");
-            window.location.reload();
+            //window.location.reload();
           }
           else{
             this.stationService.addStation(stationData).subscribe(data => {
               alert("Station: " +stationData.Name+ " is successfully added!");
-              //this.route.navigate(['/station']);
+              
               window.location.reload();
             },
             err => {
@@ -120,18 +117,6 @@ export class StationsComponent implements OnInit {
       }
     })
 
-    // this.stationService.addStation(stationData).subscribe(data => {
-    //   alert("Station: " +stationData.Name+ " is successfully added");
-    //   //this.route.navigate(['/station']);
-    //   window.location.reload();
-    // },
-    // err => {
-    //   //alert("Station - error!");
-    //   window.alert(err.error);
-    //   //window.refresh();
-    //   window.location.reload();
-
-    // });
   }
 
   onSubmitEdit(stationData: StationModel, form: NgForm){
@@ -152,8 +137,8 @@ export class StationsComponent implements OnInit {
     this.stationService.AlredyExistsStationForEdit(stationData).subscribe(aa=>{
       if(aa == "Yes"){
         alert("On address: "+ stationData.AddressStation +" alredy exists station!");
-        window.location.reload();
-        //return;
+        //window.location.reload();
+        
       }
       else if(aa == "No"){
         this.stationService.editStation(stationData).subscribe(data => {
@@ -164,23 +149,11 @@ export class StationsComponent implements OnInit {
         err => {
           //alert("Station changed - error!");
           window.alert(err.error);
-          //this.refresh();
+          
           window.location.reload();
         });
       }
     })
-
-    // this.stationService.editStation(stationData).subscribe(data => {
-    //   alert("Station changed successfully!");
-    //   //this.route.navigate(['/station']);
-    //   window.location.reload();
-    // },
-    // err => {
-    //   //alert("Station changed - error!");
-    //   window.alert(err.error);
-    //   //this.refresh();
-    //   window.location.reload();
-    // });
       
   }
 
@@ -190,7 +163,7 @@ export class StationsComponent implements OnInit {
 
     if(this.id == null || this.id == undefined){
       alert("please select the station that you want to delete!");
-      //return;
+      
       window.location.reload();
     }
     else{
@@ -200,7 +173,7 @@ export class StationsComponent implements OnInit {
       },
       err=>{
         window.alert(err.error);
-        //this.refresh();
+        
         window.location.reload();
       });
     }

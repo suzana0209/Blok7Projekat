@@ -10,6 +10,22 @@ div#wholePage{
    
 }
 
+h2#info{
+  font-size: 40px;
+  width: 100% !important;
+  text-align: center !important;
+  font-family: cursive;
+  margin-top: 30px ;   
+}
+
+h2#info:hover{
+  width: 100%;
+  background-color: gray;
+  color: white;
+  text-align: center;
+  border-color: white;
+  font-family: cursive;
+}
 
 
 button#designBtn{

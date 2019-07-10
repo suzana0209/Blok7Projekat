@@ -3,7 +3,7 @@
 <h2 *ngIf="DeniedAdmin()" id="info">You are not authorized for add/edit/delete lines! Your request is denied!</h2>
 
 
-<div *ngIf="LoggedAdmin()" class="row1">
+<div *ngIf="LoggedAdmin()" class="row1" class="backk">
 
   <div class="column70">
     <agm-map  [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18">
@@ -138,37 +138,43 @@
       </div> -->
   </div>
 
-  <div *ngIf="isSelectedEdit()">
+  <div *ngIf="isSelectedEdit()" class="backk">
 
               <label for="RegularNumber">Select line: </label>
               <select name="RegularNumber" (click)='showLinesForChange($event)' class="form-control" ngModel>
                 <option disabled>Please select...</option>
                 <option *ngFor="let line of allLinesForEditFromDb" value={{line.RegularNumber}}>{{line.RegularNumber}}</option>
               </select>
-              <br/><br/>
-              <label *ngIf="showListOfStations">ListOfStations</label>
+              <br>
+              <!-- <label *ngIf="showListOfStations">ListOfStations</label> -->
               <table border="1">
               <div *ngFor="let station of sLineForEdit?.ListOfStations">
                 <tr>
                   <td>
-                <label>Name: {{station.Name}}</label><br/>
-                <label>Longitude: {{station.Longitude}}</label><br/>
-                <label>Latitude: {{station.Latitude}}</label><br/>
+                <label>Name: {{station.Name}}</label>
                 <label>Address: {{station.AddressStation}}</label>
               </td>
             </tr>
             </div>
             </table>
-
-            <div *ngFor="let station of sLineForEdit?.ListOfStations" class="class-form">
-                <button type="submit" class="button" class="btn" clas="form-group" (click)='removeStationFromLine(station.Id)'>Remove station: {{station.Name}}</button>
+            <div class ="row1">
+            <h5 *ngIf="showListOfStations" id="info" class="column50Text">Click on station that you want to delete:</h5>
+            <div *ngFor="let station of sLineForEdit?.ListOfStations" class="class-form" class="column50">
+                
+               <button type="submit" class="button" class="btn" clas="form-group" 
+                (click)='removeStationFromLine(station.Id)' id="designBtn1">{{station.Name}}</button>
             </div>
-            <br><br>
+          </div>
+            <br>
+            
+              
             <div align="center" *ngIf="showListOfStations">
-              <button type="submit" class="button" class="btn btn-primary"  (click)="showComboBox()">Add new station in Line</button> <br/><br>
+              <button type="submit" class="button" class="btn btn-primary"  (click)="showComboBox()" id="designBtn2">Add new station</button> <br/><br>
             </div>
+            
 
-            <div *ngIf = "showComboBoxForAddSt">
+            <div *ngIf = "showComboBoxForAddSt" class="form-group">
+
               <label for="Name">Select station for adding: </label>
                 <select name="Name"  class="form-control" (click)='sendIdOfStation($event)'  ngModel>
                   <option disabled>Please select...</option>
@@ -179,7 +185,7 @@
             
             </div>
             <br>
-            <div *ngIf = "showComboBoxForAddSt2">
+            <div *ngIf = "showComboBoxForAddSt2" class="form-group">
                 <label for="NumberStation">Select positon for new station </label>
                 <select name="NumberStation" class="form-control" (click)='showAddButton($event)' ngModel>
                   <option disabled>Please select...</option>
@@ -190,7 +196,7 @@
             </div>
             <br><br>
             <div *ngIf = "showAddButtonBool">
-              <button type="submit" class="button" (click)="finallyAdd()"  class="btn btn-primary" >Add Station</button><br><br>
+              <button type="submit" class="button" (click)="finallyAdd()"  class="btn" id="designBtn2">Add Station</button><br><br>
             </div>
 
 

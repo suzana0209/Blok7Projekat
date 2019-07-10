@@ -60,7 +60,10 @@
       <tr *ngFor="let t of listOfBuyingTicket" class="trClass">
         <td>{{t.Id}}</td>
         <td>{{tipKarte[t.TypeOfTicketId]}}</td>
-        <td>{{t.PurchaseDate}}</td>
+        <td>
+          {{t.PurchaseDate.split(" ")[0].split("-")[2]}}-{{t.PurchaseDate.split(" ")[0].split("-")[1]}}-{{t.PurchaseDate.split(" ")[0].split("-")[0]}}
+           {{t.PurchaseDate.split(" ")[1].split(".")[0]}}
+        </td>
         <td>{{t.PriceOfTicket}}</td>
         <td>{{t.Valid == false ? 'No' : 'Yes'}}</td>
       </tr>

@@ -53,7 +53,7 @@ export class NotificationForCvlService {
 
         this.proxy.on('setRealTime', (data: number[]) => {               
             observer.next(data);
-            //this.notificationReceived.emit(data);
+            
         });  
     });      
   }

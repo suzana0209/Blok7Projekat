@@ -71,6 +71,13 @@ export class ProfileComponent implements OnInit {
           this.typePassanger = "Regular";
         }
 
+        if(this.user.UserTypeId == "1"){
+          this.typePassanger = "Admin";
+        }
+        else if(this.user.UserTypeId == "2"){
+          this.typePassanger = "Controller";
+        }
+
 
         usersService.getUserImage(this.pp).subscribe(c=>{
           this.userBytesImage = c;

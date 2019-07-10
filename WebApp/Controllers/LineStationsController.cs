@@ -17,7 +17,7 @@ namespace WebApp.Controllers
     [RoutePrefix("api/LineStations")]
     public class LineStationsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
         private readonly IUnitOfWork _unitOfWork;
 
         public LineStationsController(IUnitOfWork unitOfWork)
@@ -30,10 +30,7 @@ namespace WebApp.Controllers
         }
 
         // GET: api/LineStations
-        public IQueryable<LineStation> GetLineStations()
-        {
-            return db.LineStations;
-        }
+        
 
         [Route("GetLine")]
         // GET: api/LineStations/5
@@ -50,40 +47,7 @@ namespace WebApp.Controllers
         }
 
         // PUT: api/LineStations/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutLineStation(int id, LineStation lineStation)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != lineStation.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(lineStation).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LineStationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
+        
         [Route("AddLineStations")]
         // POST: api/LineStations
         //[ResponseType(typeof(LineStation))]
@@ -108,8 +72,7 @@ namespace WebApp.Controllers
                 _unitOfWork.LineStations.Add(item);
                 _unitOfWork.Complete();
             }
-            // db.LineStations.Add(lineStation);
-            //db.SaveChanges();
+            
 
             return Ok();
 
@@ -117,21 +80,7 @@ namespace WebApp.Controllers
         }
 
         // DELETE: api/LineStations/5
-        [ResponseType(typeof(LineStation))]
-        public IHttpActionResult DeleteLineStation(int id)
-        {
-            LineStation lineStation = db.LineStations.Find(id);
-            if (lineStation == null)
-            {
-                return NotFound();
-            }
-
-            db.LineStations.Remove(lineStation);
-            db.SaveChanges();
-
-            return Ok(lineStation);
-        }
-
+       
         
 
 
@@ -139,14 +88,9 @@ namespace WebApp.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _unitOfWork.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool LineStationExists(int id)
-        {
-            return db.LineStations.Count(e => e.Id == id) > 0;
         }
     }
 }

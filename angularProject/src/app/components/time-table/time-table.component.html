@@ -1,6 +1,6 @@
 <div id="wholePage">
-<label *ngIf="NonActiveAdmin()">You are not authorized for add/edit/delete lines! Your request is processed!  You can only see the departures for the selected day!</label>
-<label *ngIf="DeniedAdmin()">You are not authorized for add/edit/delete lines! Your request is denied! You can only see the departures for the selected day</label>
+<h2 *ngIf="NonActiveAdmin()" id="info">You are not authorized for add/edit/delete lines! Your request is processed!  You can only see the departures for the selected day!</h2>
+<h2 *ngIf="DeniedAdmin()" id="info">You are not authorized for add/edit/delete lines! Your request is denied! You can only see the departures for the selected day</h2>
 
 
 <div *ngIf = "LoggedAdmin()">    

@@ -128,38 +128,24 @@ export class LinesComponent implements OnInit {
     });
 
     this.stationService.getAll().subscribe(k=>{
-      //this.lines = k;
-      //console.log("Lineeeee: ", this.lines);    
-      this.pomModelList = k;  
-      console.log("LineeeeepomModelList: ", this.pomModelList);    
+      //this.lines = k;   
+      this.pomModelList = k;     
 
     });
 
-    //if(this.lines.length != 0){
-      
-   // }
+    
 
     this.stationService.getIdes().subscribe(ides => {
       this.keys = ides;
-      console.log("Keysssss: ", this.keys);
     });
 
-    // this.keys.forEach(element => {
-    //   console.log("cc", this.lines[element]);
-
-    //   var p = new PomLineModel(element,this.lines[element]);
-    //   this.pomModelList.push(p);
-    // });    
-      
-      // this.lineStation = new LineStationModel(-1,-1,-1)
 
       this.lineService.getAllLines().subscribe(s => {
         this.linesForComboBox = s;
         this.allLinesForEditFromDb = s;
-        console.log("Linije iz baze: ", this.linesForComboBox)
       })
 
-      this.arrayIntForAddStation = []
+      this.arrayIntForAddStation = [];
       
   }
 
@@ -168,9 +154,6 @@ export class LinesComponent implements OnInit {
     "assets/ftn.png",
     "Jugodrvo" , "" , "http://ftn.uns.ac.rs/691618389/fakultet-tehnickih-nauka");
     this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}});
-    // this.keys = Object.keys(this.lines);
-    // console.log("keys", this.keys);
-
 
   }
 
@@ -206,39 +189,19 @@ export class LinesComponent implements OnInit {
         this.lineService.addLine(lineData).subscribe(data => {
         alert("Line "+ lineData.RegularNumber +" successful added!");
         window.location.reload();
-        //form.reset();
-        //this.refresh();
+        
 
       },
       err => {
         //alert("Add line - error - already exist!");
         window.alert(err.error);
 
-        //window.location.reload();
+        window.location.reload();
         
         })
       }
     })
 
-    // console.log(lineData);
-    // this.lineService.addLine(lineData).subscribe(data => {
-    //   alert("Add line successfull!");
-    //   window.location.reload();
-
-    // },
-    // err => {
-    //   //alert("Add line - error - already exist!");
-    //   window.alert(err.error);
-    //   window.location.reload();
-    //   //console.log(lineData);
-    // })
-
-    // this.lineStationService.addLine(lineData).subscribe(data => {
-    //   alert("Add lineStation successfull!");
-    // },
-    // error => {
-    //   alert("Add line - error - already exist!");
-    // })
   }
 
   onSubmitDelete(lineData: LineModel, form:NgForm){
@@ -247,70 +210,36 @@ export class LinesComponent implements OnInit {
     if(this.validationsForAdd.validateForDelete(lineData)){
       return;
     }
-    // if(this.selectedLine.Id == null || this.selectedLine.Id == null){
-    //   alert("Please select line for delete!");
-    //   window.location.reload();
-    // }
-    // else{
+    
       this.lineService.deleteLine(this.selectedLine.Id).subscribe(data => {
         alert("Line with Number="+ lineData.RegularNumber +" successful delted!");
         form.reset();
-        //window.location.reload();
+        window.location.reload();
   
       },
       err => {
         //alert("Delete line - error!");
         window.alert(err.error);
-        //window.location.reload();
+        window.location.reload();
   
         //console.log(lineData);
       })
-    //}
-
-    // this.lineService.deleteLine(this.selectedLine.Id).subscribe(data => {
-    //   alert("Delete line successfull!");
-    //   window.location.reload();
-
-    // },
-    // err => {
-    //   //alert("Delete line - error!");
-    //   window.alert(err.error);
-    //   window.location.reload();
-
-    //   //console.log(lineData);
-    // })
   }
 
-  // onSubmitEdit(lineData: LineModel, form:NgForm){
-  //     console.log("Nove linije za edit:", this.newLineEdit);
-  //     console.log("pozicja: ", this.addStationPosition);
-
-  //     this.lineService.editLine(this.newLineEdit.Id, this.newLineEdit).subscribe(d=>{
-  //       alert("Usp")
-  //     })
-
-  //   }
 
   onSubmitEdit(){
-    // if(this.validationsForEdit.validate(this.idAdded, this.addStationPosition)){
-    //   return;
-    // }
 
     console.log("Nove linije za edit:", this.newLineEdit);
     console.log("pozicja: ", this.addStationPosition);
-    //dodati za verziju
-    //this.newLineEdit.Version = this.sLineForEdit.Version;
+    
     this.lineService.editLine(this.newLineEdit.Id, this.newLineEdit).subscribe(d=>{
       alert("Line with ID="+ this.newLineEdit.Id +" successful changed!")
 
-
-
       window.location.reload();
-
     },
     err=>{
       window.alert(err.error);
-      //window.location.reload();
+      window.location.reload();
     })
 
   }
@@ -323,17 +252,13 @@ export class LinesComponent implements OnInit {
     this.linesForComboBox.forEach(element => {
       if(element.RegularNumber == this.selectedForComboBox){
         this.selectedLine = element;     
-
-        // this.linesForEdit.a
-        // this.polyline.addLocation(new GeoLocation(element.ListOfStations.Latitude, element.ListOfStations.Longitude));
-        
       }
     });
 
      if(this.selectedLine != null){
        this.stationService.getOrderedStations(this.selectedLine.Id).subscribe(d =>{
          this.orderedStation = d;
-         console.log("oS");
+         
          console.log(d);
        });
       }
@@ -355,19 +280,14 @@ export class LinesComponent implements OnInit {
     if(this.sLineForEdit != null){
       this.stationService.getOrderedStations(this.sLineForEdit.Id).subscribe(d =>{
         this.orderedStationEdit = d;
-        //console.log("Allll line for change");
+        
         this.newLineEdit = this.sLineForEdit;
         this.newLineEdit.ListOfStations = this.orderedStationEdit;
         console.log("New line",this.newLineEdit);
 
         this.restStation = this.allStationFromDb.filter(o=> !this.newLineEdit.ListOfStations.find(o2=> o.Id === o2.Id));
-        console.log("Rest: ", this.restStation);
-
-      console.log("D", d);
-
-      let countOfArray1 = this.newLineEdit.ListOfStations.length
-
-      console.log("Broj elemenata: ", countOfArray1);
+        
+        let countOfArray1 = this.newLineEdit.ListOfStations.length;
 
       if(this.arrayIntForAddStation.length <= countOfArray1){
         for (let i = 0; i < countOfArray1 + 1; i++) {
@@ -377,15 +297,7 @@ export class LinesComponent implements OnInit {
     });
       
      }
-
-     
-
-    // console.log("Selected line for edit", this.selectedLineForEdit)
     
-    // console.log(this.selectedLineForEdit);   
-    // this.otherStations = this.stations.filter(o=> !this.selectedLineForEdit.ListOfStations.find(o2=> o.Id === o2.Id));
-
-    // console.log("Other stations: ", this.otherStations);
   }
 
 
@@ -427,22 +339,6 @@ export class LinesComponent implements OnInit {
     }
   }
 
-  // finallyAdd(){
-  //   console.log("Prije dodaavanja", this.newLineEdit);
-  //     this.restStation.forEach(ee => {
-  //       if(ee.Id == this.idAdded ){
-  //         this.newLineEdit.ListOfStations.splice(this.addStationPosition-1, 0, ee);
-  //         console.log("New line added =>:", this.newLineEdit);
-  //       }
-  //     });
-  //     this.arrayIntForAddStation.push(this.arrayIntForAddStation.length+1);
-      
-  //     this.showAddButtonBool = false;
-  //     this.showComboBoxForAddSt =  false;
-  //     this.showComboBoxForAddSt2 = false;
-
-  // }
-
   finallyAdd(){
     //validacija za stanicu i poziciju
     if(this.validationsForEdit.validate(this.idAdded, this.addStationPosition)){
@@ -454,7 +350,7 @@ export class LinesComponent implements OnInit {
         if(ee.Id == this.idAdded ){
           if(this.alreadyExists(this.newLineEdit.ListOfStations, this.idAdded)){
             this.newLineEdit.ListOfStations.splice(this.addStationPosition-1, 0, ee);
-            console.log("New line added =>:", this.newLineEdit);         
+                   
           }
           
         }
@@ -469,13 +365,9 @@ export class LinesComponent implements OnInit {
         counterForDel = counterForDel + 1;
       });
 
-      //this.restStation.splice(this.idAdded, 1);
-
       if(this.idAdded != 0){
         this.arrayIntForAddStation.push(this.arrayIntForAddStation.length+1);
-      
       }
-
       
       this.showAddButtonBool = false;
       this.showComboBoxForAddSt =  false;

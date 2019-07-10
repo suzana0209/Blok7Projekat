@@ -32,84 +32,10 @@ namespace WebApp.Controllers
             return unitOfWork.PassangerTypes.GetAll().AsQueryable();
         }
 
-        // GET: api/PassangerTypes/5
-        //[ResponseType(typeof(PassangerType))]
-        //public IHttpActionResult GetPassangerType(int id)
-        //{
-            //PassangerType passangerType = unitOfWork.PassangerTypes.Find(id);
-            //if (passangerType == null)
-            //{
-            //    return NotFound();
-            //}
+        
 
-            //return Ok(passangerType);
-        //}
-
-        // PUT: api/PassangerTypes/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutPassangerType(int id, PassangerType passangerType)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != passangerType.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(passangerType).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!PassangerTypeExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        // POST: api/PassangerTypes
-        //[ResponseType(typeof(PassangerType))]
-        //public IHttpActionResult PostPassangerType(PassangerType passangerType)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.PassangerTypes.Add(passangerType);
-        //    db.SaveChanges();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = passangerType.Id }, passangerType);
-        //}
-
-        // DELETE: api/PassangerTypes/5
-        //[ResponseType(typeof(PassangerType))]
-        //public IHttpActionResult DeletePassangerType(int id)
-        //{
-        //    PassangerType passangerType = db.PassangerTypes.Find(id);
-        //    if (passangerType == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.PassangerTypes.Remove(passangerType);
-        //    db.SaveChanges();
-
-        //    return Ok(passangerType);
-        //}
+        
+       
 
         protected override void Dispose(bool disposing)
         {
@@ -120,9 +46,6 @@ namespace WebApp.Controllers
             base.Dispose(disposing);
         }
 
-        //private bool PassangerTypeExists(int id)
-        //{
-        //    return unitOfWork.PassangerTypes.Count(e => e.Id == id) > 0;
-        //}
+        
     }
 }
